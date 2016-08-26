@@ -18,7 +18,8 @@ class Media extends Http{
         if(!is_dir($t->cache."js"))mkdir($t->cache."js");
         $patterns = [
             "/(?<quoteStart>['\"\(])\/(?<path>[a-z0-9\/\-\_\.]+?)\.(?<extension>png|jpg|gif|svg|css|js|ico|cur|php|html|htm|ttf)(?<frag>\?[a-z-0-9\=\%\&\_\;\#]*)?(?<quoteEnd>['\"\)])/im",
-            "/(?<quoteStart>['\"])".$t->donor_pattern."\/(?<path>[a-z0-9\/\-\_\.]+?)\.(?<extension>png|jpg|gif|svg|css|js|ico|cur|php|html|htm|ttf)(?<frag>\?[a-z-0-9\=\%\&\_\;\#]*)?(?<quoteEnd>['\"])/im"
+            "/(?<quoteStart>['\"])".$t->donor_pattern."\/(?<path>[a-z0-9\/\-\_\.]+?)\.(?<extension>png|jpg|gif|svg|css|js|ico|cur|php|html|htm|ttf)(?<frag>\?[a-z-0-9\=\%\&\_\;\#]*)?(?<quoteEnd>['\"])/im",
+            "/(?<quoteStart>['\"\(])(http|https)?\:?\/?\/?(www\.)".$t->donor_pattern."?(?<path>.+?)(?<quoteEnd>['\"\)])/im"
         ];
         //['\"](http\:)?\/\/(www\.)?kik\.de([a-z0-9\/\-\_\.]+?)\.(png|jpg|gif|svg|css|js|ico|cur|php|html|htm)(\?[a-z-0-9\=\%\&\_\;\#]*)?(['\"])
         $replacements = function($m) use ($t){
