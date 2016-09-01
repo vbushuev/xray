@@ -3,15 +3,16 @@ ob_start();
 include("config.php");
 
 $url = preg_replace("/#g_/i","",$_SERVER["REQUEST_URI"]);
-$g = new Http($env);
-$f = new Filter($env);
-$c = new Cache($env);
-
-$u = $env["host"].$url;
+$cfg = new Config($env);
+$g = new Http($cfg);
+$f = new Filter($cfg);
+$c = new Cache($cfg);
+Log::debug("cfg:".json_encode($cfg));
+$u = $cfg->host.$url;
 $ui = parse_url($u);
 if(!isset($ui["path"]))exit;
 $upi = pathinfo($ui["path"]);
-$ext = split("/\?/",$upi["extension"],1)[0];
+$ext = preg_split("/\?/",$upi["extension"],1)[0];
 $ch = false;
 if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
     $ch = $c->get($u);
@@ -22,7 +23,7 @@ if($ch!==false){
 }
 else {
     Log::debug("Fetching from host [".$ext."] ".$u." ...");
-    $g->fetch("http://".$env["host"].$url);
+    $g->fetch($cfg->host.$url);
     $h = $g->results;
     //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
     //if(!is_string($h)||!strlen(trim($h)))exit;

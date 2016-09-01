@@ -7,6 +7,7 @@ class Http extends Common{
     public function fetch($url){
         $curl = curl_init();
         $host = parse_url($url);
+        Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
         $cookies = $this->cookies();
         Log::debug("sending COOKIES=[".$cookies."]");
         $headers = [
@@ -25,7 +26,7 @@ class Http extends Common{
             //'Host:www.baby-walz.de',
             //'Referer:http://www.baby-walz.de/'
         ];
-        $cookieFile = $_SERVER['DOCUMENT_ROOT'].'/cache/'.$host["host"].'/cookie.txt';
+        //$cookieFile = $_SERVER['DOCUMENT_ROOT'].'/cache/'.$host["host"].'/cookie.txt';
         //$cookie = 'cookie.txt';
 
         //if(!file_exists($cookieFile))file_put_contents($cookieFile,"");
@@ -43,7 +44,7 @@ class Http extends Common{
             CURLOPT_ENCODING => "", // обрабатывает все кодировки
             CURLOPT_MAXREDIRS =>10, // останавливаться после 10-ого редиректа
             //CURLOPT_COOKIE => $cookie,
-            CURLOPT_COOKIEJAR =>  $cookieFile,
+            //CURLOPT_COOKIEJAR =>  $cookieFile,
             CURLOPT_FRESH_CONNECT => 1,
             CURLOPT_FORBID_REUSE => 1,
             CURLOPT_AUTOREFERER => 1,
@@ -62,7 +63,7 @@ class Http extends Common{
         curl_setopt_array($curl, $curlOptions);
         $this->results = curl_exec($curl);
         $this->response = curl_getinfo($curl);
-        if(file_exists($cookieFile)){
+        /*if(file_exists($cookieFile)){
             if(preg_match_all("/\S+\s+FALSE\s+\S+\s+FALSE\s+\S+\s+(?<k>\S+)\s+(?<v>\S+)/i",file_get_contents($cookieFile),$ms)){
                 //echo json_encode($ms,JSON_PRETTY_PRINT);
                 for($i=0;$i<count($ms[0]);++$i){
@@ -71,7 +72,7 @@ class Http extends Common{
                     $this->cookies[$k]=$v;
                 }
             }
-        }
+        }*/
         //Log::debug('got COOKIES:['.file_get_contents($cookieFile)."]");
         curl_close($curl);
     }

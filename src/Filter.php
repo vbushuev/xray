@@ -2,17 +2,17 @@
 class Filter extends Common{
     protected $donor;
     protected $donor_pattern;
-    public function __construct($a){
-        $this->donor = isset($a["host"])?$a["host"]:"www.kik.de";
-        $this->donor_pattern = preg_replace("/www\./i","",$this->donor);
-        $this->donor_pattern = preg_quote($this->donor_pattern);
+    public function __construct($cfg){
+        $this->donor = $cfg->donor;
+        $this->donor_pattern = $cfg->donor_pattern;
     }
     public function filter($in){
         $out = $in;
         $t = $this;
+        Log::debug("Donor:".$this->donor." pattern:".$this->donor_pattern);
         $out = preg_replace_callback("/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
             $ret = "//".$_SERVER["HTTP_HOST"];
-            //Log::debug("Replaced[0]: ".$m[0]." => ".$ret);
+            //Log::debug("Replaced[0]: p["."/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im"."] ".$m[0]." => ".$ret);
             return $ret;
         },$out);
 

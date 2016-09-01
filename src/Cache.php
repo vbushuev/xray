@@ -3,11 +3,10 @@ class Cache {
     protected $cache="cache/";
     protected $donor;
     protected $donor_pattern;
-    public function __construct($a=[]){
-        $this->donor = isset($a["host"])?$a["host"]:"www.kik.de";
-        $this->donor_pattern = preg_replace("/www\./i","",$this->donor);
-        $this->donor_pattern = preg_quote($this->donor_pattern);
-        $this->cache = isset($a["cache"])?$a["cache"]:"cache/";
+    public function __construct($cfg){
+        $this->donor = $cfg->donor;
+        $this->donor_pattern = $cfg->donor_pattern;
+        $this->cache = $cfg->cache;
 
         if(!is_dir($this->cache))mkdir($this->cache);
         if(!is_dir($this->cache."/".$this->donor))mkdir($this->cache."/".$this->donor);
@@ -26,7 +25,7 @@ class Cache {
     }
     protected function _filename($f){
         $f= htmlspecialchars_decode(urldecode($f));
-        $f = preg_replace("/(www\.)?".$this->donor_pattern."/i","",$f);
+        $f = preg_replace("/(http|https)?\:?(\/\/)?(www\.)?".$this->donor_pattern."/i","",$f);
         //$f = preg_replace("/\?.+/i","",$f);
         $f = preg_replace("/^\//","",$f);
         $f = preg_replace("/\/$/","",$f);
