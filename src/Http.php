@@ -7,9 +7,9 @@ class Http extends Common{
     public function fetch($url){
         $curl = curl_init();
         $host = parse_url($url);
-        Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
-        $cookies = $this->cookies();
-        Log::debug("sending COOKIES=[".$cookies."]");
+        //Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
+        $cookies = $this->outCookie();
+        Log::debug("sending COOKIES=[".json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         $headers = [
             'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Cookie: '.$cookies
@@ -38,7 +38,7 @@ class Http extends Common{
             CURLOPT_HTTPHEADER=>$headers,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_REFERER => $host["host"],
-            CURLOPT_HEADER => 0,
+            CURLOPT_HEADER => 1,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_ENCODING => "", // обрабатывает все кодировки
@@ -61,34 +61,25 @@ class Http extends Common{
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
         }
         curl_setopt_array($curl, $curlOptions);
-        $this->results = curl_exec($curl);
+        $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
-        /*if(file_exists($cookieFile)){
-            if(preg_match_all("/\S+\s+FALSE\s+\S+\s+FALSE\s+\S+\s+(?<k>\S+)\s+(?<v>\S+)/i",file_get_contents($cookieFile),$ms)){
-                //echo json_encode($ms,JSON_PRETTY_PRINT);
-                for($i=0;$i<count($ms[0]);++$i){
-                    $k = $ms["k"][$i];
-                    $v = htmlspecialchars_decode(urldecode($ms["v"][$i]));
-                    $this->cookies[$k]=$v;
-                }
-            }
-        }*/
-        //Log::debug('got COOKIES:['.file_get_contents($cookieFile)."]");
+        Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
     }
-    public function getcookies(){
-        $c="";
-        foreach ($this->cookies as $k => $v) {
-            $c.="{$k}={$v};";
+    protected function stripHeaders($_){
+        $_r = $_;
+        $_a = preg_split("/[\r\n]+/i",$_,2);
+        if(is_array($_a)&&strlen(trim($_a[0]))){
+            //Log::debug('got HEADRs:'.$_a[0]);
+            if(preg_match("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);/i",$_a[0],$_m)){
+                $this->cookies[$_m["c"]]=htmlspecialchars_decode(urldecode($_m["v"]));
+            }
+            $_r=isset($_a[1])?$_a[1]:"";
+            if(!preg_match("/^\</i",$_r))$_r=$this->stripHeaders($_r);
         }
-        return $c;
+        return $_r;
     }
-    public function setcookies(){
-        foreach ($this->cookies as $key => $value) {
-            setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
-        }
-    }
-    public function cookies(){
+    protected function outCookie(){
         $c='';
         //if(!is_array($this->cookies))return "";
         foreach($_COOKIE as $k=>$v){
@@ -96,6 +87,12 @@ class Http extends Common{
             $c.="{$k}={$v};";
         }
         return $c;
+    }
+    public function inCookie(){
+        foreach ($this->cookies as $key => $value) {
+            Log::debug("setcookie $key = $value");
+            setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+        }
     }
 };
 ?>

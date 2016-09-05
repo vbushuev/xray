@@ -9,7 +9,7 @@ class Filter extends Common{
     public function filter($in){
         $out = $in;
         $t = $this;
-        Log::debug("Donor:".$this->donor." pattern:".$this->donor_pattern);
+        //Log::debug("Donor:".$this->donor." pattern:".$this->donor_pattern);
         $out = preg_replace_callback("/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
             $ret = "//".$_SERVER["HTTP_HOST"];
             //Log::debug("Replaced[0]: p["."/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im"."] ".$m[0]." => ".$ret);

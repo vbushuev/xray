@@ -30,8 +30,9 @@ class Cache {
         $f = preg_replace("/^\//","",$f);
         $f = preg_replace("/\/$/","",$f);
         $f = preg_replace("/\/\/\:/","_",$f);
+        $f = preg_replace("/\?.+/","",$f);
         $dir = $this->cache."/".$this->donor."/";
-        Log::debug("dir = '$dir' f='$f'");
+        //Log::debug("dir = '$dir' f='$f'");
         if(!strlen(trim($f)))$f="index.html";
         $ret = $dir.$f;
 

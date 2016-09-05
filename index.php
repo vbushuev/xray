@@ -7,12 +7,12 @@ $cfg = new Config($env);
 $g = new Http($cfg);
 $f = new Filter($cfg);
 $c = new Cache($cfg);
-Log::debug("cfg:".json_encode($cfg));
+//Log::debug("cfg:".json_encode($cfg));
 $u = $cfg->host.$url;
 $ui = parse_url($u);
 if(!isset($ui["path"]))exit;
 $upi = pathinfo($ui["path"]);
-$ext = preg_split("/\?/",$upi["extension"],1)[0];
+$ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = false;
 if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
     $ch = $c->get($u);
@@ -22,23 +22,24 @@ if($ch!==false){
     $h = $ch;
 }
 else {
-    Log::debug("Fetching from host [".$ext."] ".$u." ...");
+    //Log::debug("Fetching from host [".$ext."] ".$u." ...");
     $g->fetch($cfg->host.$url);
     $h = $g->results;
     //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
     //if(!is_string($h)||!strlen(trim($h)))exit;
     if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico"])){
-        Log::debug("Filtering: [".$ext."] ".$u);
+        //Log::debug("Filtering: [".$ext."] ".$u);
         $h = $f->filter($h);
     }
     $c->save($u,$h);
 }
-Log::debug("warns data: ".ob_get_clean());
-header('Cache-Control: no-cache, no-store, must-revalidate');
-header('Pragma: no-cache');
-header('Expires: 0');
+$ob_buffer = ob_get_clean();
+if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
+//header('Cache-Control: no-cache, no-store, must-revalidate');
+//header('Pragma: no-cache');
+//header('Expires: 0');
 //header('Set-Cookie: '.$g->getcookies());
-$g->setcookies();
+$g->inCookie();
 switch($ext){
     case "css": header('Content-Type: text/css');break;
     case "png": header('Content-Type: image/png');break;

@@ -10,7 +10,9 @@ $env = [
         "baby-walz" => [
             "url"=>"http://www.baby-walz.fr"
         ],
-        "ctshirts" => [],
+        "ctshirts" => [
+            "url"=>"http://ctshirts.com"
+        ],
     ]
 ];
 ?>
