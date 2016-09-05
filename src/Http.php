@@ -3,16 +3,21 @@ class Http extends Common{
     protected $results;
     protected $response;
     protected $cookies=[];
-    public function __construct($a=[]){}
+    protected $config;
+    public function __construct($a=[]){
+        $this->config = $a;
+    }
     public function fetch($url){
         $curl = curl_init();
         $host = parse_url($url);
+        $refer = $a->host.$_SERVER["REQUEST_URI"];
         //Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
         $cookies = $this->outCookie();
-        Log::debug("sending COOKIES=[".json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+        //Log::debug("sending COOKIES=[".$cookies."]");
         $headers = [
             'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Cookie: '.$cookies
+            'Cookie: '.$cookies,
+            'Referer: '.$refer
             //'Cookie: fe_typo_user=caf3946af581025e806361097ab13a68;mb3pc=%7B%22shoppingbasket%22%3A%7B%22articlesAmount%22%3A0%7D%7D;'
             /*'Accept-Language:en-US,en;q=0.8,ru;q=0.6',
             'Accept-Charset: utf-8;q=0.7,*;q=0.7',
@@ -24,7 +29,7 @@ class Http extends Common{
             */
             //'Upgrade-Insecure-Requests:1',
             //'Host:www.baby-walz.de',
-            //'Referer:http://www.baby-walz.de/'
+            //
         ];
         //$cookieFile = $_SERVER['DOCUMENT_ROOT'].'/cache/'.$host["host"].'/cookie.txt';
         //$cookie = 'cookie.txt';
@@ -47,7 +52,7 @@ class Http extends Common{
             //CURLOPT_COOKIEJAR =>  $cookieFile,
             CURLOPT_FRESH_CONNECT => 1,
             CURLOPT_FORBID_REUSE => 1,
-            CURLOPT_AUTOREFERER => 1,
+            //CURLOPT_AUTOREFERER => 1,
             CURLOPT_FOLLOWLOCATION => 1,
 
             CURLOPT_VERBOSE => 1,
@@ -83,15 +88,17 @@ class Http extends Common{
         $c='';
         //if(!is_array($this->cookies))return "";
         foreach($_COOKIE as $k=>$v){
-            //$v = htmlspecialchars_decode(urldecode($v));
+            //$v = urlencode($v);
             $c.="{$k}={$v};";
         }
         return $c;
     }
     public function inCookie(){
         foreach ($this->cookies as $key => $value) {
-            Log::debug("setcookie $key = $value");
-            setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+            //if(!isset($_COOKIE[$key])){
+                //Log::debug("setcookie $key = $value");
+                setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+            //}
         }
     }
 };
