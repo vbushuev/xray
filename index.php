@@ -48,5 +48,6 @@ switch($ext){
     case "svg": header('Content-Type: image/svg+xml');break;
     default:    header('Content-Type: text/html');break;
 }
+$h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
 echo $h
 ?>

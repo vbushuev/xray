@@ -10,7 +10,7 @@ class Http extends Common{
     public function fetch($url){
         $curl = curl_init();
         $host = parse_url($url);
-        $refer = $a->host.$_SERVER["REQUEST_URI"];
+        $refer = $this->config->host.$_SERVER["REQUEST_URI"];
         //Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
         $cookies = $this->outCookie();
         //Log::debug("sending COOKIES=[".$cookies."]");
