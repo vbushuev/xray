@@ -7,7 +7,6 @@ $cfg = new Config($env);
 $g = new Http($cfg);
 $f = new Filter($cfg);
 $c = new Cache($cfg);
-//Log::debug("cfg:".json_encode($cfg));
 $u = $cfg->host.$url;
 $ui = parse_url($u);
 if(!isset($ui["path"]))exit;
@@ -23,13 +22,17 @@ if($ch!==false){
 }
 else {
     //Log::debug("Fetching from host [".$ext."] ".$u." ...");
-    $g->fetch($cfg->host.$url);
+    //$g->fetch($cfg->host.$url);
+    $g->fetch($cfg->schema.$u);
     $h = $g->results;
-    //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
-    //if(!is_string($h)||!strlen(trim($h)))exit;
-    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico"])){
-        //Log::debug("Filtering: [".$ext."] ".$u);
+    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","woft","ttf"])){
         $h = $f->filter($h);
+    }
+    if(!in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg","woft","ttf"])
+        &&(preg_match("/\<\/body\>/i",$h))
+        //$_SERVER['REQUEST_METHOD']!='POST'
+        ){
+        $h = preg_replace("/\<\/body\>/i",file_get_contents("src/templates/toper.php")."</body>",$h);
     }
     $c->save($u,$h);
 }

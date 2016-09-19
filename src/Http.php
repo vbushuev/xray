@@ -66,9 +66,18 @@ class Http extends Common{
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
         }
         curl_setopt_array($curl, $curlOptions);
+//<<<<<<< Updated upstream
         $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
         Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+/*=======
+        $_s = curl_exec($curl);
+        $this->response = curl_getinfo($curl);
+        $this->results = $this->cutheaders($_s);
+        Log::debug('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+        Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+        Log::debug('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+>>>>>>> Stashed changes*/
         curl_close($curl);
     }
     protected function stripHeaders($_){
@@ -100,6 +109,21 @@ class Http extends Common{
                 setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
             //}
         }
+    }
+    protected function cutheaders($_s){
+        if(preg_match("/^\s*\</",$_s)) return $_s;
+        $_a = preg_split("/(\r\n\r\n|\n\n)/",$_s,2);
+        Log::debug('got HTTP split count:['.count($_a)."]");
+        if($_a===false||count($_a)<=1)return $_s;
+        Log::debug('got HTTP HEADERS:['.$_a[0]."]");
+        // multi-cookie variant contributed by @Combuster in comments
+        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $_a[0], $matches);
+        foreach($matches[1] as $item) {
+            parse_str($item, $cookie);
+            $this->cookies = array_merge($this->cookies, $cookie);
+        }
+        return $this->cutheaders($_a[1]);
+
     }
 };
 ?>

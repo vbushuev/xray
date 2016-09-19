@@ -1,5 +1,6 @@
 <?php
 class Config extends Common{
+//<<<<<<< Updated upstream
     protected $host="http://www.baby-walz.fr";
     protected $donor;
     protected $donor_pattern;
@@ -18,6 +19,20 @@ class Config extends Common{
         $this->donor_pattern = preg_quote($this->donor_pattern);
         $this->cache = isset($a["cache"])?$a["cache"]:$this->cache;
     }
-
+/*
+=======
+    protected $host;
+    protected $cache = "cache";
+    protected $schema = "http://";
+    public function __construct($a = []){
+        $_ = $_SERVER["HTTP_HOST"];
+        $_ = preg_replace("/([a-z0-9\-]+)\.(xray\.bs2|xrayshopping\.ru|xrayshopping\.com|xray\.garan24\.ru)/i","$1",$_);
+        $_ = (isset($a["stores"])&&isset($a["stores"][$_]))?$a["stores"][$_]["host"]:"www.baby-walz.fr";
+        $this->host = $_;
+        Log::debug("Detect host:".$_);
+        $this->cache = (isset($a["cache"]))?$a["cache"]:$this->cache;
+    }
+>>>>>>> Stashed changes
+*/
 };
 ?>

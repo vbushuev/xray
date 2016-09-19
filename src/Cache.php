@@ -7,6 +7,13 @@ class Cache {
         $this->donor = $cfg->donor;
         $this->donor_pattern = $cfg->donor_pattern;
         $this->cache = $cfg->cache;
+/*
+    public function __construct($a){
+        $this->donor = $a->host;
+        $this->donor_pattern = preg_replace("/www\./i","",$this->donor);
+        $this->donor_pattern = preg_quote($this->donor_pattern);
+        $this->cache = $a->cache;
+*/
 
         if(!is_dir($this->cache))mkdir($this->cache);
         if(!is_dir($this->cache."/".$this->donor))mkdir($this->cache."/".$this->donor);
