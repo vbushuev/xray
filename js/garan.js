@@ -1,18 +1,3 @@
-/**
- * Number.prototype.format(n, x, s, c)
- *
- * @param integer n: length of decimal
- * @param integer x: length of whole part
- * @param mixed   s: sections delimiter
- * @param mixed   c: decimal delimiter
- */
-Number.prototype.format = function(n, x, s, c) {
-     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
-         num = this.toFixed(Math.max(0, ~~n));
-
-     return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
-};
-
 var $ = jQuery.noConflict();
 $g= {
     cookie:{
@@ -34,11 +19,19 @@ $g= {
                 + "; expires=" + e.toUTCString()
                 + (typeof o.domain !="undefined" ? "; domain=" + o.domain : "")
                 + (typeof o.path !="undefined" ? "; path=" + o.path : "")
-                + (typeof o.secure !="undefined" ? "; secure" : "");
+                + (typeof p.secure !="undefined" ? "; secure" : "");
             return true;
         }
     }
 };
+Number.prototype.format = function(n, x, s, c) {
+     var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+         num = this.toFixed(Math.max(0, ~~n));
+
+     return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+};
+// Automatically cancel unfinished ajax requests
+// when the user navigates elsewhere.
 window.$g = $g;
 function G24(){
     var t = this;
@@ -102,8 +95,6 @@ function G24(){
                 console.debug("Created cart.");
                 console.debug(d);
                 G.id=d.id;
-                this.id=d.id;
-                $g.cookie.set("cart_id",d.id,{expires:1,domain:'.xray.bs2'});
                 $g.cookie.set("cart_id",d.id,{expires:1,domain:'.xray.garan24.ru'});
             }
         });
@@ -138,12 +129,12 @@ function G24(){
             //jsonp:false,
             beforeSend:function(x){
                 console.debug("Getting data");
+					//console.debug(x);
             },
             success:function(data){
                 var d=JSON.parse(data);
                 //var d=data;
                 console.debug(d.order);
-
                 if(typeof d.order != "undefined"){
                     t.order=$.extend(G.order,d.order);
                     for(var i in t.order.items){
@@ -232,26 +223,18 @@ function G24(){
         this.create();
         console.debug("Creating snooper cart");
     }
+    $("body").animate({
+            paddingTop:"56px"
+        },
+        800,
+        function() {
+            $("#garan24-toper").slideDown();
+        }
+    );
     $("#garan-checkout").click(function(){G.checkout();});
     $("#garan-cart").click(function(){G.showcart();});
     this.setCartDigits();
-
     console.debug("snooper loaded!");
-
-    //$(".header").animate({top:"56px"},800,function(){$("#garan24-toper").slideDown();});
-    $("body").animate({marginTop:"56px"},800,function(){$("#garan24-toper").slideDown();});
-
-    var mout = function(e){$("#garan24-toper").delay(2000).slideUp();};
-    /*$("body").mousemove(function(e){
-        if(e.pageY<=60){
-            $("#garan24-toper").slideDown().mouseover(function(e){
-                console.debug("TOPER: mouse over");
-                e.preventDefault();
-                e.stopPropagation();
-            }).mouseout(function(e){mout(e);});
-        }
-    });*/
-    $("#usp_bar").hide();
 }
 
 function globalAdd2Cart(){
@@ -289,7 +272,7 @@ var collectData={
     init:function(){
         var f = (typeof collectData[collectData.currentDomain] != "undefined")?collectData[collectData.currentDomain]:collectData.default;
         collectData.garanButton.addClass("garan24-add2cart-block-"+collectData.currentDomain).unbind("click").click(function(e){f(e);});
-        //collectData.replace();
+        collectData.replace();
     },
     replace:function(){
         var selector = (typeof collectData.domainSelector[collectData.currentDomain] != "undefined")?collectData.domainSelector[collectData.currentDomain]:"#noselector-data";
@@ -368,3 +351,6 @@ var collectData={
     },
     default:function(e){}
 }
+
+    //window.productArtnumList =(typeof productArtnumList !="undefined")?productArtnumList:["5994586767"];
+    //window.selfUID = (typeof selfUID != "undefined")?selfUID:"58688";

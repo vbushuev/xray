@@ -2,31 +2,17 @@
 class Filter extends Common{
     protected $donor;
     protected $donor_pattern;
-//<<<<<<< Updated upstream
     public function __construct($cfg){
         $this->donor = $cfg->donor;
         $this->donor_pattern = $cfg->donor_pattern;
-/*=======
-    public function __construct($a){
-        $this->donor = $a->host;
-        $this->donor_pattern = preg_replace("/www\./i","",$this->donor);
-        $this->donor_pattern = preg_quote($this->donor_pattern);
->>>>>>> Stashed changes*/
     }
     public function filter($in){
         $out = $in;
         $t = $this;
-//<<<<<<< Updated upstream
         //Log::debug("Donor:".$this->donor." pattern:".$this->donor_pattern);
-        $out = preg_replace_callback("/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
-            $ret = "//".$_SERVER["HTTP_HOST"];
-            //Log::debug("Replaced[0]: p["."/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im"."] ".$m[0]." => ".$ret);
-/*=======
-        //$out = preg_replace_callback("/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
-        $out = preg_replace_callback("/(?<quote>[\"'])((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
-            $ret = $m["quote"]."//".$_SERVER["HTTP_HOST"];
-            Log::debug("Replaced[0]: ".$m[0]." => ".$ret);
->>>>>>> Stashed changes*/
+        $out = preg_replace_callback("/(?<q>[\"'\(])((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im",function($m)use($t){
+            $ret = $m["q"]."//".$_SERVER["HTTP_HOST"];
+            //Log::debug("Replaced: p["."/((http|https):)?(\/\/)?(www\.)?".$this->donor_pattern."/im"."] ".$m[0]." => ".$ret);
             return $ret;
         },$out);
 

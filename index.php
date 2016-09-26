@@ -7,32 +7,30 @@ $cfg = new Config($env);
 $g = new Http($cfg);
 $f = new Filter($cfg);
 $c = new Cache($cfg);
+//Log::debug("cfg:".json_encode($cfg));
 $u = $cfg->host.$url;
 $ui = parse_url($u);
 if(!isset($ui["path"]))exit;
 $upi = pathinfo($ui["path"]);
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = false;
-if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
+Log::debug("Fetching ".$u." ...");
+//if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
+if(false && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
     $ch = $c->get($u);
-}
-if($ch!==false){
-    Log::debug("Fetching from cache [".$ext."] ".$u." ...");
-    $h = $ch;
+    if($ch!==false&&strlen($ch)){
+        Log::debug("Fetching from cache [".$ext."] ".$u." ... [".$ch."]");
+        $h = $ch;
+    }
 }
 else {
-    //Log::debug("Fetching from host [".$ext."] ".$u." ...");
-    //$g->fetch($cfg->host.$url);
-    $g->fetch($cfg->schema.$u);
-    $h = $g->results;
-    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","woft","ttf"])){
+    $h = $g->fetch($u);
+    //$h = $g->results;
+    //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
+    //if(!is_string($h)||!strlen(trim($h)))exit;
+    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico"])){
+        //Log::debug("Filtering: [".$ext."] ".$u);
         $h = $f->filter($h);
-    }
-    if(!in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg","woft","ttf"])
-        &&(preg_match("/\<\/body\>/i",$h))
-        //$_SERVER['REQUEST_METHOD']!='POST'
-        ){
-        $h = preg_replace("/\<\/body\>/i",file_get_contents("src/templates/toper.php")."</body>",$h);
     }
     $c->save($u,$h);
 }
@@ -42,15 +40,17 @@ if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
 //header('Pragma: no-cache');
 //header('Expires: 0');
 //header('Set-Cookie: '.$g->getcookies());
-$g->inCookie();
 switch($ext){
     case "css": header('Content-Type: text/css');break;
     case "png": header('Content-Type: image/png');break;
     case "jpg": header('Content-Type: image/jpg');break;
     case "gif": header('Content-Type: image/gif');break;
     case "svg": header('Content-Type: image/svg+xml');break;
-    default:    header('Content-Type: text/html');break;
+    default:
+        header('Content-Type: text/html');
+        $g->inCookie();
+        $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
+    break;
 }
-$h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
 echo $h
 ?>

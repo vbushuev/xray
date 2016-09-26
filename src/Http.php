@@ -42,7 +42,7 @@ class Http extends Common{
             CURLOPT_USERAGENT => "User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36",
             CURLOPT_HTTPHEADER=>$headers,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_REFERER => $host["host"],
+            //CURLOPT_REFERER => $host["host"],
             CURLOPT_HEADER => 1,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_SSL_VERIFYHOST => 2,
@@ -66,25 +66,36 @@ class Http extends Common{
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
         }
         curl_setopt_array($curl, $curlOptions);
-//<<<<<<< Updated upstream
         $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
-        Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
-/*=======
-        $_s = curl_exec($curl);
-        $this->response = curl_getinfo($curl);
-        $this->results = $this->cutheaders($_s);
-        Log::debug('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-        Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
-        Log::debug('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
->>>>>>> Stashed changes*/
+        if(count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
+        return $this->results;
     }
     protected function stripHeaders($_){
         $_r = $_;
+        if(preg_match("/^HTTP\/1\.1\s*\d+\s*.+/",$_r)){
+            $_a = preg_split("/\r\n\r\n/i",$_,2);
+            //Log::debug('HTTP HEADER:'.json_encode($_a,JSON_PRETTY_PRINT));
+            if(is_array($_a)){
+                $_r=isset($_a[1])?$_a[1]:"";
+                if(strlen(trim($_a[0]))){
+                    if(preg_match_all("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);/i",$_a[0],$_mm)){
+                        for($i=0;$i<count($_mm[0]);++$i){
+                            $this->cookies[$_mm["c"][$i]]=htmlspecialchars_decode(urldecode($_mm["v"][$i]));
+                        }
+                    }
+                }
+                if(preg_match("/^HTTP\/1\.1\s*\d+\s*.+/",$_r))$_r=$this->stripHeaders($_r);
+            }
+        }
+        return $_r;
+    }
+    protected function stripHeaders_1($_){
+        $_r = $_;
         $_a = preg_split("/[\r\n]+/i",$_,2);
         if(is_array($_a)&&strlen(trim($_a[0]))){
-            //Log::debug('got HEADRs:'.$_a[0]);
+            Log::debug('got HEADRs:'.$_a[0]);
             if(preg_match("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);/i",$_a[0],$_m)){
                 $this->cookies[$_m["c"]]=htmlspecialchars_decode(urldecode($_m["v"]));
             }
@@ -109,21 +120,12 @@ class Http extends Common{
                 setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
             //}
         }
-    }
-    protected function cutheaders($_s){
-        if(preg_match("/^\s*\</",$_s)) return $_s;
-        $_a = preg_split("/(\r\n\r\n|\n\n)/",$_s,2);
-        Log::debug('got HTTP split count:['.count($_a)."]");
-        if($_a===false||count($_a)<=1)return $_s;
-        Log::debug('got HTTP HEADERS:['.$_a[0]."]");
-        // multi-cookie variant contributed by @Combuster in comments
-        preg_match_all('/^Set-Cookie:\s*([^;]*)/mi', $_a[0], $matches);
-        foreach($matches[1] as $item) {
-            parse_str($item, $cookie);
-            $this->cookies = array_merge($this->cookies, $cookie);
+        foreach ($this->config->cookie as $key => $value) {
+            //if(!isset($_COOKIE[$key])){
+                //Log::debug("setcookie $key = $value");
+                setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+            //}
         }
-        return $this->cutheaders($_a[1]);
-
     }
 };
 ?>
