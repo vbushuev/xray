@@ -17,8 +17,7 @@ $env = [
             "url"=>"https://www.kenzo.com"
         ],
         "damart" => [
-            "url"=>"http://www.damart.fr",
-            "cookie"=>["GUEST_LANGUAGE_ID"=>"fr_FR"]
+            "url"=>"http://www.damart.fr"
         ],
         "disneystore" => [
             "url"=>"http://www.disneystore.com"

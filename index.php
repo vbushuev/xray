@@ -36,9 +36,9 @@ else {
 }
 $ob_buffer = ob_get_clean();
 if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
-//header('Cache-Control: no-cache, no-store, must-revalidate');
-//header('Pragma: no-cache');
-//header('Expires: 0');
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+header('Expires: 0');
 //header('Set-Cookie: '.$g->getcookies());
 switch($ext){
     case "css": header('Content-Type: text/css');break;
@@ -49,6 +49,7 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
+        $h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
         $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
     break;
 }
