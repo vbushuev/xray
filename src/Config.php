@@ -1,6 +1,6 @@
 <?php
 class Config extends Common{
-    protected $host="http://www.baby-walz.fr";
+    protected $host="http://www.ctshirts.com";
     protected $donor;
     protected $donor_pattern;
     protected $cache="cache";

@@ -4,7 +4,7 @@ date_default_timezone_set('Europe/Moscow');
 
 $env = [
     //"host" => "www.kik.de",
-    "host" => "www.baby-walz.fr",
+    "host" => "www.ctshirts.com",
     "cache" => "cache",
     "hosts" => [
         "baby-walz" => [
