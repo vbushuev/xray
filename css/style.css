@@ -13,7 +13,7 @@
 
     background-color: rgba(0, 191, 128,.9);
     color: rgba(255,255,255,1);
-    z-index: 999;
+    z-index: 9999;
     overflow: visible;
 }
 @media (min-width: 768px){
@@ -59,6 +59,7 @@
     margin-top: 12px;
 }
 .garan24-button{
+    text-decoration: none;
     height: 40px;
     line-height: 40px;
     display: inline-block;
@@ -78,6 +79,17 @@
     color:rgb(0, 191, 128);
     border: none;
 }
+.garan24-button.garan24-button-primary{
+    background-color: rgba(51,187,255,1);
+    color: rgb(255,255,255);
+    border: none;
+}
+.garan24-button.garan24-button-disabled{
+    background-color: rgba(0,0,0,.3);
+    color: rgba(0,0,0,.4);
+    border: none;
+    pointer-events: none;
+}
 
 .garan24-button:hover{
     background-color: rgba(255, 255, 255, 1);
@@ -85,10 +97,17 @@
     text-decoration: none;
 }
 .garan24-button.garan24-button-success:hover{
-
     background-color: rgba(51,187,255,.9);
     color: rgb(255,255,255);
+    text-decoration: none;
 }
+.garan24-button.garan24-button-primary:hover{
+    background-color: rgba(255,255,255,1);
+    color:rgba(0, 191, 128,1);
+    text-decoration: none;
+}
+
+
 #garan24-toper-content {
     padding: 0 16px;
     margin-left:auto;
@@ -113,7 +132,6 @@
 }
 #garan24-toper-content .garan24-toper-menu-right{
     float:right;
-
 }
 #garan24-toper-content .garan24-toper-menu li .garan24-cart{
     height: 40px;
@@ -157,7 +175,7 @@
     position:fixed;
     top:56px;left: 0;
     background-color: rgba(0,0,0,.3);
-    z-index:999;
+    z-index:9997;
     display: none;
 }
 #garan24-overlay-cover{
@@ -172,7 +190,7 @@
     */
 }
 #garan24-overlay-message{
-    z-index:1000;
+    z-index:9998;
     background-color: rgba(255,255,255,1);
     overflow: auto;
     position: relative;
@@ -184,9 +202,9 @@
     font-size: 14pt;
     text-align: center;
 }
+
 #garan-cart-full{
     display: none;
-    z-index: 1000;
     background-color: rgba(255,255,255,1);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -196,48 +214,51 @@
     width: 640px;
     overflow: auto;
     right:0;
-    border:solid 4px rgba(85,125,161,1);
+    border:solid 4px rgba(0, 191, 128,.9);
+    color:rgba(0,0,0,1);
+    font-size: 10pt;
+    font-weight: 300;
+    z-index: 9999;
 }
-#garan-cart-full table{
+#garan-cart-full h2{
+    font-size: 12pt;
+    font-weight: 400;
+}
+#garan-cart-full h2 .first{font-weight: 700;}
+#garan-cart-full .first{
+    font-weight: 400;
+    font-style: normal;
+}
+#garan-cart-full .row-item{
+    z-index: 9999;
+    position: relative;
+    display: block;
     width:100%;
-}
-#garan-cart-full table,#garan-cart-full table tr td{
-    border:none;
+    margin:0;
+    padding: 0;
+    clear: both;
+    float: left;
+    margin-top: 4px;
     line-height: normal;
 }
-#garan-cart-full table tr td a{
-    color:rgba(85,125,161,.7);
+#garan-cart-full .garan-col{
+    position: relative;
+    float:left;
+    margin: 0;
+    padding: 0;
 }
-#garan-cart-full table tr td img{
-    height: 64px;
+#garan-cart-full .garan-col.garan-img{width:16%;}
+#garan-cart-full .garan-col.garan-name{width:56%;}
+#garan-cart-full .garan-col.garan-quantity{width:8%;}
+#garan-cart-full .garan-col.garan-amount{width:16%;}
+#garan-cart-full .row-item .title{
+    font-size: 11pt;
 }
-#garan-cart-full table tr td a:hover{
-    color:rgba(85,125,161,1);
-}
-#garan-cart-full table tr.total td{
-    border-top:dotted 1px rgba(85,125,161,1);
+#garan-cart-full .row-item .amount{
     text-align: right;
-    color:rgba(0,0,0,.8);
-    font-size: 110%;
-    font-weight: 700;
 }
-#garan-cart-full .small{
-    font-size: 90%;
-    font-weight: 300;
-}
-
-#garan-cart-full .currency-amount{
-    font-weight: 700;
-}
-#garan24-add2cart-block {
-    background-color: rgba(85,125,161,.98);
-    padding:1em 3em;
-    text-align: center;
-    vertical-align: middle;
-}
-.garan24-add2cart-block-ctshirts {}
-.garan24-add2cart-block-babywalz {
-    clear:both;
+#garan-cart-full .row-item .variations{
+    font-size: 9pt;
 }
 #garan24-add2cart-block #garan24-add2cart-button{
     padding-left:2em;

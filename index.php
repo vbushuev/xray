@@ -8,14 +8,15 @@ $g = new Http($cfg);
 $f = new Filter($cfg);
 $c = new Cache($cfg);
 //Log::debug("cfg:".json_encode($cfg));
+$url = ($url=="/")?"":$url;
 $u = $cfg->host.$url;
 $ui = parse_url($u);
-if(!isset($ui["path"]))exit;
+//if(!isset($ui["path"]))exit;
 $upi = pathinfo($ui["path"]);
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = false;
 Log::debug("Fetching ".$u." ...");
-//if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
+//if(in_array($ext,["html","js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
 if(false && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
     $ch = $c->get($u);
     if($ch!==false&&strlen($ch)){
@@ -28,7 +29,7 @@ else {
     //$h = $g->results;
     //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
     //if(!is_string($h)||!strlen(trim($h)))exit;
-    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico"])){
+    if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff"])){
         //Log::debug("Filtering: [".$ext."] ".$u);
         $h = $f->filter($h);
     }
@@ -49,7 +50,7 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
-        $h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
+        if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
         $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
     break;
 }

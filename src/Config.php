@@ -20,6 +20,7 @@ class Config extends Common{
         $this->donor = preg_replace("/(http|https):\/\//i","",$this->host);
         //Log::debug("host:".$this->host." donor:".$this->donor);
         $this->donor_pattern = preg_replace("/(\/\/)?www\./i","",$this->donor);
+        $this->donor_pattern = preg_replace("/\/*$/","",$this->donor_pattern);
         $this->donor_pattern = preg_quote($this->donor_pattern);
         $this->cache = isset($a["cache"])?$a["cache"]:$this->cache;
     }

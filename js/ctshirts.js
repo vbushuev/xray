@@ -8,7 +8,6 @@ var parser = {
     selector:"#checkout-form  button[type='submit']",
     parse:function(){
         //document.getElementsByClassName('button button--green button--mobile button--right item-list__checkout-btn')[1].onclick = doWork();
-
         var products = document.getElementById('cart-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
 
@@ -61,9 +60,27 @@ var parser = {
             else if(products[x].getElementsByClassName('attribute--value value js-casualShirtSize')[0])
             obj.variations.size = products[x].getElementsByClassName('attribute--value value js-casualShirtSize')[0].textContent.trim();
 
+            else if(products[x].getElementsByClassName('attribute--value value js-jacketSize')[0]){
+                obj.variations.size = products[x].getElementsByClassName('attribute--value value js-jacketSize')[0].textContent.trim();
+                if(products[x].getElementsByClassName('attribute--value value js-jacketLength')[0]){
+                    obj.variations.size += '/'+products[x].getElementsByClassName('attribute--value value js-jacketLength')[0].textContent.trim();
+                }
+            }
+
+            else if(products[x].getElementsByClassName('attribute--value value js-trouserWaist')[0]){
+                obj.variations.size = products[x].getElementsByClassName('attribute--value value js-trouserWaist')[0].textContent.trim();
+                if(products[x].getElementsByClassName('attribute--value value js-trouserLength')[0]){
+                    obj.variations.size += '/'+products[x].getElementsByClassName('attribute--value value js-trouserLength')[0].textContent.trim();
+                }
+            }
+
             //console.log(obj);
             garan.cart.add2cart(obj);
             }
         }
+        if(arguments.length&& typeof arguments[0]!="function"){
+            var cb = arguments[0];
+            cb();
+        };
     }
 };

@@ -1,14 +1,26 @@
+<!--
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+-->
 <!-- Latest compiled and minified CSS -->
+<!--
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+-->
 <link rel="stylesheet" href="/css/style.css" />
+
+<!--<link rel="stylesheet" href="http://service.garan24.bs2/css/co.css" />-->
 <div id="garan24-toper">
     <div id="garan24-toper-content">
         <ul class="garan24-toper-menu garan24-toper-menu-left">
             <!--<li class="garan24-logo">G&nbsp;<code>24</code></li>-->
-            <li class="garan24-log"><a href="http://xrayshopping.ru" target="__blank"><img height="36px" src="http://xrayshopping.ru/wp-content/uploads/2016/08/LogoXray-601.png" /></a></li>
+            <li class="garan24-log"><a href="http://xrayshopping.ru" target="__blank"><img height="24px" src="http://xrayshopping.ru/wp-content/uploads/2016/08/LogoXray-601.png" /></a></li>
+            <li>
+                1 GBP = 79 руб.
+            </li>
         </ul>
         <ul class="garan24-toper-menu garan24-toper-menu-right">
+            <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-cart"></i> Добавить в мультикорзину</a></li>
+            <li>&nbsp;</li>
             <li>
                 <a id="garan-cart" class="garan24-cart" href="#" title="Перейти к редактированию корзины">
                     <i class="fa fa-spinner fa-spin fa-2x fa-fw" area-hidden="true"></i>
@@ -20,7 +32,7 @@
 
                     -->
                 </a>
-                <div id="garan-cart-full" class="garan cart"></div>
+                <div id="garan-cart-full" class="garan x-cart"></div>
             </li>
             <li><a id="garan-checkout" class="garan24-button garan24-button-success" href="#">Оформить заказ</a></li>
         </ul>
@@ -38,16 +50,19 @@
     </div>
 </div>
 <!--
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
 <script src="//service.garan24.ru/js/api/1.0/garan24.core.js"></script>
 <script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 -->
+
 <script src="//service.garan24.ru/js/api/1.0/garan24.core.js"></script>
-<script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
+<script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
 <script src="/js/snooper.js"></script>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
 }
-</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
