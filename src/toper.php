@@ -9,18 +9,26 @@
 <link rel="stylesheet" href="/css/style.css" />
 
 <!--<link rel="stylesheet" href="http://service.garan24.bs2/css/co.css" />-->
+<div id="garan24-contact"><div id="garan24-contact-content"><a href="tel:88007075103"><i class="fa fa-phone"></i> 8 800 707 5103</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:contact@gauzymall.com"><i class="fa fa-envelope-o"></i> contact@gauzymall.com</a></div></div>
 <div id="garan24-toper">
+
     <div id="garan24-toper-content">
+
         <ul class="garan24-toper-menu garan24-toper-menu-left">
-            <!--<li class="garan24-logo">G&nbsp;<code>24</code></li>-->
+            <!--
+            <li class="garan24-logo">G&nbsp;<code>24</code></li>
             <li class="garan24-log"><a href="http://xrayshopping.ru" target="__blank"><img height="24px" src="http://xrayshopping.ru/wp-content/uploads/2016/08/LogoXray-601.png" /></a></li>
-            <li>
-                1 GBP = 79 руб.
-            </li>
+            <li class="garan24-logo">X&nbsp;<code>ray</code></li>
+            -->
+            <li class="garan24-logo"><a href="http://gauzymall.com"><img style="margin-top:-4px;" src="http://gauzymall.com/wp-content/uploads/2016/09/Gauzy_logo_02.png" height="22px" alt="GauzyMALL"/></a></li>
+
+
         </ul>
         <ul class="garan24-toper-menu garan24-toper-menu-right">
-            <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-cart"></i> Добавить в мультикорзину</a></li>
-            <li>&nbsp;</li>
+            <!--
+            <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-shopping-cart"></i> Добавить в мультикорзину</a></li>
+            -->
+            <li id="garan-currency"></li>
             <li>
                 <a id="garan-cart" class="garan24-cart" href="#" title="Перейти к редактированию корзины">
                     <i class="fa fa-spinner fa-spin fa-2x fa-fw" area-hidden="true"></i>
@@ -34,7 +42,7 @@
                 </a>
                 <div id="garan-cart-full" class="garan x-cart"></div>
             </li>
-            <li><a id="garan-checkout" class="garan24-button garan24-button-success" href="#">Оформить заказ</a></li>
+            <li><a class="garan-checkout garan24-button garan24-button-primary garan24-button-disabled" href="#"><i class="fa fa-shopping-bag"></i> Оформить заказ</a></li>
         </ul>
     </div>
 </div>
@@ -55,7 +63,16 @@
 <script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
+  ga('create', 'UA-80175137-4', 'auto');
+  ga('send', 'pageview');
+
+</script>
 <script src="//service.garan24.ru/js/api/1.0/garan24.core.js"></script>
 <script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
 <script src="/js/snooper.js"></script>

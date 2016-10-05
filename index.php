@@ -54,5 +54,9 @@ switch($ext){
         $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
     break;
 }
-echo $h
+echo $h;
+/*
+todo
+убрать кнопку. "Добавить в мульти корзину". и написать что происходит
+*/
 ?>

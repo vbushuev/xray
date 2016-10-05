@@ -11,7 +11,10 @@ $env = [
             "url"=>"http://www.baby-walz.fr"
         ],
         "ctshirts" => [
-            "url"=>"http://www.ctshirts.com"
+            "url"=>"http://www.ctshirts.com",
+            "filters" => [
+                "/£(\d+\.\d+)/" => ""
+            ]
         ],
         "kenzo" => [
             "url"=>"https://www.kenzo.com"

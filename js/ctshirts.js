@@ -1,9 +1,23 @@
 //ctshirts
 var parser = {
     styling:function(){
-        $("header").css("top","60px");
-        $("#main").css("margin-top","60px");
+        $("header").css("top","82px");
+        $("#main").css("margin-top","82px");
         $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping ").hide();
+        $("#cart-items-form > div.panel--flexed.item-list__total").hide();
+        $("#footer > div.main__area > div:nth-child(1)").hide();
+        $("#footer > div.main__area > div:nth-child(2) > div.content__block.desktop-only.content__block--right.content__block--changecountry").hide();
+        /*$("div.tile__pricing--listing.sale:contains('£'),span:contains('£'),b:contains('£'),td:contains('£')").each(function(){
+            var $t = $(this),cur = garan.currency.rates('GBP'),txt=$t.text();
+            txt = txt.replace(/\£(\d+\.?\d*)/g,function(m){
+            //txt.replace(/\£(\d+\.?\d*)/g,function(m){
+                var r = cur*parseFloat(m.replace(/\£/,''));
+                console.debug('replacement '+m+" * "+cur);
+                return r.format(2,3,' ','.')+' руб.';
+            });
+            $t.text(txt);
+        });*/
+        $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.')
     },
     selector:"#checkout-form  button[type='submit']",
     parse:function(){
@@ -82,5 +96,6 @@ var parser = {
             var cb = arguments[0];
             cb();
         };
+        $("#garan-cart").click();
     }
 };

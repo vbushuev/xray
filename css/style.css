@@ -1,33 +1,70 @@
 @import url("//fonts.googleapis.com/css?family=Lato");
 @import url("//fonts.googleapis.com/css?family=Open+Sans&subset=latin,cyrillic");
 @import url("//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+@keyframes pulse {
+    0% {transform: scale(1,1);}
+    10% {transform: scale(1.05,1.05);}
+    20% {transform: scale(1,1);}
+    100% {transform: scale(1,1);}
+}
+#garan24-contact{
+    position: fixed;
+    top: 0;left:0;
+    color: rgba(255,255,255,1);
+    font-family: 'Lato';
+    font-weight: 300;
+    font-size: 9pt;
+    width:100%;
+    height:22px;
+    line-height: 22px;
+    /*background-color: rgba(242,241,240,.9);*/
+    background-color: rgba(255,255,255,.9);
+    color: #aab2bd;
+    z-index: 9999;
+    overflow: visible;
+}
+#garan24-contact .fa{
+    color: #aab2bd;
+}
+#garan24-contact a{
+    text-decoration: none;
+    color: #aab2bd;
+}
+#garan24-contact a:hover,#garan24-contact a:hover .fa{
+    color:rgba(0, 191, 128,1);
+}
+#garan24-contact-content {
+    margin-left:auto;
+    margin-right: auto;
+    text-align: right;
+    padding: 0 16px;
+}
 #garan24-toper{
-    //display: none;
     font-family: 'Open Sans';
     font-size: 10pt;
     position: fixed;
-    top: 0;
+    top: 22px;
     left:0;
     width:100%;
-    height:60px;
-
+    height:52px;
+    display:none;
     background-color: rgba(0, 191, 128,.9);
     color: rgba(255,255,255,1);
     z-index: 9999;
     overflow: visible;
 }
 @media (min-width: 768px){
-    #garan24-toper-content {
+    #garan24-toper-content,#garan24-contact-content {
         width: 750px;
     }
 }
 @media (min-width: 992px){
-    #garan24-toper-content {
+    #garan24-toper-content,#garan24-contact-content {
         width: 970px;
     }
 }
 @media (min-width: 1200px){
-    #garan24-toper-content{
+    #garan24-toper-content,#garan24-contact-content{
         width: 1170px;
     }
 }
@@ -35,33 +72,31 @@
     color: rgb(0, 191, 128);
 }
 #garan24-toper-content{
-    height:60px;
+    height:52px;
 }
+
 #garan24-toper .garan24-logo{
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 20px;
+    font-weight: 300;
+    font-family: 'Lato';
+    color:rgba(255,255,255,1);
 }
 #garan24-toper .garan24-logo code{
     border:solid 2px rgba(255,255,255,1);
-    color:rgba(255,255,255,1);
-    font-weight: 400;
     display: inline-block;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    height:24px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
     line-height: 24px;
-    font-family: 'Lato';
     padding:0 4px;
-    font-size: 14px;
 }
 #garan24-toper .garan24-logo img{
     margin-top: 12px;
 }
 .garan24-button{
     text-decoration: none;
-    height: 40px;
-    line-height: 40px;
+    height: 34px;
+    line-height: 34px;
     display: inline-block;
     padding: 0 8px;
     -webkit-border-radius: 3px;
@@ -74,38 +109,58 @@
     cursor: pointer;
     border:solid 1px rgba(0, 191, 128,1);
 }
+.garan24-button .fa{
+    color: rgba(255,255,255,1);
+}
 .garan24-button.garan24-button-success{
     background-color: rgba(255,255,255,1);
     color:rgb(0, 191, 128);
     border: none;
 }
+.garan24-button.garan24-button-success .fa{
+    color:rgb(0, 191, 128);
+}
 .garan24-button.garan24-button-primary{
+
     background-color: rgba(51,187,255,1);
     color: rgb(255,255,255);
     border: none;
 }
+.garan24-button.garan24-button-primary .fa{color: rgb(255,255,255);}
 .garan24-button.garan24-button-disabled{
-    background-color: rgba(0,0,0,.3);
-    color: rgba(0,0,0,.4);
+    background-color: rgba(0,0,0,.2);
+    color: rgba(0,0,0,.25);
     border: none;
     pointer-events: none;
 }
-
+.garan24-button.garan24-button-disabled .fa{
+    color: rgba(0,0,0,.25);
+}
+.garan24-button.garan24-button-pulse{
+    animation: pulse 4s ease-in-out infinite;
+}
 .garan24-button:hover{
     background-color: rgba(255, 255, 255, 1);
     color:rgb(0, 191, 128);
     text-decoration: none;
+    transition: background-color 0.6s, box-shadow 0.6s, opacity 0.6s, color 0.6s;
+}
+.garan24-button:hover .fa{
+    color:rgb(0, 191, 128);
+    transition: background-color 0.6s, box-shadow 0.6s, opacity 0.6s, color 0.6s;
 }
 .garan24-button.garan24-button-success:hover{
     background-color: rgba(51,187,255,.9);
     color: rgb(255,255,255);
     text-decoration: none;
 }
+.garan24-button.garan24-button-success:hover .fa{color: rgb(255,255,255);}
 .garan24-button.garan24-button-primary:hover{
     background-color: rgba(255,255,255,1);
     color:rgba(0, 191, 128,1);
     text-decoration: none;
 }
+.garan24-button.garan24-button-primary:hover .fa{color:rgba(0, 191, 128,1);}
 
 
 #garan24-toper-content {
@@ -116,26 +171,26 @@
 #garan24-toper-content .garan24-toper-menu{
     list-style: none;
     display: inline-block;
-    font-size: 12pt;
+    font-size: 10pt;
     font-family: 'Lato','Open Sans';
     font-weight: 300;
-    height:60px;
-    line-height: 60px;
+    height:52px;
+    line-height: 52px;
     margin:0;
     vertical-align: middle;
 }
 #garan24-toper-content .garan24-toper-menu li{
     display: inline-block;
-    height:60px;
-    line-height: 60px;
-    margin:0;
+    height:52px;
+    line-height: 52px;
+    margin:0 2px;
 }
 #garan24-toper-content .garan24-toper-menu-right{
     float:right;
 }
 #garan24-toper-content .garan24-toper-menu li .garan24-cart{
-    height: 40px;
-    line-height: 40px;
+    height: 34px;
+    line-height: 34px;
     display: inline-block;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -220,6 +275,10 @@
     font-weight: 300;
     z-index: 9999;
 }
+#garan-cart-full .garan-cart-scroll{
+    max-height: 480px;
+    overflow: scroll;
+}
 #garan-cart-full h2{
     font-size: 12pt;
     font-weight: 400;
@@ -259,6 +318,13 @@
 }
 #garan-cart-full .row-item .variations{
     font-size: 9pt;
+}
+#garan-cart-full .row-item.garan-total{
+    color:rgba(0,0,0,.9);
+    padding:16px 0;
+    font-weight: 700;
+    text-align: right;
+    border-top: dotted 1px rgba(0, 191, 128,1);
 }
 #garan24-add2cart-block #garan24-add2cart-button{
     padding-left:2em;
