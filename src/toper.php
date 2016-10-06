@@ -19,15 +19,18 @@
             <li class="garan24-logo">G&nbsp;<code>24</code></li>
             <li class="garan24-log"><a href="http://xrayshopping.ru" target="__blank"><img height="24px" src="http://xrayshopping.ru/wp-content/uploads/2016/08/LogoXray-601.png" /></a></li>
             <li class="garan24-logo">X&nbsp;<code>ray</code></li>
-            -->
-            <li class="garan24-logo"><a href="http://gauzymall.com"><img style="margin-top:-4px;" src="http://gauzymall.com/wp-content/uploads/2016/09/Gauzy_logo_02.png" height="22px" alt="GauzyMALL"/></a></li>
 
+            <li class="garan24-logo"><a href="http://gauzymall.com"><img style="margin-top:-4px;" src="http://gauzymall.com/wp-content/uploads/2016/09/Gauzy_logo_02.png" height="22px" alt="GauzyMALL"/></a></li>
+            -->
+
+            <li class="garan24-logo">Gauzy&nbsp;<code>MALL</code></li>
 
         </ul>
         <ul class="garan24-toper-menu garan24-toper-menu-right">
             <!--
             <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-shopping-cart"></i> Добавить в мультикорзину</a></li>
             -->
+            <li id="garan-helper">Сообщения помошника</li>
             <li id="garan-currency"></li>
             <li>
                 <a id="garan-cart" class="garan24-cart" href="#" title="Перейти к редактированию корзины">
@@ -58,9 +61,6 @@
     </div>
 </div>
 <!--
-
-<script src="//service.garan24.ru/js/api/1.0/garan24.core.js"></script>
-<script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 -->
 <script>

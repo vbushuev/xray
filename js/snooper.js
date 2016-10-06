@@ -35,10 +35,12 @@ $(document).ready(function() {
         }
         if($(parser.selector).length){
             $(parser.selector).hide();
-            parser.parse();
-            $(".garan-checkout").removeClass("garan24-button-disabled").addClass("garan24-button-pulse");
+            console.debug("Parsing bug in 2 sec.");
+            setTimeout(function(){parser.parse();},2000);
         }
     }
+
+
 
     $("#garan-cart").on("click",function(){
         var $c = $("#garan-cart-full");
