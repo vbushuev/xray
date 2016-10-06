@@ -36,7 +36,10 @@ $(document).ready(function() {
         if($(parser.selector).length){
             $(parser.selector).hide();
             console.debug("Parsing bug in 2 sec.");
-            setTimeout(function(){parser.parse();},2000);
+            setTimeout(function(){parser.parse();},1200);
+            //$.delay(800);
+            //parser.parse();
+            $("#garan-helper").html('Вам осталось только <i class="first">Oформить заказ</i>.' );
         }
     }
 

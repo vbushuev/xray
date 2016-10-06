@@ -3,7 +3,7 @@ var parser = {
     styling:function(){
         $("header").css("top","82px");
         $("#main").css("margin-top","82px");
-        $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping ").hide();
+        $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping,#shippingSwitcherLink ").hide();
         $("#cart-items-form > div.panel--flexed.item-list__total").hide();
         $("#footer > div.main__area > div:nth-child(1)").hide();
         $("#footer > div.main__area > div:nth-child(2) > div.content__block.desktop-only.content__block--right.content__block--changecountry").hide();
@@ -17,7 +17,7 @@ var parser = {
             });
             $t.text(txt);
         });*/
-        $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.')
+        $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.');
     },
     selector:"#checkout-form  button[type='submit']",
     parse:function(){

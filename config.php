@@ -12,6 +12,9 @@ $env = [
         ],
         "ctshirts" => [
             "url"=>"http://www.ctshirts.com",
+            "cookie" =>[
+                "GlobalE_Data"=>'{"countryISO":"FR","cultureCode":"ru","currencyCode":"GBP","apiVersion":"2.1.4","clientSettings":"{\"AllowClientTracking\":{\"Value\":\"true\"},\"FullClientTracking\":{\"Value\":\"true\"},\"IsMonitoringMerchant\":{\"Value\":\"true\"},\"IsV2Checkout\":{\"Value\":\"true\"}}"}'
+            ],
             "filters" => [
                 "/£(\d+\.\d+)/" => ""
             ]

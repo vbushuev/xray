@@ -30,8 +30,8 @@
             <!--
             <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-shopping-cart"></i> Добавить в мультикорзину</a></li>
             -->
-            <li id="garan-helper">Сообщения помошника</li>
-            <li id="garan-currency"></li>
+            <li id="garan-helper">Соберите корзину покупок на сайте. Всю волокиту по доставке мы возьмем на себя.</li>
+            <li id="garan-currency" style="display:none;"></li>
             <li>
                 <a id="garan-cart" class="garan24-cart" href="#" title="Перейти к редактированию корзины">
                     <i class="fa fa-spinner fa-spin fa-2x fa-fw" area-hidden="true"></i>
@@ -73,8 +73,8 @@
   ga('send', 'pageview');
 
 </script>
-<script src="//service.garan24.ru/js/api/1.0/garan24.core.js"></script>
-<script src="//service.garan24.ru/js/api/1.0/garan24.cart.js"></script>
+<script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
+<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
 <script src="/js/snooper.js"></script>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
