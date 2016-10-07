@@ -23,7 +23,7 @@ var parser = {
     parse:function(){
         //document.getElementsByClassName('button button--green button--mobile button--right item-list__checkout-btn')[1].onclick = doWork();
         var products = document.getElementById('cart-table').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
+        var objs = [];
 
         for(x = 0; x < products.length; x++){
             if(products[x].className !== 'js-product-option-row item-list__row item-list__row--no-border item-list__row--option js-editable'){
@@ -89,9 +89,12 @@ var parser = {
             }
 
             //console.log(obj);
-            garan.cart.add2cart(obj);
+
+            objs.push(obj);
             }
         }
+
+        garan.cart.add2cart(objs);
         if(arguments.length&& typeof arguments[0]!="function"){
             var cb = arguments[0];
             cb();

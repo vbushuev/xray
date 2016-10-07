@@ -25,6 +25,10 @@ function globalAdd2Cart(){
 
 var $ = jQuery.noConflict();
 $(document).ready(function() {
+    garan.cart.update = function(){
+        garan.cart.removeAll();
+        parser.parse();
+    };
     garan.cart.init();
     $("#garan24-toper").delay(800).fadeIn();
     console.debug(document.location.hostname.split(/\./)[0].replace(/[\-]/,""));
@@ -42,8 +46,6 @@ $(document).ready(function() {
             $("#garan-helper").html('Вам осталось только <i class="first">Oформить заказ</i>.' );
         }
     }
-
-
 
     $("#garan-cart").on("click",function(){
         var $c = $("#garan-cart-full");

@@ -284,6 +284,24 @@
     font-weight: 300;
     z-index: 9999;
 }
+
+#garan-cart-full .garan-editional-actions{
+    display:block;
+    width:100%;
+    text-align: right;
+    font-size: 8pt;
+    position: absolute;
+    top:2px;
+    right:32px;
+}
+#garan-cart-full .garan-editional-actions a,#garan-cart-full .garan-editional-actions a .fa{
+    color: #aab2bd;
+
+}
+#garan-cart-full .garan-editional-actions a:hover,#garan-cart-full .garan-editional-actions a:hover .fa{
+    color:rgba(0, 191, 128,1);
+    text-decoration: none;
+}
 #garan-cart-full .garan-cart-scroll{
     max-height: 480px;
     overflow: scroll;
@@ -291,6 +309,11 @@
 #garan-cart-full h2{
     font-size: 12pt;
     font-weight: 400;
+    height:32px;
+    line-height: 32px;
+    margin:0;
+    padding: 0;
+    border-bottom: dotted 1px #aab2bd;
 }
 #garan-cart-full h2 .first{font-weight: 700;}
 #garan-cart-full .first{

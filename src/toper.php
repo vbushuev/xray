@@ -74,7 +74,10 @@
 
 </script>
 <script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
+<!--
 <script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
+-->
+<script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
 <script src="/js/snooper.js"></script>
 <div id="google_translate_element"></div>
 <script type="text/javascript">
