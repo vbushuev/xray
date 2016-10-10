@@ -24,13 +24,13 @@
             -->
 
             <li class="garan24-logo">Gauzy&nbsp;<code>MALL</code></li>
-
+            <li id="garan-helper">Соберите корзину покупок на сайте. Всю волокиту по доставке мы возьмем на себя.</li>
         </ul>
         <ul class="garan24-toper-menu garan24-toper-menu-right">
             <!--
             <li id="add2cart-place"><a href="javascript:parser.parse();" class="garan24-button garan24-button-primary garan24-button-disabled" id="add2multicart"><i class="fa fa-shopping-cart"></i> Добавить в мультикорзину</a></li>
             -->
-            <li id="garan-helper">Соберите корзину покупок на сайте. Всю волокиту по доставке мы возьмем на себя.</li>
+
             <li id="garan-currency" style="display:none;"></li>
             <li>
                 <a id="garan-cart" class="garan24-cart" href="#" title="Перейти к редактированию корзины">
@@ -64,20 +64,19 @@
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 -->
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-80175137-4', 'auto');
-  ga('send', 'pageview');
-
+    ga('create', 'UA-84557375-2', 'auto');
+    ga('send', 'pageview');
 </script>
 <script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
 <!--
-<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
--->
 <script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
+-->
+<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
 <script src="/js/snooper.js"></script>
 <div id="google_translate_element"></div>
 <script type="text/javascript">

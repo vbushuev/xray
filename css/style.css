@@ -127,6 +127,8 @@
     border: none;
 }
 .garan24-button.garan24-button-primary .fa{color: rgb(255,255,255);}
+.garan-disabled{pointer-events: none;}
+.garan-disabled .fa{}
 .garan24-button.garan24-button-disabled{
     background-color: rgba(0,0,0,.2);
     color: rgba(0,0,0,.25);
@@ -225,13 +227,13 @@
     font-weight: 400;
 }
 #garan24-toper-content .garan24-toper-menu li#garan-helper{
-    margin-right: 2em;
-    line-height: 20px;
-    padding: auto auto;
+    margin-left: 2em;
+    padding:0 4px;
+    line-height: 21px;
     font-size: 10pt;
-    text-align: left;
-    vertical-align: center;
-    max-width: 400px;
+    text-align: center;
+    vertical-align: middle;;
+    max-width: 320px;
 }
 #garan24-overlay{
     height: 100%;

@@ -12,8 +12,28 @@ $env = [
         ],
         "ctshirts" => [
             "url"=>"http://www.ctshirts.com",
+            //"proxy" => "62.252.196.194:3128",
+            "proxies" => [
+
+
+                "82.145.208.37:80",
+                "80.249.102.46:80",
+                "82.145.209.242:80",
+                "82.145.208.20:80",
+                "178.62.2.78:3128",
+                "81.139.247.236:80",
+                "212.46.131.164:80",
+                "213.177.255.60:80",
+                "195.50.71.240:80",
+                "195.62.28.38:80",
+                "195.50.71.239:80"
+            ],
+
             "cookie" =>[
-                "GlobalE_Data"=>'{"countryISO":"FR","cultureCode":"ru","currencyCode":"GBP","apiVersion":"2.1.4","clientSettings":"{\"AllowClientTracking\":{\"Value\":\"true\"},\"FullClientTracking\":{\"Value\":\"true\"},\"IsMonitoringMerchant\":{\"Value\":\"true\"},\"IsV2Checkout\":{\"Value\":\"true\"}}"}'
+                "CTCountry"=>"gb",
+                "GlobalE_CT_Data"=>'{"CUID":"45091cb2-b06f-484e-baf7-788ed874145d"}',
+                "GlobalE_CT_Tracked"=>'{"SESID":150891858,"AllowFullTracking":true}',
+                "GlobalE_Data"=>'{"countryISO":"RU","cultureCode":"ru","currencyCode":"RUB","apiVersion":"2.1.4","clientSettings":"{"AllowClientTracking":{"Value":"true"},"FullClientTracking":{"Value":"true"},"IsMonitoringMerchant":{"Value":"true"},"IsV2Checkout":{"Value":"true"}}"}'
             ],
             "filters" => [
                 "/£(\d+\.\d+)/" => ""

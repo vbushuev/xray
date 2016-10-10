@@ -1,4 +1,5 @@
 <?php
+session_start();
 ob_start();
 include("config.php");
 
@@ -12,10 +13,10 @@ $url = ($url=="/")?"":$url;
 $u = $cfg->host.$url;
 $ui = parse_url($u);
 //if(!isset($ui["path"]))exit;
-$upi = pathinfo($ui["path"]);
+$upi = isset($ui["path"])?pathinfo($ui["path"]):[];
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = false;
-Log::debug("Fetching ".$u." ...");
+//Log::debug("Fetching ".$u." ...");
 //if(in_array($ext,["html","js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
 if(false && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
     $ch = $c->get($u);
@@ -37,6 +38,7 @@ else {
 }
 $ob_buffer = ob_get_clean();
 if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
+
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 header('Expires: 0');

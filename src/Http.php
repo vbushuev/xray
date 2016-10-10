@@ -3,9 +3,15 @@ class Http extends Common{
     protected $results;
     protected $response;
     protected $cookies=[];
+    protected $cookieFile ='';
     protected $config;
     public function __construct($a=[]){
         $this->config = $a;
+        if(!isset($_COOKIE["PHPSESSID"])) Log::debug("!!!! NO PHPSESSID ". json_encode($_COOKIE,JSON_PRETTY_PRINT));
+        $this->cookieFile = $_SERVER['DOCUMENT_ROOT'].'/cache/'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host).'/cookies/'
+            .session_id()
+            .'/cookie';
+        $this->checkPath($this->cookieFile);
     }
     public function fetch($url){
         $curl = curl_init();
@@ -17,25 +23,22 @@ class Http extends Common{
         $headers = [
             'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Cookie: '.$cookies,
-            'Referer: '.$refer
-            //'Cookie: fe_typo_user=caf3946af581025e806361097ab13a68;mb3pc=%7B%22shoppingbasket%22%3A%7B%22articlesAmount%22%3A0%7D%7D;'
-            /*'Accept-Language:en-US,en;q=0.8,ru;q=0.6',
+            'Referer: '.$refer,
+            'Accept-Language:en-US,en;q=0.8,ru;q=0.6',
             'Accept-Charset: utf-8;q=0.7,*;q=0.7',
             'Accept-Encoding:gzip, deflate, sdch',
             'Cache-Control:max-age=0',
             'Connection:keep-alive',
-            ,
             'DNT:1',
-            */
-            //'Upgrade-Insecure-Requests:1',
-            //'Host:www.baby-walz.de',
-            //
+            'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host),
+            'Pragma:no-cache',
+            'Upgrade-Insecure-Requests:1',
+            'User-Agent: '.$_SERVER['HTTP_USER_AGENT']
         ];
-        //$cookieFile = $_SERVER['DOCUMENT_ROOT'].'/cache/'.$host["host"].'/cookie.txt';
         //$cookie = 'cookie.txt';
 
-        //if(!file_exists($cookieFile))file_put_contents($cookieFile,"");
-        $verbose = fopen('logs/curl-'.date('Y-m-d').'.log', 'a+');
+        //if(!file_exists($this->cookieFile))file_put_contents($this->cookieFile,"");
+        //$verbose = fopen('logs/curl-'.date('Y-m-d').'.log', 'a+');
 
         $curlOptions = [
             CURLOPT_URL => $url,
@@ -49,18 +52,28 @@ class Http extends Common{
             CURLOPT_ENCODING => "", // обрабатывает все кодировки
             CURLOPT_MAXREDIRS =>10, // останавливаться после 10-ого редиректа
             //CURLOPT_COOKIE => $cookie,
-            //CURLOPT_COOKIEJAR =>  $cookieFile,
+            //CURLOPT_COOKIEFILE => $this->cookieFile,
+            //CURLOPT_COOKIEJAR =>  $this->cookieFile,
             CURLOPT_FRESH_CONNECT => 1,
             CURLOPT_FORBID_REUSE => 1,
             //CURLOPT_AUTOREFERER => 1,
             CURLOPT_FOLLOWLOCATION => 1,
 
-            CURLOPT_VERBOSE => 1,
-            CURLOPT_STDERR => $verbose,
+            //CURLOPT_VERBOSE => 1,
+            //CURLOPT_STDERR => $verbose,
             CURLOPT_CERTINFO => 1,
             CURLINFO_HEADER_OUT => 1,
         ];
+        $ext = "html";
+        if(isset($host["path"])){
+            $upi = pathinfo($host["path"]);
+            $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
+        }
+        if(in_array($ext,['html','htm']))Log::debug("Fetching [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT));
         $method = $_SERVER['REQUEST_METHOD'];
+        if($this->config->proxy!==false){
+            $curlOptions[CURLOPT_PROXY] = $this->config->proxy;
+        }
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
@@ -68,7 +81,7 @@ class Http extends Common{
         curl_setopt_array($curl, $curlOptions);
         $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
-        if(count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+        if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
         return $this->results;
     }
@@ -106,8 +119,14 @@ class Http extends Common{
     }
     protected function outCookie(){
         $c='';
-        //if(!is_array($this->cookies))return "";
-        foreach($_COOKIE as $k=>$v){
+        $_coo = [];
+
+        if(file_exists($this->cookieFile)) {
+            $this->cookies = json_decode(file_get_contents($this->cookieFile),true);
+            $_coo = array_merge($_coo, $this->cookies);
+        }
+
+        foreach($_coo as $k=>$v){
             //$v = urlencode($v);
             $c.="{$k}={$v};";
         }
@@ -117,15 +136,17 @@ class Http extends Common{
         foreach ($this->cookies as $key => $value) {
             //if(!isset($_COOKIE[$key])){
                 //Log::debug("setcookie $key = $value");
-                setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+                //if(!isset($_COOKIE[$key]))setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
             //}
         }
+        file_put_contents($this->cookieFile,json_encode($this->cookies,JSON_PRETTY_PRINT));
+        /*
         foreach ($this->config->cookie as $key => $value) {
             //if(!isset($_COOKIE[$key])){
                 //Log::debug("setcookie $key = $value");
                 setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
             //}
-        }
+        }*/
     }
 };
 ?>

@@ -40,13 +40,24 @@ $(document).ready(function() {
         if($(parser.selector).length){
             $(parser.selector).hide();
             console.debug("Parsing bug in 2 sec.");
-            setTimeout(function(){parser.parse();},1200);
+            /*setTimeout(function(){
+                parser.parse();
+                $(".garan-editional-actions a").removeClass("garan-disabled");
+            },1200);
+            */
+            if(typeof ga!="undefined"){
+                ga('send','event', 'events', 'add2cart', 'add2cart',2, false);
+            }
+            else console.debug("no ga!!! add2cart");
             //$.delay(800);
             //parser.parse();
             $("#garan-helper").html('Вам осталось только <i class="first">Oформить заказ</i>.' );
-        }
-    }
 
+        }
+    }else {
+        $("header").css("top","80px");
+        $("#main").css("margin-top","80px");
+    }
     $("#garan-cart").on("click",function(){
         var $c = $("#garan-cart-full");
         if($c.hasClass("garan24-visible")){
@@ -63,6 +74,16 @@ $(document).ready(function() {
         $c.addClass("garan24-visible").slideDown();
     });
     $(".garan-checkout").on("click",function(){
-        garan.cart.checkout()
+        garan.cart.checkout();
+        if(typeof ga!="undefined"){
+            ga('send','event','events','checkout','checkout',5,false);
+        }
+        else console.debug("no ga!!! checkout");
     });
+    if(typeof ga!="undefined"){
+        console.debug("ga TRACK event on visit");
+        //ga('send', 'event', [eventCategory], [eventAction], [eventLabel], [eventValue], [fieldsObject]);
+        ga('send','event','events','visit','visit',1,false);
+    }
+    else console.debug("no ga!!! checkout");
 });
