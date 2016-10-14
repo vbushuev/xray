@@ -31,9 +31,7 @@ $env = [
 
             "cookie" =>[
                 "CTCountry"=>"gb",
-                "GlobalE_CT_Data"=>'{"CUID":"45091cb2-b06f-484e-baf7-788ed874145d"}',
-                "GlobalE_CT_Tracked"=>'{"SESID":150891858,"AllowFullTracking":true}',
-                "GlobalE_Data"=>'{"countryISO":"RU","cultureCode":"ru","currencyCode":"RUB","apiVersion":"2.1.4","clientSettings":"{"AllowClientTracking":{"Value":"true"},"FullClientTracking":{"Value":"true"},"IsMonitoringMerchant":{"Value":"true"},"IsV2Checkout":{"Value":"true"}}"}'
+                "GlobalE_Data"=>'{"countryISO":"gb","cultureCode":"ru","currencyCode":"GBP","apiVersion":"2.1.4","clientSettings":"{"AllowClientTracking":{"Value":"true"},"FullClientTracking":{"Value":"true"},"IsMonitoringMerchant":{"Value":"true"},"IsV2Checkout":{"Value":"true"}}"}'
             ],
             "filters" => [
                 "/£(\d+\.\d+)/" => ""

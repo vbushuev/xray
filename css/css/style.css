@@ -59,24 +59,42 @@
     z-index: 9999;
     overflow: visible;
 }
-/*
 @media (min-width: 768px){
     #garan24-toper-content,#garan24-contact-content {
         width: 768px;
+    }
+    #garan24-toper-content .garan24-toper-menu li#garan-helper{
+        width:280px;
+        font-size: 9pt;
     }
 }
 @media (min-width: 992px){
     #garan24-toper-content,#garan24-contact-content {
         width: 992px;
     }
+    #garan24-toper-content .garan24-toper-menu li#garan-helper{
+        width:340px;
+        font-size: 9pt;
+    }
 }
 @media (min-width: 1200px){
     #garan24-toper-content,#garan24-contact-content{
         width: 1200px;
     }
-}*/
+    #garan24-toper-content .garan24-toper-menu li#garan-helper{
+        width:420px;
+        font-size: 9pt;
+    }
+}
 .fa {
     color: rgb(0, 191, 128);
+}
+#garan24-toper-content .garan24-toper-menu li#garan-helper{
+    padding:0 4px;
+    line-height: 21px;
+    font-size: 10pt;
+    text-align: center;
+    vertical-align: middle;;
 }
 #garan24-toper-content{
     height:52px;
@@ -196,10 +214,6 @@
     line-height: 52px;
     margin:0 2px;
 }
-#garan24-toper-content .garan24-toper-menu li#garan-helper{
-    padding:0 4px;
-}
-
 #garan24-toper-content .garan24-toper-menu-right{
     float:right;
 }

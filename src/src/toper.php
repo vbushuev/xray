@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 -->
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700&amp;subset=cyrillic" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css" />
 
 <!--<link rel="stylesheet" href="http://service.garan24.bs2/css/co.css" />-->
@@ -68,6 +69,30 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
+
+<div class="garan24-overlay ctshirts-greetings">
+    <div class="garan24-overlay-message">
+        <div class="img-background"></div>
+        <div class="greetings-message">
+            <div class="greetings-border-1">
+                <div class="greetings-border-2">
+                    <h1>Привет!</h1>
+                    <p>Мы рады видеть Вас в магазине<br />CHARLES TYRWHEET на сервисе Gauzymall.</p>
+                    <p>Покупайте через наш сервис английские мужские сорочки, костюмы, обувь и многое другое.</p>
+                    <p class="highlighted-text">В октябре мы проводим акцию:<br />
+                        - доставка в Россию бесплатно!<br />
+                        - курс фунта <span id="g24-rate">76</span> руб.!<br />
+                        - оплата после доставки
+                    </p>
+                    <p>Вы можете получить огромные скидки при покупке нескольких товаров!</p>
+                    <p class="highlighted-text">4 премиум сорочки<br/>всего за 7600 руб.!</p>
+                    <button class="start-shopping">Начать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 -->
