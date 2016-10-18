@@ -8,7 +8,7 @@ $env = [
     "cache" => "cache",
     "hosts" => [
         "baby-walz" => [
-            "url"=>"http://www.baby-walz.fr"
+            "url"=>"https://www.baby-walz.fr"
         ],
         "ctshirts" => [
             "url"=>"http://www.ctshirts.com",

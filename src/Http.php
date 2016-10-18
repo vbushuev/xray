@@ -69,19 +69,23 @@ class Http extends Common{
             $upi = pathinfo($host["path"]);
             $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
         }
-        if(in_array($ext,['html','htm']))Log::debug("Fetching [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT));
         $method = $_SERVER['REQUEST_METHOD'];
         if($this->config->proxy!==false){
             $curlOptions[CURLOPT_PROXY] = $this->config->proxy;
         }
+        if(in_array($ext,['html','htm']))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT));
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
+            if(in_array($ext,['html','htm']))Log::debug("POST data: ".json_encode($_POST,JSON_PRETTY_PRINT));
         }
         curl_setopt_array($curl, $curlOptions);
         $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
-        if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+        if($method == 'POST'){
+            if(in_array($ext,['html','htm']))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
+        }
+        //if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
         return $this->results;
     }
@@ -136,7 +140,9 @@ class Http extends Common{
         foreach ($this->cookies as $key => $value) {
             //if(!isset($_COOKIE[$key])){
                 //Log::debug("setcookie $key = $value");
-                //if(!isset($_COOKIE[$key]))setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
+                //if(!isset($_COOKIE[$key]))
+                //setcookie($key,$value,time()+60*60*24,"/",".".$_SERVER["HTTP_HOST"]);
+                setcookie($key,$value);
             //}
         }
         file_put_contents($this->cookieFile,json_encode($this->cookies,JSON_PRETTY_PRINT));

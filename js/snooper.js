@@ -1,11 +1,17 @@
 //var $ = jQuery.noConflict();
 $(document).ready(function() {
     // init multi cart
+    if (window!=window.top) return;
     var current_host = document.location.hostname.split(/\./)[0].replace(/[\-]/,"");
     console.debug("current multiHost = "+current_host);
     garan.cart.update = function(){
-        garan.cart.removeAll();
-        parser.parse();
+        try{
+            garan.cart.removeAll();
+            parser.parse();
+        }
+        catch(e){
+            console.error(e);
+        }
     };
     garan.cart.init();
     // control multi cart

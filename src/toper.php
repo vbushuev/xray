@@ -6,6 +6,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 -->
+<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700&amp;subset=cyrillic" rel="stylesheet">
 <link rel="stylesheet" href="/css/style.css" />
 
 <!--<link rel="stylesheet" href="http://service.garan24.bs2/css/co.css" />-->
@@ -24,7 +25,7 @@
             <li class="garan24-logo"><a href="http://gauzymall.com"><img style="margin-top:-4px;" src="http://gauzymall.com/wp-content/uploads/2016/09/Gauzy_logo_02.png" height="22px" alt="GauzyMALL"/></a></li>
             -->
 
-            <li class="garan24-logo">Gauzy&nbsp;<code>MALL</code></li>
+            <li class="garan24-logo"><a target="_blank" href="http://gauzymall.com">Gauzy&nbsp;<code>MALL</code></a></li>
             <li id="garan-helper">Выберите интересующие Вас товары и добавьте их в корзину.</li>
         </ul>
         <ul class="garan24-toper-menu garan24-toper-menu-right">
@@ -68,9 +69,33 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
+
+<div class="garan24-overlay ctshirts-greetings">
+    <div class="garan24-overlay-message">
+        <div class="img-background"></div>
+        <div class="greetings-message">
+            <div class="greetings-border-1">
+                <div class="greetings-border-2">
+                    <h1>Привет!</h1>
+                    <p>Мы рады видеть Вас в магазине<br />CHARLES TYRWHEET на сервисе Gauzymall.</p>
+                    <p>Покупайте через наш сервис английские мужские сорочки, костюмы, обувь и многое другое.</p>
+                    <p class="highlighted-text">В октябре мы проводим акцию:<br />
+                        - доставка в Россию бесплатно!<br />
+                        - курс фунта <span id="g24-rate">76</span> руб.!<br />
+                        - оплата после доставки
+                    </p>
+                    <p>Вы можете получить огромные скидки при покупке нескольких товаров!</p>
+                    <p class="highlighted-text">4 премиум сорочки<br/>всего за 7600 руб.!</p>
+                    <button class="start-shopping">Начать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
--->
+
 <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -80,7 +105,8 @@
     ga('create', 'UA-84557375-2', 'auto');
     ga('send', 'pageview');
 </script>
-<!--Yandex.Metrika counter -->
+-->
+<!--Yandex.Metrika counter
 <script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
@@ -108,18 +134,19 @@
     })(document, window, "yandex_metrika_callbacks");
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/39767830" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
-<!--
+/Yandex.Metrika counter -->
 
+
+<script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
 <script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
--->
-<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
+<!--<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>-->
 <script src="/js/snooper.js"></script>
-<!--<div id="google_translate_element"></div>-->
+<!--
+<div id="google_translate_element"></div>
 <script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
-}
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+    }
 </script>
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+-->

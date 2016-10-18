@@ -16,7 +16,8 @@ var parser = {
 
                 //popup.css( 'display', 'none' );
 
-                garan.cookie.set("greetings_message","is_shown");
+                garan.cookie.set("greetings_message","is_shown",{domain:'ctshirts.gauzymall.com',path:"/"});
+                garan.cookie.set("greetings_message","is_shown",{domain:'ctshirts.xray.bs2',path:"/"});
 
                 message.animate(
                     {
@@ -165,7 +166,8 @@ var parser = {
 
         var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
 
-        var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
+        var youveSavedReplaced = youveSaved.html();
+        youveSavedReplaced = (typeof youveSavedReplaced != "undefined")? youveSavedReplaced.replace( youveSavedAmountString, youveSavedAmountInRublesString ):youveSavedReplaced;
 
         youveSaved.html( youveSavedReplaced );
 
@@ -181,7 +183,8 @@ var parser = {
 
         var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
 
-        var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
+        var orderTotalReplaced = orderTotal.html();
+        orderTotalReplaced = (typeof orderTotalReplaced!="undefined")?orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString ):orderTotalReplaced;
 
         orderTotal.html( orderTotalReplaced );
 

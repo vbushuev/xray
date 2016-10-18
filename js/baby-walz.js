@@ -1,12 +1,16 @@
 var parser = {
     selector:"#scrollArea > div.content > div > div.dmc_mb3_shoppingbasket_shoppingbasket_entry > div.formButtons > a.primButton, #jsFirstShoppingBasketFormSubmitButton > a",
     styling:function(){
-        $("body").css("top","54px");
+        if (window!=window.top) return;
+        $("body").css("padding-top","54px");
         $("#usp_bar").hide();
-        $(this.selector).attr("onClick","").unbind("click").click(function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
+        $(this.selector)
+            .replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
+            //.attr("onClick","")
+            .unbind("click").click(function(e){
+            //e.preventDefault();
+            //e.stopPropagation();
+
             parser.checkout();
         });//.find("span").text("Оформить заказ");
     },
@@ -17,19 +21,25 @@ var parser = {
             var obj = new Object();
             obj.variations = {};
             if(x % 2 === 0){
-                obj.shop = document.domain;
-                obj.quantity = products[x].getElementsByClassName('amount')[0].innerHTML.trim();
+                obj.shop = 'baby-walz.fr';
+                obj.quantity = products[x].getElementsByClassName('amount')[0].innerHTML.trim().replace(/\D+/,"");
                 obj.original_price = products[x].getElementsByClassName('articlePrice')[0].textContent.trim();
                 obj.currency = 'EUR';
-                obj.title = products[x].getElementsByClassName('prodLink')[0].textContent.trim();
+                obj.title = products[x].getElementsByTagName('td')[1].getElementsByTagName('h5')[0].textContent.trim();
+                obj.description = products[x].getElementsByClassName('prodLink')[0].textContent.trim();
                 obj.product_url = products[x].getElementsByClassName('prodLink')[0].href.trim();
                 obj.product_img = products[x].getElementsByClassName('prod')[0].getElementsByTagName('a')[0].getElementsByTagName('img')[0].src.trim();
                 obj.sku = products[x].getElementsByClassName('value')[0].textContent.trim();
-                if(    products[x].getElementsByTagName('td')[1].getElementsByTagName('div').length ){
-                    if (products[x].getElementsByTagName('td')[1].getElementsByTagName('div')[0].textContent.trim().substring(0, 7) === 'Coloris')
-                    obj.variations.color = products[x].getElementsByTagName('td')[1].getElementsByTagName('div')[0].textContent.trim().substring(22);
-                    else obj.variations.size = products[x].getElementsByTagName('td')[1].getElementsByTagName('div')[0].textContent.trim().substring(13);
+                if( products[x].getElementsByTagName('td')[1].getElementsByTagName('div').length ){
+                    var divv = products[x].getElementsByTagName('td')[1].getElementsByTagName('div');
+                    for(var i = 0;i<divv.length;++i){
+                        if (divv[i].textContent.trim().match(/.*coloris.*/i))
+                            obj.variations.color = divv[i].textContent.trim().split(':')[1];
+                        else if  (divv[i].textContent.trim().match(/.*taille.*/i))
+                            obj.variations.size = divv[i].textContent.trim().split(':')[1];
+                    }
                 }
+                obj.product_url = obj.product_url.replace(/\.xray\.bs2|\.gauzymall\.com/,".fr");
                 pp.push(obj);
             }
         }
@@ -37,7 +47,8 @@ var parser = {
         garan.cart.add2cart(pp);
     },
     checkout:function(){
-        this.parse();
+        if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
+        garan.cart.update();
         garan.cart.checkout();
     },
 }

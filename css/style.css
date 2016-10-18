@@ -82,13 +82,14 @@
     height:52px;
 }
 
-#garan24-toper .garan24-logo{
+#garan24-toper .garan24-logo a{
     font-size: 20px;
     font-weight: 300;
     font-family: 'Lato';
     color:rgba(255,255,255,1);
+    text-decoration: none;
 }
-#garan24-toper .garan24-logo code{
+#garan24-toper .garan24-logo a code{
     border:solid 2px rgba(255,255,255,1);
     display: inline-block;
     -webkit-border-radius: 4px;
@@ -500,4 +501,31 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 .ctshirts-greetings .garan24-overlay-message .greetings-message .start-shopping:hover {
     background: transparent;
     color: #233354;
+}
+
+/* Baby-Walz.fr */
+.g-baby-walz-checkout{
+    display: inline-block;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: rgba(12,125,203,.8);
+    color: rgba(255,255,255,1);
+    text-decoration: none;
+    height: 36px;
+    line-height: 36px;
+    padding:0 1em;
+    text-align: center;
+    font-size: 12pt;
+}
+.g-baby-walz-checkout .fa{
+    color:rgba(255,255,255,1);
+}
+.g-baby-walz-checkout:hover{
+    text-decoration: none;
+    background-color: rgba(12,125,203,1);
+    color:rgba(255,255,255,1);
+}
+.g-baby-walz-checkout:hover .fa{
+    color:rgba(255,255,255,1);
 }
