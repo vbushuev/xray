@@ -45,9 +45,12 @@ var parser = {
 
     },
     styling:function(){
-        $( 'body' ).append( '<script src="/js/bootstrap.min.css"></script>' );
-        $("header").css("top","60px");
-        $("#main").css("margin-top","60px");
+        $( 'body' ).append( '<script src="/js/bootstrap.min.js"></script>' );
+        $(function () {
+             $('[data-toggle="tooltip"]').tooltip()
+        })
+        $("header").css("top","52px");
+        $("#main").css("margin-top","52px");
         $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping,#shippingSwitcherLink ").hide();
         $("#cart-items-form > div.panel--flexed.item-list__total").hide();
         $("#footer > div.main__area > div:nth-child(1)").hide();
@@ -69,11 +72,41 @@ var parser = {
 
         $( '.shipping' ).click( function (e) {
 
-            console.log("Ta-da!");
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#shipping-section' ).show();
+
+        });
+
+        $( '.payment' ).click( function (e) {
 
             e.preventDefault();
 
-            $( '#shipping-section' ).show();
+            $( '.bs-overlay' ).hide();
+
+            $( '#payment-section' ).show();
+
+        });
+
+        $( '.how-to-buy' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#how-to-buy-section' ).show();
+
+        });
+
+        $( '.about-us' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#about-us-section' ).show();
 
         });
 
@@ -183,9 +216,13 @@ var parser = {
 
         var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
 
-        var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
+        if (youveSaved.length) {
 
-        youveSaved.html( youveSavedReplaced );
+            var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
+
+            youveSaved.html( youveSavedReplaced );
+
+        }
 
 
 
@@ -199,9 +236,13 @@ var parser = {
 
         var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
 
-        var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
+        if (orderTotal.length) {
 
-        orderTotal.html( orderTotalReplaced );
+            var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
+
+            orderTotal.html( orderTotalReplaced );
+
+        }
 
 
         //$(this.selector).replaceWith('<a class="garan-checkout garan24-button garan24-button-success" href="javascript:{parser.checkout();}" style="float:right;"><i class="fa fa-shopping-bag"></i> Оформить заказ</a>');
