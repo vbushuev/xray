@@ -698,3 +698,41 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
     }
 
 }
+
+/*google translator*/
+
+.translated-ltr,body {top: 0 !important;}
+.goog-te-gadget {color: rgba(255, 255, 255, 0)!important;}
+.goog-te-banner-frame,.goog-logo-link,#goog-gt-tt{    display: none!important;}
+.goog-text-highlight{
+    background-color:rgba(255, 255, 255, 0)!important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+}
+#google_translate_element{
+    opacity: 0;
+    z-index:-999;    position: relative;
+}
+.lng img{
+    width: 40px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+.goog-te-menu-frame{
+    display: block!important;
+    width: 45px!important;
+    left: -48px!important;
+    opacity: 0;
+    position: absolute;
+}
+
+.lng {
+    width: 40px;
+    position: absolute;
+    left: -45px;
+    opacity: 0.7;
+    top: 34px;
+}
+
+.unhide{opacity:1!important;}

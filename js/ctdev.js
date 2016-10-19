@@ -10,7 +10,11 @@ var parser = {
             $( '#g24-rate' ).text(garan.currency.rates('GBP').format(2,3,' ','.'));
             var popup = $( '.garan24-overlay.ctshirts-greetings' );
             var message = $( '.garan24-overlay.ctshirts-greetings .garan24-overlay-message' );
-            popup.css( 'display', 'block' );
+
+            if ( $(window).width() > 760 ) {
+                popup.css( 'display', 'block' );
+            }
+
             $( '.start-shopping' ).on( 'click', function (e) {
                 e.preventDefault();
 
@@ -45,7 +49,6 @@ var parser = {
 
     },
     styling:function(){
-        $( 'body' ).append( '<script src="/js/bootstrap.min.js"></script>' );
         $(function () {
              $('[data-toggle="tooltip"]').tooltip()
         })
@@ -79,7 +82,7 @@ var parser = {
             $( '#shipping-section' ).show();
 
         });
-
+        /*
         $( '.payment' ).click( function (e) {
 
             e.preventDefault();
@@ -115,7 +118,7 @@ var parser = {
             $( '.bs-overlay' ).hide();
 
         });
-
+        */
         var currencyRate = parseFloat(garan.currency.rates('GBP'));
 
         var cartRowTotals = $('.cart-row .item-total');

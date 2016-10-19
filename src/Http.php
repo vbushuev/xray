@@ -138,11 +138,13 @@ class Http extends Common{
     }
     public function inCookie(){
         foreach ($this->cookies as $key => $value) {
+            if($key!="googtrans")
+                setcookie($key,$value);
             //if(!isset($_COOKIE[$key])){
                 //Log::debug("setcookie $key = $value");
                 //if(!isset($_COOKIE[$key]))
                 //setcookie($key,$value,time()+60*60*24,"/",".".$_SERVER["HTTP_HOST"]);
-                setcookie($key,$value);
+
             //}
         }
         file_put_contents($this->cookieFile,json_encode($this->cookies,JSON_PRETTY_PRINT));

@@ -8,61 +8,6 @@ var parser = {
         $("#scrollArea > div.meta").hide();
         $("#scrollArea > div.groupNavi > ul > li.last").hide();
 
-        /* BY ROMAN */
-        /* BEGIN */
-
-
-        // $( 'body' ).append( '<script type="text/javascript">$.noConflict(true);</script>' );
-        // $( 'body' ).append( '<script src="/js/bootstrap.min.js"></script>' );
-
-        $( '.shipping' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#shipping-section' ).show();
-
-        });
-
-        $( '.payment' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#payment-section' ).show();
-
-        });
-
-        $( '.how-to-buy' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#how-to-buy-section' ).show();
-
-        });
-
-        $( '.about-us' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#about-us-section' ).show();
-
-        });
-
-        $( '.bs-popup-close' ).click( function() {
-
-            $( '.bs-overlay' ).hide();
-
-        });
-
-        /* END */
-
         $(this.selector)
             .replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
             //.attr("onClick","")
@@ -72,8 +17,16 @@ var parser = {
 
             parser.checkout();
         });//.find("span").text("Оформить заказ");
+        garan.currency.converter.action({
+            replacement:/(\d+\,\d+)\s*€/i,
+            selector:".currentPrice,.ecwi_recommendations_TEXT_2",
+            currency:"EUR"
+        });
     },
-    init:function(){},
+    init:function(){
+        //garan.cookie.set("googtrans","/fr/ru");
+
+    },
     parse:function(){
         var products = document.getElementsByTagName('tbody')[1].getElementsByTagName('tr'),pp=[];
         for(x = 0; x < products.length - 4; x++){
@@ -107,7 +60,12 @@ var parser = {
     },
     checkout:function(){
         if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
-        garan.cart.update();
-        garan.cart.checkout();
+        try {
+            garan.cart.removeAll();
+            parser.parse();
+            garan.cart.checkout();
+        } catch (e) {
+            console.error(e);
+        }
     },
 }

@@ -69,7 +69,7 @@ var parser = {
         $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.');
 
         Urls.welcomeMat = null;
-
+        /*
         $( '.shipping' ).click( function (e) {
 
             e.preventDefault();
@@ -115,7 +115,7 @@ var parser = {
             $( '.bs-overlay' ).hide();
 
         });
-
+        */
         var currencyRate = parseFloat(garan.currency.rates('GBP'));
 
         var cartRowTotals = $('.cart-row .item-total');
