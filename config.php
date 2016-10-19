@@ -37,6 +37,33 @@ $env = [
                 "/£(\d+\.\d+)/" => ""
             ]
         ],
+        "ctdev" => [
+            "url"=>"http://www.ctshirts.com",
+            //"proxy" => "62.252.196.194:3128",
+            "proxies" => [
+
+
+                "82.145.208.37:80",
+                "80.249.102.46:80",
+                "82.145.209.242:80",
+                "82.145.208.20:80",
+                "178.62.2.78:3128",
+                "81.139.247.236:80",
+                "212.46.131.164:80",
+                "213.177.255.60:80",
+                "195.50.71.240:80",
+                "195.62.28.38:80",
+                "195.50.71.239:80"
+            ],
+
+            "cookie" =>[
+                "CTCountry"=>"gb",
+                "GlobalE_Data"=>'{"countryISO":"gb","cultureCode":"ru","currencyCode":"GBP","apiVersion":"2.1.4","clientSettings":"{"AllowClientTracking":{"Value":"true"},"FullClientTracking":{"Value":"true"},"IsMonitoringMerchant":{"Value":"true"},"IsV2Checkout":{"Value":"true"}}"}'
+            ],
+            "filters" => [
+                "/£(\d+\.\d+)/" => ""
+            ]
+        ],
         "kenzo" => [
             "url"=>"https://www.kenzo.com"
         ],

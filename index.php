@@ -53,6 +53,7 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
+        setcookie("googtrans","/fr/ru");
         if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
         $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
 

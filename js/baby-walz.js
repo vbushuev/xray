@@ -4,6 +4,65 @@ var parser = {
         if (window!=window.top) return;
         $("body").css("padding-top","54px");
         $("#usp_bar").hide();
+        $("#scrollArea > div.content > div > div.dmc_mb3_orderform_orderline_basket").hide();
+        $("#scrollArea > div.meta").hide();
+        $("#scrollArea > div.groupNavi > ul > li.last").hide();
+
+        /* BY ROMAN */
+        /* BEGIN */
+
+
+        // $( 'body' ).append( '<script type="text/javascript">$.noConflict(true);</script>' );
+        // $( 'body' ).append( '<script src="/js/bootstrap.min.js"></script>' );
+
+        $( '.shipping' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#shipping-section' ).show();
+
+        });
+
+        $( '.payment' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#payment-section' ).show();
+
+        });
+
+        $( '.how-to-buy' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#how-to-buy-section' ).show();
+
+        });
+
+        $( '.about-us' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#about-us-section' ).show();
+
+        });
+
+        $( '.bs-popup-close' ).click( function() {
+
+            $( '.bs-overlay' ).hide();
+
+        });
+
+        /* END */
+
         $(this.selector)
             .replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
             //.attr("onClick","")

@@ -1,0 +1,39 @@
+@font-face {
+    font-family: "LatoRegular";
+    src:url("fonts/LatoRegular.eot");
+    src:url("fonts/LatoRegular.eot?#iefix")format("embedded-opentype"),
+    url("fonts/LatoRegular.woff") format("woff"),
+    url("fonts/LatoRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "LatoBold"; */
+@font-face {
+    font-family: "LatoBold";
+    src:url("fonts/LatoBold.eot");
+    src:url("fonts/LatoBold.eot?#iefix")format("embedded-opentype"),
+    url("fonts/LatoBold.woff") format("woff"),
+    url("fonts/LatoBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "LatoItalic"; */
+@font-face {
+    font-family: "LatoItalic";
+    src:url("fonts/LatoItalic.eot");
+    src:url("fonts/LatoItalic.eot?#iefix")format("embedded-opentype"),
+    url("fonts/LatoItalic.woff") format("woff"),
+    url("fonts/LatoItalic.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}
+/* font-family: "LatoLight"; */
+@font-face {
+    font-family: "LatoLight";
+    src:url("fonts/LatoLight.eot");
+    src:url("fonts/LatoLight.eot?#iefix")format("embedded-opentype"),
+    url("fonts/LatoLight.woff") format("woff"),
+    url("fonts/LatoLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

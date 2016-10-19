@@ -1,5 +1,7 @@
 //var $ = jQuery.noConflict();
 $(document).ready(function() {
+    $(".skiptransalte").css("height","0");
+    
     // init multi cart
     if (window!=window.top) return;
     var current_host = document.location.hostname.split(/\./)[0].replace(/[\-]/,"");
@@ -49,6 +51,9 @@ $(document).ready(function() {
         ga('send','event','events','visit','visit',1,false);
     }
     catch(e){ console.warn("no ga"); console.error(e);}
+    $( document ).ajaxComplete(function( event, xhr, settings ) {
+        $(".skiptransalte").css("display","none");
+    });
 });
 
 /*

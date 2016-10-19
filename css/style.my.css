@@ -669,20 +669,12 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 
 @media only screen and (min-width: 737px) {
 
-    #stickyHeadFunctionsWrapper {
-        top: 50px !important;
+    #wrapper header.header {
+        top: 62px !important;
     }
 
-    #stickyHeadSearchWrapper {
-        top: 72px !important;
-    }
-
-    #stickyGroupNaviWrapper {
-        top: 120px !important;
-    }
-
-    #stickyLogoWrapper {
-        top: 70px !important;
+    #wrapper header.header--sticky {
+        top: 51px !important;
     }
 
     .bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a.main-nav-item:hover {

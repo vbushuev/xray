@@ -16,8 +16,7 @@ var parser = {
 
                 //popup.css( 'display', 'none' );
 
-                garan.cookie.set("greetings_message","is_shown",{domain:'ctshirts.gauzymall.com',path:"/"});
-                garan.cookie.set("greetings_message","is_shown",{domain:'ctshirts.xray.bs2',path:"/"});
+                garan.cookie.set("greetings_message","is_shown");
 
                 message.animate(
                     {
@@ -46,6 +45,7 @@ var parser = {
 
     },
     styling:function(){
+        $( 'body' ).append( '<script src="/js/bootstrap.min.css"></script>' );
         $("header").css("top","60px");
         $("#main").css("margin-top","60px");
         $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping,#shippingSwitcherLink ").hide();
@@ -65,6 +65,23 @@ var parser = {
         });*/
         $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.');
 
+        Urls.welcomeMat = null;
+
+        $( '.shipping' ).click( function (e) {
+
+            console.log("Ta-da!");
+
+            e.preventDefault();
+
+            $( '#shipping-section' ).show();
+
+        });
+
+        $( '.bs-popup-close' ).click( function() {
+
+            $( '.bs-overlay' ).hide();
+
+        });
 
         var currencyRate = parseFloat(garan.currency.rates('GBP'));
 
@@ -166,8 +183,7 @@ var parser = {
 
         var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
 
-        var youveSavedReplaced = youveSaved.html();
-        youveSavedReplaced = (typeof youveSavedReplaced != "undefined")? youveSavedReplaced.replace( youveSavedAmountString, youveSavedAmountInRublesString ):youveSavedReplaced;
+        var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
 
         youveSaved.html( youveSavedReplaced );
 
@@ -183,8 +199,7 @@ var parser = {
 
         var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
 
-        var orderTotalReplaced = orderTotal.html();
-        orderTotalReplaced = (typeof orderTotalReplaced!="undefined")?orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString ):orderTotalReplaced;
+        var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
 
         orderTotal.html( orderTotalReplaced );
 

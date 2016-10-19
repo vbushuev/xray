@@ -1,13 +1,61 @@
 //ctshirts
 var parser = {
     loaded:false,
+    init:function() {
+
+        var messageIsShown = garan.cookie.get( "greetings_message" );
+
+        if ( messageIsShown != "is_shown" ) {
+
+            $( '#g24-rate' ).text(garan.currency.rates('GBP').format(2,3,' ','.'));
+            var popup = $( '.garan24-overlay.ctshirts-greetings' );
+            var message = $( '.garan24-overlay.ctshirts-greetings .garan24-overlay-message' );
+            popup.css( 'display', 'block' );
+            $( '.start-shopping' ).on( 'click', function (e) {
+                e.preventDefault();
+
+                //popup.css( 'display', 'none' );
+
+                garan.cookie.set("greetings_message","is_shown");
+
+                message.animate(
+                    {
+                        top: "-1000"
+                    },
+                    {
+                        duration: 400,
+                        complete: function() {
+                            popup.animate(
+                                {
+                                    opacity: "0"
+                                },
+                                {
+                                    duration: 400,
+                                    complete: function() {
+                                        popup.css( 'display', 'none' );
+                                    }
+                                }
+                            );
+                        }
+                    }
+                );
+            });
+
+        }
+
+    },
     styling:function(){
-        $("header").css("top","60px");
-        $("#main").css("margin-top","60px");
+        $( 'body' ).append( '<script src="/js/bootstrap.min.js"></script>' );
+        $(function () {
+             $('[data-toggle="tooltip"]').tooltip()
+        })
+        $("header").css("top","52px");
+        $("#main").css("margin-top","52px");
         $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping,#shippingSwitcherLink ").hide();
         $("#cart-items-form > div.panel--flexed.item-list__total").hide();
         $("#footer > div.main__area > div:nth-child(1)").hide();
         $("#footer > div.main__area > div:nth-child(2) > div.content__block.desktop-only.content__block--right.content__block--changecountry").hide();
+        $("#cart-items-form > div.js-order-totals-section.panel--flexed.item-list__header--footer-helper").hide();
         /*$("div.tile__pricing--listing.sale:contains('£'),span:contains('£'),b:contains('£'),td:contains('£')").each(function(){
             var $t = $(this),cur = garan.currency.rates('GBP'),txt=$t.text();
             txt = txt.replace(/\£(\d+\.?\d*)/g,function(m){
@@ -20,9 +68,198 @@ var parser = {
         });*/
         $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.');
 
-        //$(this.selector).hide();
-        $(this.selector).replaceWith('<a class="garan-checkout garan24-button garan24-button-success" href="javascript:{parser.checkout();}" style="float:right;"><i class="fa fa-shopping-bag"></i> Оформить заказ</a>');
-        
+        Urls.welcomeMat = null;
+
+        $( '.shipping' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#shipping-section' ).show();
+
+        });
+
+        $( '.payment' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#payment-section' ).show();
+
+        });
+
+        $( '.how-to-buy' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#how-to-buy-section' ).show();
+
+        });
+
+        $( '.about-us' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#about-us-section' ).show();
+
+        });
+
+        $( '.bs-popup-close' ).click( function() {
+
+            $( '.bs-overlay' ).hide();
+
+        });
+
+        var currencyRate = parseFloat(garan.currency.rates('GBP'));
+
+        var cartRowTotals = $('.cart-row .item-total');
+
+        cartRowTotals.each(function( index ) {
+
+            var priceWithCurrencySign = $( this ).clone()
+                .children()
+                .remove()
+                .end()
+                .text();
+
+            var price = parseFloat( priceWithCurrencySign.replace('£', '') );
+
+            var priceString = price.format(2,3,' ','.');
+
+            var priceInRubles = price * currencyRate;
+
+            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+
+            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+
+            $( this ).html( replaced );
+
+        });
+
+
+
+        var cartRowItemsPrice = $('.cart-row .item-price b');
+
+        cartRowItemsPrice.each(function( index ) {
+
+            var price = parseFloat( $( this ).text().replace( '£', '' ) );
+
+            var priceString = price.format(2,3,' ','.');
+
+            var priceInRubles = price * currencyRate;
+
+            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+
+            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+
+            $( this ).html( replaced );
+
+        });
+
+
+
+        var cartRowItemsPriceWas = $('.cart-row .item-price div.item-list__was-price');
+
+        cartRowItemsPriceWas.each(function( index ) {
+
+            var itemPriceWasString = $( this ).text();
+
+            var price = parseFloat( itemPriceWasString.replace(/[^0-9\.]/g, '') );
+
+            var priceString = price.format(2,3,' ','.');
+
+            var priceInRubles = price * currencyRate;
+
+            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+
+            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+
+            $( this ).html( replaced );
+
+        });
+
+
+
+        var cartRowGiftsPrice = $( '.cart-row .item-list__addgift .button--caption' );
+
+        cartRowGiftsPrice.each(function( index ) {
+
+            var price = parseFloat( $( this ).text().replace(/[^0-9\.]/g, '') );
+
+            var priceString = price.format(2,3,' ','.');
+
+            var priceInRubles = price * currencyRate;
+
+            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+
+            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+
+            $( this ).html( replaced );
+
+        });
+
+
+
+        var youveSaved = $( '.js-cart-panel #js-cart-youve-saved-area b' );
+
+        var youveSavedAmountString = youveSaved.text().replace(/[^0-9\.\£]/g, '');
+
+        var youveSavedAmount = parseFloat( youveSaved.text().replace(/[^0-9\.]/g, '') );
+
+        var youveSavedAmountInRubles = youveSavedAmount * currencyRate;
+
+        var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
+
+        if (youveSaved.length) {
+
+            var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
+
+            youveSaved.html( youveSavedReplaced );
+
+        }
+
+
+
+        var orderTotal = $( '#js-order-subtotal' );
+
+        var orderTotalString = $( '#js-order-subtotal' ).text().replace(/[^0-9\.\£]/g, '');
+
+        var orderTotalPrice = orderTotalString.replace( '£', '' );
+
+        var orderTotalPriceInRubles = parseFloat( orderTotalPrice ) * currencyRate;
+
+        var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
+
+        if (orderTotal.length) {
+
+            var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
+
+            orderTotal.html( orderTotalReplaced );
+
+        }
+
+
+        //$(this.selector).replaceWith('<a class="garan-checkout garan24-button garan24-button-success" href="javascript:{parser.checkout();}" style="float:right;"><i class="fa fa-shopping-bag"></i> Оформить заказ</a>');
+        $(this.selector).unbind("click").on("click",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
+            parser.checkout();
+        }).find("span").text("Оформить заказ");
+        /*
+        console.debug(btn[0]);
+        $("#cart-items-form > div.panel--flexed.item-list__header--footer-total.item-list__header--footer-helper > table tbody").append(
+            "<tr><td></th><td>"+btn+"</td></tr>"
+        );
+        */
+
+
         // site selector
         /*var ss = $(".change-country");
         console.debug("Choose country "+ss.length);
@@ -86,7 +323,7 @@ var parser = {
         for(x = 0; x < products.length; x++){
             if(products[x].className !== 'js-product-option-row item-list__row item-list__row--no-border item-list__row--option js-editable'){
                 var obj = new Object();
-                obj.currency = 'GBP';
+                obj.currency = 'RUB';
                 obj.variations = {};
                 obj.shop = document.domain;
 
