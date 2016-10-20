@@ -1,6 +1,11 @@
 var parser = {
     selector:"#scrollArea > div.content > div > div.dmc_mb3_shoppingbasket_shoppingbasket_entry > div.formButtons > a.primButton, #jsFirstShoppingBasketFormSubmitButton > a",
     styling:function(){
+        garan.currency.converter.action({
+            replacement:/(\d+\,\d+)\s*€/i,
+            selector:".currentPrice,.ecwi_recommendations_TEXT_2,.ecwi_recommendations_TEXT_4,#productCurrentPrice1_span,.articlePrice,#basketAmountContainer,td.total,td.costsValue,#Gratis,td.costsTotalValue",
+            currency:"EUR"
+        });
         if (window!=window.top) return;
         $("body").css("padding-top","54px");
         $("#usp_bar").hide();
@@ -17,11 +22,7 @@ var parser = {
 
             parser.checkout();
         });//.find("span").text("Оформить заказ");
-        garan.currency.converter.action({
-            replacement:/(\d+\,\d+)\s*€/i,
-            selector:".currentPrice,.ecwi_recommendations_TEXT_2",
-            currency:"EUR"
-        });
+
     },
     init:function(){
         //garan.cookie.set("googtrans","/fr/ru");

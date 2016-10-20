@@ -55,8 +55,9 @@ switch($ext){
         $g->inCookie();
         //setcookie("googtrans","/fr/ru");
         if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
-        if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."'/></body>",$h);
-        $h = preg_replace("/\<\/body>/i",file_get_contents("src/toper.php")."</body>",$h);
+        if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
+        if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
+        $h = preg_replace("/\<\/body>/i",file_get_contents("templates/analytics.php")."</body>",$h);
 
 
     break;

@@ -669,12 +669,20 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 
 @media only screen and (min-width: 737px) {
 
-    #wrapper header.header {
-        top: 62px !important;
+    #stickyHeadFunctionsWrapper {
+        top: 50px !important;
     }
 
-    #wrapper header.header--sticky {
-        top: 51px !important;
+    #stickyHeadSearchWrapper {
+        top: 72px !important;
+    }
+
+    #stickyGroupNaviWrapper {
+        top: 120px !important;
+    }
+
+    #stickyLogoWrapper {
+        top: 70px !important;
     }
 
     .bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a.main-nav-item:hover {
@@ -689,4 +697,64 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
         font-size: 1.2em;
     }
 
+}
+
+/*google translator*/
+.goog-te-banner-frame{
+    bottom:0!important;
+    top:auto;
+}
+/*
+.translated-ltr,body {bottom: 0 !important;}
+
+.goog-te-gadget {color: rgba(255, 255, 255, 0)!important;}
+.goog-te-banner-frame,.goog-logo-link,#goog-gt-tt{    display: none!important;}
+
+.goog-text-highlight{
+    background-color:rgba(255, 255, 255, 0)!important;
+    -webkit-box-shadow: none!important;
+    -moz-box-shadow: none!important;
+    box-shadow: none!important;
+}
+#google_translate_element{
+    opacity: 0;
+    z-index:-999;    position: relative;
+}
+.lng img{
+    width: 40px;
+    height: 25px;
+    margin-bottom: 2px;
+}
+.goog-te-menu-frame{
+    display: block!important;
+    width: 45px!important;
+    left: -48px!important;
+    opacity: 0;
+    position: absolute;
+}
+*/
+.lng {
+    width: 40px;
+    position: absolute;
+    left: -45px;
+    opacity: 0.7;
+    top: 34px;
+}
+
+.unhide{opacity:1!important;}
+
+.navbar-brand {
+    font-family: 'Lato';
+}
+.navbar-brand code{
+    font-weight: 100;
+}
+.navbar-brand code{
+    border:solid 2px rgba(255,255,255,1);
+    color: rgba(255,255,255,1);
+    background: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    line-height: 24px;
 }

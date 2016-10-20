@@ -1,13 +1,13 @@
 //var $ = jQuery.noConflict();
 $(document).ready(function() {
-
-    if (window != window.top) return;
+    garan.cart.init();
+    if (window == window.top) $(".gauzymall-fixed-navbar:first").delay(800).fadeIn();
     //var current_host = document.location.hostname.split(/\./)[0];
     //console.debug("current multiHost = " + current_host);
     // init multi cart
-    garan.cart.init();
+
     // control multi cart
-    $(".gauzymall-fixed-navbar:first").delay(800).fadeIn();
+
     $('.shipping').click(function(e) {
         e.preventDefault();
         $('.bs-overlay').hide();
@@ -57,12 +57,8 @@ $(document).ready(function() {
             '<script>var $jq1 = jQuery.noConflict(true);</script>');
     }
     // Google Analytics
-    try {
-        ga('send', 'event', 'events', 'visit', 'visit', 1, false);
-    } catch (e) {
-        console.warn("no ga");
-        console.error(e);
-    }
+    try {ga('send', 'event', 'events', 'visit', 'visit', 1, false);} catch (e) {console.warn("no ga");console.error(e);}
+
 });
 
 /*

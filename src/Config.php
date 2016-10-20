@@ -7,6 +7,7 @@ class Config extends Common{
     protected $cookie = [];
     protected $js;
     protected $css;
+    protected $template;
     protected $proxy = false;
     public function __construct($a=[]){
         if(!isset($a["hosts"]))return;
@@ -14,11 +15,12 @@ class Config extends Common{
         $_a=preg_split("/\./",$_);
         //Log::debug($_." -> ".json_encode($_a));
         if(count($_a)){
+            $this->proxy = (isset($a["hosts"][$_a[0]]["proxy"]))?$a["hosts"][$_a[0]]["proxy"]:false;
             if(isset($a["hosts"][$_a[0]])) $this->host = $a["hosts"][$_a[0]]["url"];
             $this->cookie = (isset($a["hosts"][$_a[0]]["cookie"]))?$a["hosts"][$_a[0]]["cookie"]:[];
             $this->js = (isset($a["hosts"][$_a[0]]["js"]))?$a["hosts"][$_a[0]]["js"]:$_a[0].".js";
             $this->css = (isset($a["hosts"][$_a[0]]["css"]))?$a["hosts"][$_a[0]]["css"]:$_a[0].".css";
-            $this->proxy = (isset($a["hosts"][$_a[0]]["proxy"]))?$a["hosts"][$_a[0]]["proxy"]:false;
+            $this->template = (isset($a["hosts"][$_a[0]]["template"]))?$a["hosts"][$_a[0]]["template"]:$_a[0].".php";
         }
 
         $this->donor = preg_replace("/(http|https):\/\//i","",$this->host);
