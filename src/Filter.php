@@ -28,6 +28,7 @@ class Filter extends Common{
             return $ret;
         },$out);
         */
+        $out = preg_replace("/\<script\s+src\=\".+demandware\..+\/js\/app\.js\"\>/","<script src='/app.js'></script>",$out);
         return $out;
     }
     public function match($in){

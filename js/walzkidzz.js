@@ -1,5 +1,5 @@
 var parser = {
-    selector:"#scrollArea > div.content > div > div.dmc_mb3_shoppingbasket_shoppingbasket_entry > div.formButtons > a.primButton, #jsFirstShoppingBasketFormSubmitButton > a",
+    selector:"#contentSub1 > div.formHeadline > a",
     styling:function(){
         garan.currency.converter.action({
             replacement:/(\d+\,\d+)\s*€/i,

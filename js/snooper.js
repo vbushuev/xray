@@ -1,4 +1,14 @@
 //var $ = jQuery.noConflict();
+if(typeof $=="undefined"){
+    var jq = document.createElement('script');
+    var jq_src = document.createAttribute("src");
+    jq_src.value="/js/jquery-2.2.4.min.js";
+    jq.setAttributeNode(jq_src);
+    document.body.appendChild(jq);
+    console.debug(jq);
+    //$.noConflict();
+}
+
 $(document).ready(function() {
     garan.cart.init();
     if (window == window.top) $(".gauzymall-fixed-navbar:first").delay(800).fadeIn();
@@ -8,28 +18,34 @@ $(document).ready(function() {
 
     // control multi cart
 
+    $('.navbar-brand').click(function(e) {
+        e.preventDefault();
+        $('.bs-overlay:not(#choose-your-way-section)').fadeOut();
+        $('#choose-your-way-section').fadeToggle();
+    });
+
     $('.shipping').click(function(e) {
         e.preventDefault();
-        $('.bs-overlay').hide();
-        $('#shipping-section').show();
+        $('.bs-overlay:not(#shipping-section)').fadeOut();
+        $('#shipping-section').fadeToggle();
     });
     $('.payment').click(function(e) {
         e.preventDefault();
-        $('.bs-overlay').hide();
-        $('#payment-section').show();
+        $('.bs-overlay:not(#payment-section)').fadeOut();
+        $('#payment-section').fadeToggle();
     });
     $('.how-to-buy').click(function(e) {
         e.preventDefault();
-        $('.bs-overlay').hide();
-        $('#how-to-buy-section').show();
+        $('.bs-overlay:not(#how-to-buy-section)').fadeOut();
+        $('#how-to-buy-section').fadeToggle();
     });
     $('.about-us').click(function(e) {
         e.preventDefault();
-        $('.bs-overlay').hide();
-        $('#about-us-section').show();
+        $('.bs-overlay:not(#about-us-section)').fadeOut();
+        $('#about-us-section').fadeToggle();
     });
     $('.bs-popup-close').click(function() {
-        $('.bs-overlay').hide();
+        $('.bs-overlay').fadeOut();
     });
 
     /* END */
@@ -50,17 +66,23 @@ $(document).ready(function() {
             }
         };
         var bodyNode = $('body');
-        bodyNode.append(
-            '<script src="/js/jquery-2.2.4.min.js"></script>');
+        bodyNode.append('<script src="/js/jquery-2.2.4.min.js"></script>');
         bodyNode.append('<script src="/js/bootstrap.min.js"></script>');
-        bodyNode.append(
-            '<script>var $jq1 = jQuery.noConflict(true);</script>');
+        bodyNode.append('<script>var $jq1 = jQuery.noConflict(true);</script>');
     }
     // Google Analytics
     try {ga('send', 'event', 'events', 'visit', 'visit', 1, false);} catch (e) {console.warn("no ga");console.error(e);}
+    $(".translate").click(function(){autoTranslate()});
 
 });
-
+function autoTranslate(){
+    console.debug("Google code "+$("#google_translate_element select > option:nth-child(2)").text());
+    //$("#google_translate_element select > option:nth-child(2)").attr("selected","selected");
+    $("#google_translate_element select").val('ru').change();
+    //$("#google_translate_element select > option:nth-child(2)").click();
+    garan.cookie.set("googtrans","/fr/ru");
+    document.location.reload();
+}
 /*
 function globalAdd2Cart(){
     var e = arguments[0],
@@ -91,7 +113,7 @@ function globalAdd2Cart(){
     $("#garan-cart").click(function(){
         var $c = $("#garan-cart-full");
         if($c.hasClass("garan24-visible")){
-            $c.removeClass("garan24-visible").slideUp();
+            $c.removeClass("garan24-visible").fadeOut();
             $("#garan24-overlay").fadeOut();
             //$("#garan24-overlay #garan24-overlay-message").delay(300).show();
             return;

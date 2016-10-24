@@ -1,16 +1,5 @@
 
-<!--Google Analytics -->
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-84557375-2', 'auto');
-    ga('send', 'pageview');
-</script>
-<!--Google Analytics END -->
-<!--Yandex.Metrika counter -->
+<!--Yandex.Metrika counter
 <script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
@@ -43,10 +32,11 @@
 
 <script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
 <script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
-
+<script src="//l.gauzymall.com/js/api/1.0/garan24.delivery.js"></script>
 <!--
 <script src="//service.garan24.bs2/js/api/1.0/garan24.core.js"></script>
 <script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
+<script src="//service.garan24.bs2/js/api/1.0/garan24.delivery.js"></script>
 -->
 <script src="/js/snooper.js"></script>
 
@@ -54,7 +44,7 @@
 <!-- Google website transltor -->
 <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
+  new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!--

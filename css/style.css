@@ -513,9 +513,10 @@
 .bootstrap-iso .bs-popup-window {
     background: #fff;
     padding: 30px;
-    margin-top: 50px;
+    margin-top: 0;
     position: relative;
-    max-height: 400px;
+    max-height: 640px;
+    overflow: scroll;
 }
 
 .bootstrap-iso .bs-popup-window-content {
@@ -530,10 +531,10 @@
     color: #777;
     font-size: 2.4em;
     cursor: pointer;
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    transition: all 0.5s ease-in;
+    -webkit-transition: all .24s ease-in;
+    -moz-transition: all .24s ease-in;
+    -o-transition: all .24s ease-in;
+    transition: all .24s ease-in;
 }
 
 .bootstrap-iso .bs-popup-close .elegant-icon:hover {
@@ -828,15 +829,37 @@
     border-radius: 4px;
     line-height: 24px;
 }
+.gcountry{
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-image: url(img/sprite_countries_flag4.png);
+    background-color: rgba(255,255,255,0);
+    background-size: auto;
+    background-attachment: scroll;
+    background-origin: padding-box;
+    background-clip: border-box;
+    display: block;
+    height:18px;
+    width:24px;
+}
+.gcountry-russia{
+    background-position: 5px -1505px;
+}
+a:hover .gcountry{
+    background-color: rgba(255,255,255,0);
+}
 
+/*
 
 @media screen and (min-width: 768px) {
 
     .bootstrap-iso .bs-popup-window {
         max-height: 800px;
     }
-.navbar-brand code{
-    font-weight: 100;
+
+    .bootstrap-iso .bs-popup-window-content {
+        max-height: 740px;
     }
 
     .ctshirts-greetings .garan24-overlay-message .img-background {
@@ -908,4 +931,4 @@
         margin: 30px auto 0 auto !important;
     }
 
-}
+}*/

@@ -372,57 +372,12 @@
 }
 /*body{padding-top: 56px;}*/
 
-div.ui-widget-overlay.ui-front,
-div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .change-country {
-    display: none !important;
-}
-
-.garan24-overlay {
-    height: 100%;
-    width: 100%;
-    position:fixed;
-    top:56px;left: 0;
-    background-color: rgba(0,0,0,.3);
-    z-index:9997;
-    display: none;
-}
-
-.garan24-overlay-message {
-    z-index:9998;
-    background-color: rgba(255,255,255,1);
-    overflow: auto;
-    position: relative;
-    margin: 6em 20%;
-    padding: 2em;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    font-size: 14pt;
-    text-align: center;
-}
-
 .garan24-overlay {
     background-color: rgba(0,0,0,.5);
 }
 
 .garan24-overlay.ctshirts-greetings {
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
-}
-
-.ctshirts-greetings .garan24-overlay-message {
-    text-align: left;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    margin: 5em 20%;
-    padding: 15px;
-    background-color: #fff;
-    -webkit-box-shadow: 0 4px 8px #222;
-    -moz-box-shadow: 0 4px 8px #222;
-    box-shadow: 0 4px 8px #222;
+    display: none;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
     -o-transition: all 0.2s linear;
@@ -430,18 +385,22 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 }
 
 .ctshirts-greetings .garan24-overlay-message .img-background {
-    float: left;
-    width: 50%;
-    height: 550px;
+    display: block;
+    width: 100%;
+    height: auto;
     background: url(http://demandware.edgesuite.net/aawj_prd/on/demandware.static/-/Library-Sites-CTShirtsSharedLibrary/default/dwb822df0f/images/Welcome%20mat/welcome-mat.png) no-repeat center;
     background-size: cover;
 }
 
+.ctshirts-greetings .garan24-overlay-message .row {
+    max-width: none !important;
+    height: auto !important;
+}
+
 .ctshirts-greetings .garan24-overlay-message .greetings-message {
-    float: left;
-    width: 50%;
-    height: 550px;
-    padding: 0 0 0 15px;
+    width: 100%;
+    height: auto;
+    padding: 0 10px;
     color: #222;
 }
 
@@ -554,8 +513,14 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 .bootstrap-iso .bs-popup-window {
     background: #fff;
     padding: 30px;
-    margin-top: 50px;
+    margin-top: 0;
     position: relative;
+    max-height: 400px;
+}
+
+.bootstrap-iso .bs-popup-window-content {
+    overflow: auto;
+    max-height: 340px;
 }
 
 .bootstrap-iso .bs-popup-close .elegant-icon {
@@ -576,7 +541,7 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
     -moz-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     -o-transform: rotate(90deg);
-    transform: rotate(90deg);;
+    transform: rotate(90deg);
 }
 
 .bootstrap-iso .bs-popup-window h3 {
@@ -621,6 +586,50 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 
 
 
+#choose-your-way-section .container .row {
+    max-width: none !important;
+    height: auto !important;
+}
+
+#choose-your-way-section .logo-link {
+    position: relative;
+    display: block;
+    margin: 30px 0 0 0;
+}
+
+#choose-your-way-section .logo-link .logo-link-desc {
+    position: absolute;
+    display: block;
+    text-align: center;
+    left: 0;
+    bottom: 20px;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    color: #444;
+    text-transform: uppercase;
+    font-family: "LatoRegular", sans-serif;
+    font-size: 10px;
+    width: 100%;
+}
+
+#choose-your-way-section .logo-link img {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+#choose-your-way-section .logo-link:hover img {
+    border-color: #444;
+}
+
+
+
 
 
 .bootstrap-iso .gauzymall-fixed-navbar {
@@ -630,10 +639,71 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
     border-color: #fff;
 }
 
+.bootstrap-iso .gauzymall-fixed-navbar .navbar-brand {
+    cursor: pointer;
+}
+
 .bootstrap-iso .gauzymall-fixed-navbar .navbar-brand,
 .bootstrap-iso .gauzymall-fixed-navbar .navbar-brand:hover,
 .bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a {
     color: #fff;
+    text-shadow: none !important;
+}
+
+.bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a {
+    position: relative;
+}
+
+@-webkit-keyframes SCALE-TO-TRANSPARENT {
+      0%   { background-color: rgba(214, 69, 65, 0.6); -webkit-transform: scale(1.0, 1.0); }
+      100% { background-color: rgba(214, 69, 65, 0.0); -webkit-transform: scale(2.2, 2.2); }
+}
+@-moz-keyframes SCALE-TO-TRANSPARENT {
+    0%   { background-color: rgba(214, 69, 65, 0.6); -moz-transform: scale(1.0, 1.0); }
+    100% { background-color: rgba(214, 69, 65, 0.0); -moz-transform: scale(2.2, 2.2); }
+}
+@-o-keyframes SCALE-TO-TRANSPARENT {
+    0%   { background-color: rgba(214, 69, 65, 0.6); -o-transform: scale(1.0, 1.0); }
+    100% { background-color: rgba(214, 69, 65, 0.0); -o-transform: scale(2.2, 2.2); }
+}
+@keyframes SCALE-TO-TRANSPARENT {
+    0%   { background-color: rgba(214, 69, 65, 0.6); transform: scale(1.0, 1.0); }
+    100% { background-color: rgba(214, 69, 65, 0.0); transform: scale(2.2, 2.2); }
+}
+
+.bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a .animated-attention-circle-wrapper {
+    position: absolute;
+    display: block;
+    background: rgba(214, 69, 65, 0.8);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    top: 8px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    -webkit-animation: SCALE-TO-TRANSPARENT 3s infinite; /* Safari 4+ */
+    -moz-animation:    SCALE-TO-TRANSPARENT 3s infinite; /* Fx 5+ */
+    -o-animation:      SCALE-TO-TRANSPARENT 3s infinite; /* Opera 12+ */
+    animation:         SCALE-TO-TRANSPARENT 3s infinite; /* IE 10+, Fx 29+ */
+}
+
+.bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a .animated-attention-circle {
+    position: absolute;
+    display: block;
+    background: rgb(214, 69, 65);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    top: 8px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 14px;
+    color: #fff;
+    font-weight: 300;
+    text-align: center;
 }
 
 .bootstrap-iso .gauzymall-fixed-navbar .navbar-nav>li>a,
@@ -666,6 +736,50 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
     -o-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
 }
+
+
+#choose-your-way-section .container .row {
+    max-width: none !important;
+    height: auto !important;
+}
+
+#choose-your-way-section .logo-link {
+    position: relative;
+    display: block;
+    margin: 30px 0 0 0;
+}
+
+#choose-your-way-section .logo-link .logo-link-desc {
+    position: absolute;
+    display: block;
+    text-align: center;
+    left: 0;
+    bottom: 20px;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    color: #444;
+    text-transform: uppercase;
+    font-family: "LatoRegular", sans-serif;
+    font-size: 10px;
+    width: 100%;
+}
+
+#choose-your-way-section .logo-link img {
+    display: block;
+    width: 100%;
+    border: 1px solid #ccc;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+#choose-your-way-section .logo-link:hover img {
+    border-color: #444;
+}
+
 
 @media only screen and (min-width: 737px) {
 
@@ -707,6 +821,7 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 /*
 .translated-ltr,body {bottom: 0 !important;}
 
+.translated-ltr,body {top: 0 !important;}
 .goog-te-gadget {color: rgba(255, 255, 255, 0)!important;}
 .goog-te-banner-frame,.goog-logo-link,#goog-gt-tt{    display: none!important;}
 
@@ -742,7 +857,6 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
 }
 
 .unhide{opacity:1!important;}
-
 .navbar-brand {
     font-family: 'Lato';
 }
@@ -757,4 +871,106 @@ div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.hide-title .cha
     -moz-border-radius: 4px;
     border-radius: 4px;
     line-height: 24px;
+}
+.gcountry{
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-image: url(img/sprite_countries_flag4.png);
+    background-color: rgba(255,255,255,0);
+    background-size: auto;
+    background-attachment: scroll;
+    background-origin: padding-box;
+    background-clip: border-box;
+    display: block;
+    height:18px;
+    width:24px;
+}
+.gcountry-russia{
+    background-position: 5px -1505px;
+}
+a:hover .gcountry{
+    background-color: rgba(255,255,255,0);
+}
+
+
+
+@media screen and (min-width: 768px) {
+
+    .bootstrap-iso .bs-popup-window {
+        max-height: 800px;
+    }
+.navbar-brand code{
+    font-weight: 100;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .img-background {
+        height: 550px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .greetings-message {
+        height: 550px;
+    }
+
+    #choose-your-way-section .logo-link .logo-link-desc {
+        font-size: 14px;
+    }
+
+}
+
+@media screen and (min-width: 1024px) {
+
+    .bootstrap-iso .bs-popup-window {
+        max-height: 600px;
+    }
+
+    .bootstrap-iso .bs-popup-window-content {
+        max-height: 540px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .img-background {
+        height: 540px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .greetings-message {
+        height: 540px;
+    }
+
+}
+
+@media screen and (min-width: 1200px) {
+
+    .bootstrap-iso .bs-popup-window {
+        max-height: 640px;
+    }
+
+    .bootstrap-iso .bs-popup-window-content {
+        max-height: 580px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .img-background {
+        height: 550px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .greetings-message {
+        height: 550px;
+    }
+
+    .ctshirts-greetings .garan24-overlay-message .greetings-message {
+        font-size: 1.2em !important;
+    }
+
+    #choose-your-way-section .logo-link .logo-link-desc {
+        opacity: 0;
+    }
+
+    #choose-your-way-section .logo-link:hover .logo-link-desc {
+        opacity: 1;
+    }
+
+    #choose-your-way-section .row-for-logo-links {
+        width: 760px !important;
+        margin: 30px auto 0 auto !important;
+    }
+
 }

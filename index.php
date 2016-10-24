@@ -15,15 +15,10 @@ $ui = parse_url($u);
 //if(!isset($ui["path"]))exit;
 $upi = isset($ui["path"])?pathinfo($ui["path"]):[];
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
-$ch = false;
+$ch = $c->get($u);
 //Log::debug("Fetching ".$u." ...");
-//if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
-if(false && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){
-    $ch = $c->get($u);
-    if($ch!==false&&strlen($ch)){
-        //Log::debug("Fetching from cache [".$ext."] ".$u." ... [".$ch."]");
-        $h = $ch;
-    }
+if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){
+    $h = $ch;
 }
 else {
     $h = $g->fetch($u);
@@ -53,7 +48,6 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
-        //setcookie("googtrans","/fr/ru");
         if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
         if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
         if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);

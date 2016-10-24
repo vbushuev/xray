@@ -1,6 +1,16 @@
 var parser = {
+    init:function(){},
     styling:function(){
         $("header").css("top","60px");
+        $(this.selector)
+            .replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
+            //.attr("onClick","")
+            .unbind("click").click(function(e){
+            //e.preventDefault();
+            //e.stopPropagation();
+
+            parser.checkout();
+        });//.find("span").text("Оформить заказ");
     },
     selector:"form button[type='submit'][name='dwfrm_cart_checkoutCart']",
     parse:function(){
@@ -19,6 +29,16 @@ var parser = {
                     color:products[x].getElementsByClassName('col-8-2 desc')[0].getElementsByClassName('color')[0].textContent.trim().substring(7)
                 }
             });
+        }
+    },
+    checkout:function(){
+        if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
+        try {
+            garan.cart.removeAll();
+            parser.parse();
+            garan.cart.checkout();
+        } catch (e) {
+            console.error(e);
         }
     }
 }
