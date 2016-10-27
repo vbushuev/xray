@@ -15,25 +15,81 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand"><strong>Gauzymall</strong></a>
-                <!--
-                <a class="navbar-brand" href="/">
 
-                    <img src="/css/img/gauzymall.logo.svg" alt="Gauymall" />
+                <div class="bs-overlay bootstrap-iso" id="choose-your-way-section">
+                    <div class="container bs-popup-window-wrapper">
+                        <div class="bs-popup-window">
+                            <div class="bs-popup-close">
+                                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
+                            </div>
+                            <div class="bs-popup-window-content">
 
-                    <svg height="36" width="128" style="margin-top:-4px;">
-                        <text x="0" y="22" fill="rgba(255,255,255,1)" style="font-weight:100;font-size:18pt;">Gauzy</text>
-                        <rect x="68" y="2" rx="2" ry="2" width="50" height="24" style="stroke:rgba(255,255,255,1);stroke-width:2;fill:none;"/>
-                        <text x="71" y="22" fill="rgba(255,255,255,1)" style="font-weight:100;font-size:18pt;">mall</text>
-                    </svg>
 
-                </a>
-                -->
+
+                                <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
+                                <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
+                                <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
+                                <p>Чтобы продолжить покупки в интернет магазине, выберите интересующий Вас магазин.</p>
+                                <div class="row row-for-logo-links">
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
+                                            <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" />
+                                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
+                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo/EduScho" />
+                                            <div class="logo-link-desc">Остаться в Tchibo / Eduscho </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//ctshirts.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" />
+                                            <div class="logo-link-desc">Перейти в CTShirts</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//baby-walz.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" style=""/>
+                                            <div class="logo-link-desc">Перейти в Baby-Walz</div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="main-nav-item how-to-buy" id="how-to-buy-button">Как купить</a></li>
-                    <li><a class="main-nav-item shipping" id="shipping-button">Доставка</a></li>
-                    <li><a class="main-nav-item payment" id="payment-button">Оплата</a></li>
+                    <li><a class="main-nav-item how-to-buy">Как купить</a>
+                        <div class="bs-overlay bootstrap-iso" id="how-to-buy-section">
+                            <div class="container bs-popup-window-wrapper">
+                                <div class="bs-popup-window">
+                                    <div class="bs-popup-close">
+                                        <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
+                                    </div>
+                                    <h3>Как купить</h3>
+                                    <p>
+                                        Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«in den Warenkorb»</strong> <em>(добавить в корзину)</em>.
+                                    </p>
+                                    <p>Чтобы продолжить покупки нажмите <strong style="color: #0C7DCB;">«Weiter einkaufen»</strong><em>(продолжить покупки)</em></p>
+                                    <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Warenkorb/Kasse»</strong><em>(Корзина/Оформить заказ)</em></p>
+                                    <p>
+                                        Если Вы решили продолжить покупки, то чтобы затем перейти в корзину со страниц сайта, нажмите на логотип корзины в правом верхнем углу экрана.
+                                    </p>
+                                    <p>Для оформления доставки нажмите <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ - введите адрес электронной почты и номер мобильного телефона, выберите способ доставки, укажите адрес, по которому желаете получить заказ. Для того, чтобы ваш заказ мог пересечь границу, укажите свои паспортные данные. Вы можете оплатить заказ сразу или при получении. Требуется банковская карта.</p>
+                                    <p>После того, как заказ будет оформлен, наш сотрудник проверит все параметры заказа и свяжется с Вами по телефону для его подтверждения и уточнения деталей.</p>
+                                    <p>В следующий раз оформить заказ будет проще – мы сохраним данные о получателе заказа и адресе доставки, и Вам не придется вводить их повторно.</p>
+                                    <p style="text-align:center;"><strong>Успешных покупок!</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a class="main-nav-item shipping">Доставка</a></li>
+                    <li><a class="main-nav-item payment">Оплата</a></li>
                 </ul>
                 <!--<ul class="nav navbar-nav">
                     <li><a class="main-nav-item translate"><img width="50px" src="/css/img/ru.jpeg" /></a></li>
@@ -45,13 +101,37 @@
                             <span class="animated-attention-circle-wrapper"></span>
                             <span class="animated-attention-circle">!</span>
                         </a>
+                        <div class="bs-overlay bootstrap-iso" id="promo-section">
+                            <div class="container bs-popup-window-wrapper">
+                                <div class="bs-popup-window">
+                                    <div class="bs-popup-close">
+                                        <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
+                                    </div>
+                                    <div class="bs-popup-window-content">
+                                        <h3 style="color: rgb(214, 69, 65);">Акция</h3>
+                                        <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Tchibo/EduScho:</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Курс евро 67 руб!</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
+                                        <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Tchibo/EduScho, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
+                                        <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
+                                        <p class="text-center">Лучшие европейские товары для всей семьи</p>
+                                        <p>В России бренд Tchibo известен как марка изысканного кофе. В Европе бренд Tchibo c 2003 года - это не только прекрасный кофе, но и огромный список товаров для всей семьи, не уступающих по качеству напитку, сделавшему компании имя.</p>
+                                        <p>В Австрии Tchibo торгует под маркой Eduscho, которая традиционно (уже более 40 лет) известна в этой стране.</p>
+                                        <p>К выбору товаров для своего магазина Tchibo относится так же, как и к производству кофе, давая возможность своим покупателям насладится качеством и получить удовольствие от покупок.</p>
+                                        <p>Каждую неделю магазин Tchibo выбирает новую тему, включающую в себя несколько десятков товаров, продаваемых на специальных условиях</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
-                    <li><a class="main-nav-item about-us" id="about-us-button">О нас</a></li>
+                    <li><a class="main-nav-item about-us">О нас</a></li>
                     <li><a class="main-nav-item phone" href="tel:88007075103"><span aria-hidden="true" class="visible-xs-inline elegant-icon icon_phone"></span> 8 800 707 5103</a></li>
                     <li><a class="main-nav-item e-mail" href="mailto:contact@gauzymall.com" data-toggle="tooltip" data-placement="bottom" title="Напишите нам!"><span aria-hidden="true" class="elegant-icon icon_mail_alt"></span> <span class="visible-xs-inline">Обратная связь</span></a></li>
                     <li>
                         <a class="main-nav-item" href="javascript:autoTranslate();" data-toggle="tooltip" data-placement="bottom" title="Перевести на русский">
                             <span aria-hidden="true" class="gcountry gcountry-russia"></span>
+                            <span class="visible-xs-inline">Перевести на русский</span>
                         </a>
                     </li>
                 </ul>
@@ -60,48 +140,7 @@
     </nav>
 </div>
 
-<div class="bs-overlay bootstrap-iso" id="choose-your-way-section">
-    <div class="container bs-popup-window-wrapper">
-        <div class="bs-popup-window">
-            <div class="bs-popup-close">
-                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
-            </div>
-            <div class="bs-popup-window-content">
-                <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
-                <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
-                <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
-                <p>Чтобы продолжить покупки в интернет магазине <strong>Baby-walz</strong>, останьтесь на этой странице.</p>
-                <div class="row row-for-logo-links">
-                    <div class="col-xs-12 col-sm-3">
-                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
-                            <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" />
-                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-3">
-                        <a href="//tchibo.gauzymall.com" class="logo-link close-popup">
-                            <img src="/css/img/tchibo_logo.png" alt="Tchibo/EduScho" />
-                            <div class="logo-link-desc">Перейти в Tchibo / Eduscho </div>
-                        </a>
-                    </div>
 
-                    <div class="col-xs-12 col-sm-3">
-                        <a href="//ctshirts.gauzymall.com" class="logo-link">
-                            <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" />
-                            <div class="logo-link-desc">Перейти в CTShirts</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-3">
-                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link">
-                            <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" style=""/>
-                            <div class="logo-link-desc">Остаться в Baby-Walz</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="bs-overlay bootstrap-iso" id="shipping-section">
     <div class="container bs-popup-window-wrapper">
@@ -116,7 +155,7 @@
                 <li><strong>Курьерская доставка по указанному Вами адрес</strong> <em>(При выборе курьерской доставки Ваш заказ будет доставлен курьером, который предварительно свяжется с Вами для уточнения времени доставки)</em></li>
                 <li><strong>Доставка до выбранного Вами Пункта выдачи заказов (ПВЗ)</strong> <em>При выборе получения заказа в ПВЗ Вы получите СМС сообщение, когда заказ будет доставлен в Пункт выдачи заказов. Забрать заказ Вы сможете в течение 7 дней, включая день его поступления в ПВЗ.</em></li>
             </ul>
-            <script type="text/javascript" src="//points.boxberry.de/js/boxberry.js"></script>
+            <script type="text/javascript" src="//points.boxberry.de/js/boxberry.js"> </script/>
             <script>
                 function boxberry_open(){
                     $('.bs-overlay').hide();
@@ -146,31 +185,7 @@
     </div>
 </div>
 
-<div class="bs-overlay bootstrap-iso" id="how-to-buy-section">
-    <div class="container bs-popup-window-wrapper">
-        <div class="bs-popup-window">
-            <div class="bs-popup-close">
-                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
-            </div>
-            <h3>Как купить</h3>
-            <p>
-                Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку<br/><img src="/css/img/baby-walz.add2cart.gif" alt="Добавить в корзину" /><em>(добавить в корзину)</em><br/> Откроется окно с параметрами добавляемого товара, где также будет показана стоимость добавляемого товара в рублях.
-            </p>
-            <p>
-                Откроется окно с параметрами добавляемого товара, где также будет показана стоимость добавляемого товара в рублях.
-            </p>
-            <p>Чтобы продолжить покупки нажмите <br/><img src="/css/img/baby-walz.continueshopping.gif" alt="Продолжить покупки" /><em>(продолжить покупки)</em></p>
-            <p>Чтобы перейти в корзину, нажмите <br /><img src="/css/img/baby-walz.checkout.gif" alt="Оформить заказ" /><em>(завершить мой заказ)</em></p>
-            <p>
-                Если Вы решили продолжить покупки, то чтобы затем перейти в корзину со страниц сайта, нажмите на логотип корзины в правом верхнем углу экрана.
-            </p>
-            <p>Для оформления доставки нажмите <strong>«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ - введите адрес электронной почты и номер мобильного телефона, выберите способ доставки, укажите адрес, по которому желаете получить заказ. Для того, чтобы ваш заказ мог пересечь границу, укажите свои паспортные данные. Вы можете оплатить заказ сразу или при получении. Требуется банковская карта.</p>
-            <p>После того, как заказ будет оформлен, наш сотрудник проверит все параметры заказа и свяжется с Вами по телефону для его подтверждения и уточнения деталей.</p>
-            <p>В следующий раз оформить заказ будет проще – мы сохраним данные о получателе заказа и адресе доставки, и Вам не придется вводить их повторно.</p>
-            <p style="text-align:center;"><strong>Успешных покупок!</strong></p>
-        </div>
-    </div>
-</div>
+
 
 <div class="bs-overlay bootstrap-iso" id="about-us-section">
     <div class="container bs-popup-window-wrapper">
@@ -196,29 +211,6 @@
     </div>
 </div>
 
-<div class="bs-overlay bootstrap-iso" id="promo-section">
-    <div class="container bs-popup-window-wrapper">
-        <div class="bs-popup-window">
-            <div class="bs-popup-close">
-                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
-            </div>
-            <div class="bs-popup-window-content">
-                <h3 style="color: rgb(214, 69, 65);">Акция</h3>
-                <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Baby Walz:</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Курс евро 67 руб!</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
-                <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Baby-Walz, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
-                <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
-                <h4 class="text-center">Лучшие европейские товары для Ваших детей</h4>
-                <p>Baby-Walz - это один из наиболее известных немецких магазинов детских товаров, работающий на рынке более 60 лет. Ассортимент онлайн магазина Baby-Walz включает более 15000 наименований товаров для новорожденных, детей до восьми лет, беременных женщин и мам. На сайте магазина можно приобрести одежду, обувь, товары для ухода за детьми, игрушки и многое другое. Вся продукция соответствует самым высоким требованиям безопасности и не вызывает аллергических реакций.</p>
-                <p>Одежда от известных модных брендов поможет будущим мамам чувствовать себя комфортно и выглядеть привлекательно.</p>
-                <p>Безопасность, благополучие, комфорт и качество являются девизами детского магазина Baby-Walz.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="bs-overlay bootstrap-iso ctshirts-greetings" id="gr-section">
     <div class="container bs-popup-window-wrapper">
         <div class="bs-popup-window">
@@ -228,23 +220,23 @@
             <div class="bs-popup-window-content garan24-overlay-message">
                 <div class="row">
                     <div class="hidden-xs col-sm-4">
-                        <div class="img-background"></div>
+                        <div class="img-background-eduscho"></div>
                     </div>
                     <div class="col-xs-12 col-sm-8">
                         <div class="greetings-message">
                             <div class="greetings-border-1">
                                 <div class="greetings-border-2">
                                     <h1>Привет!</h1>
-                                    <p>Мы рады видеть Вас в магазине Baby-Walz на сервисе Gauzymall.</p>
-                                    <p>Ассортимент известного немецкого онлайн магазина Baby-Walz включает более 15000 наименований товаров для беременных женщин, новорожденных, детей и их мам. На сайте магазина можно приобрести одежду, обувь, товары для ухода за детьми, игрушки и многое другое. Вся продукция соответствует самым высоким требованиям качества и безопасности.</p>
+                                    <p>Мы рады видеть Вас в магазине Tchibo/Eduscho на сервисе Gauzymall.</p>
+                                    <p>Вся продукция, продаваемая в известном австрийского онлайн магазине Tchibo/Eduscho изготавливается специально для этого магазина. Разработкой продуктов занимаются специалисты Tchibo/Eduscho, что позволяет заложить высокие требования к качеству уже на этом этапе. Ассортимент магазина включает тысячи товаров, таких как одежда, детские товары, товары для дома и сада, аксессуары, товары для спорта и отдыха и многое другое. Каждый член Вашей семьи сможет найти в этом магазине что то, отвечающее его желаниям.</p>
                                     <p class="highlighted-text">В октябре мы проводим акцию:<br />
                                         - доставка в Россию бесплатно!<br />
                                         - курс евро <span id="g24-rate">67.00</span> руб.!<br />
                                         - оплата после доставки
                                     </p>
-                                    <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«dans le panier» (добавить в корзину)</strong>.</p>
-                                    <p>Чтобы продолжить покупки, нажмите <strong style="color: #0C7DCB;">«continuer mon shopping» (продолжить покупки)</strong>.</p>
-                                    <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«terminer ma commande» (завершить мой заказ)</strong>.</p>
+                                    <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«in den Warenkorb» (добавить в корзину)</strong>.</p>
+                                    <p>Чтобы продолжить покупки, нажмите <strong style="color: #0C7DCB;">«Weiter einkaufen» (продолжить покупки)</strong>.</p>
+                                    <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Warenkorb/Kasse» (завершить мой заказ)</strong>.</p>
                                     <p>Для оформления доставки перейдите в корзину и нажмите кнопку <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ.</p>
                                     <button class="start-shopping">Начать</button>
                                 </div>
@@ -264,55 +256,26 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
-<script src="/js/jquery-2.2.4.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script>var $jq1 = jQuery.noConflict(true);</script>
+<!--<script src="/js/jquery-2.2.4.min.js"></script>
+<script>$.noConflict();</script>
+-->
+<script scr="/js/bootstrap.min.js"></script>
 
-
-
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
-            try {
-                w.yaCounter40422350 = new Ya.Metrika({
-                    id:40422350,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,
-                    webvisor:true
-                });
-            } catch(e) { }
-        });
-
-        var n = d.getElementsByTagName("script")[0],
-            s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-        if (w.opera == "[object Opera]") {
-            d.addEventListener("DOMContentLoaded", f, false);
-        } else { f(); }
-    })(document, window, "yandex_metrika_callbacks");
-</script>
-<!-- /Yandex.Metrika counter -->
-
-<!-- Google Analytics -->
+<!--Google Analytics -->
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-84557375-4', 'auto');
-    ga('send', 'pageview');
+  ga('create', 'UA-84557375-5', 'auto');
+  ga('send', 'pageview');
 </script>
-<!-- Google website transltor -->
+<!-- end -->
+<!-- Translate -->
 <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
+  new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- end -->

@@ -8,10 +8,30 @@ $env = [
     "cache" => "cache",
     "hosts" => [
         "baby-walz" => [
-            "url"=>"https://www.baby-walz.fr"
+            "url"=>"https://www.baby-walz.fr",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
         ],
-        "walzkidzz" => [
-            "url"=>"http://www.walzkidzz.fr"
+        "eduscho" => [
+            "url"=>"https://www.eduscho.at",
+            "js" => "tchibo.js",
+            "template" => "tchibo.php",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
+        ],
+        "tchibo" => [
+            "url"=>"http://www.eduscho.at",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
+        ],
+        "ernstings-family" => [
+            "url"=>"https://www.ernstings-family.at",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
         ],
         "ctshirts" => [
             "url"=>"http://www.ctshirts.com",
@@ -22,6 +42,17 @@ $env = [
             ],
             "filters" => [
                 "/£(\d+\.\d+)/" => ""
+            ]
+        ],
+
+        "zara" => [
+            "url"=>"http://www.zara.com",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ],
+            "cookie" =>[
+                "storepath" => 'fr/en',
+                "socControl" => 'http%3A%2F%2Fwww.zara.com/fr/en/'
             ]
         ],
         "kenzo" => [

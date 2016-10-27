@@ -20,25 +20,34 @@ class Http extends Common{
         //Log::debug("parse_url ".json_encode($host,JSON_PRETTY_PRINT));
         $cookies = $this->outCookie();
         //Log::debug("sending COOKIES=[".$cookies."]");
-        $headers = [
-            'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Cookie: '.$cookies,
-            'Referer: '.$refer,
-            'Accept-Language:en-US,en;q=0.8,ru;q=0.6',
-            'Accept-Charset: utf-8;q=0.7,*;q=0.7',
-            'Accept-Encoding:gzip, deflate, sdch',
-            'Cache-Control:max-age=0',
-            'Connection:keep-alive',
-            'DNT:1',
-            'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host),
-            'Pragma:no-cache',
-            'Upgrade-Insecure-Requests:1',
-            'User-Agent: '.$_SERVER['HTTP_USER_AGENT']
-        ];
-        //$cookie = 'cookie.txt';
 
-        //if(!file_exists($this->cookieFile))file_put_contents($this->cookieFile,"");
-        //$verbose = fopen('logs/curl-'.date('Y-m-d').'.log', 'a+');
+        //$headers = [
+        //  'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        //    'Cookie: '.$cookies,
+        //    'Referer: '.$refer,
+        //    'Accept-Language:en-US,en;q=0.8,ru;q=0.6',
+        //    'Accept-Charset: utf-8;q=0.7,*;q=0.7',
+        //    'Accept-Encoding:gzip, deflate, sdch',
+        //    'Cache-Control:max-age=0',
+        //    'Connection:keep-alive',
+        //    'DNT:1',
+        //    'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host),
+        //    'Pragma:no-cache',
+        //    'Upgrade-Insecure-Requests:1',
+        //    'User-Agent: '.$_SERVER['HTTP_USER_AGENT']
+        //];
+        //if(strlen(trim($cookies)))array_push($headers,'Cookie: '.$cookies);
+        //Log::debug(json_encode($_SERVER,JSON_PRETTY_PRINT));
+        //if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])){array_push($headers, "X-Requested-With: ".$_SERVER['HTTP_X_REQUESTED_WITH']);
+
+        $headers = [
+            'Cookie: '.$cookies,
+            'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host)
+        ];
+        foreach (getallheaders() as $name => $value) {
+            if(!in_array($name,["Host","Cookie"]))array_push($headers,"$name: $value");
+        }
+
 
         $curlOptions = [
             CURLOPT_URL => $url,
@@ -67,17 +76,17 @@ class Http extends Common{
         $ext = "html";
         if(isset($host["path"])){
             $upi = pathinfo($host["path"]);
-            $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
+            $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"-";
         }
         $method = $_SERVER['REQUEST_METHOD'];
         if($this->config->proxy!==false){
             $curlOptions[CURLOPT_PROXY] = $this->config->proxy;
         }
-        if(in_array($ext,['html','htm']))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT));
+        if(in_array($ext,['html','htm','-']))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
             $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
-            if(in_array($ext,['html','htm']))Log::debug("POST data: ".json_encode($_POST,JSON_PRETTY_PRINT));
+            //if(in_array($ext,['html','htm','-']))Log::debug("POST data: ".json_encode($_POST,JSON_PRETTY_PRINT));
         }
         curl_setopt_array($curl, $curlOptions);
         $this->results = $this->stripHeaders(curl_exec($curl));

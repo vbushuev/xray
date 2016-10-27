@@ -80,21 +80,22 @@ jQuery(document).ready(function($) {
             }
         };
         var bodyNode = $('body');
-        //bodyNode.append('<script src="/js/jquery-2.2.4.min.js"></script>');
-        //bodyNode.append('<script src="/js/bootstrap.min.js"></script>');
-        //bodyNode.append('<script>var $jq1 = jQuery.noConflict(true);</script>');
+        bodyNode.append('<script src="/js/jquery-2.2.4.min.js"></script>');
+        bodyNode.append('<script src="/js/bootstrap.min.js"></script>');
+        bodyNode.append('<script>var $jq1 = jQuery.noConflict(true);</script>');
     }
     // Google Analytics
     try {ga('send', 'event', 'events', 'visit', 'visit', 1, false);} catch (e) {console.warn("no ga");console.error(e);}
-    $(".translate").click(function(){autoTranslate();});
-    if(garan.cookie.get("googtrans","no")=="no"){garan.cookie.set("googtrans","/de/ru");document.location.reload();}
+    $(".translate").click(function(){autoTranslate()});
+
+    });
 });
 function autoTranslate(){
     console.debug("Google code "+$("#google_translate_element select > option:nth-child(2)").text());
     //$("#google_translate_element select > option:nth-child(2)").attr("selected","selected");
     $("#google_translate_element select").val('ru').change();
     //$("#google_translate_element select > option:nth-child(2)").click();
-    garan.cookie.set("googtrans","/de/ru");
+    garan.cookie.set("googtrans","/fr/ru");
     document.location.reload();
 }
 /*

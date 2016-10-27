@@ -28,47 +28,11 @@ var parser = {
 
     },
     init:function(){
-        var messageIsShown = garan.cookie.get( "greetings_message" );
-
-        if ( messageIsShown != "is_shown" ) {
-
-            var popup = $( '.bs-overlay.ctshirts-greetings' );
-            var message = $( '.bs-overlay.ctshirts-greetings .bs-popup-window' );
-
-            popup.css( 'display', 'block' );
-
-            $( '.start-shopping' ).click( function (e) {
-                e.preventDefault();
-
-                //popup.css( 'display', 'none' );
-
-                garan.cookie.set("greetings_message","is_shown");
-
-                message.animate(
-                    {
-                        top: "-1000"
-    },
-                    {
-                        duration: 400,
-                        complete: function() {
-                            popup.animate(
-                                {
-                                    opacity: "0"
-                                },
-                                {
-                                    duration: 400,
-                                    complete: function() {
-                                        popup.css( 'display', 'none' );
-                                    }
-                                }
-                            );
-                        }
-                    }
-                );
-            });
-
-        }
-        //$("[type='submit']").click(function(){parser.converter();});
+        /*var g_first = garan.cookie.get("g_first","yes");
+        if(g_first=="yes"){
+            garan.cookie.set("googtrans","/fr/ru");
+            garan.cookie.set("g_first","no");
+        }*/
     },
     parse:function(){
         var products = document.getElementsByTagName('tbody')[1].getElementsByTagName('tr'),pp=[];

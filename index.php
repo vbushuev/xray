@@ -8,32 +8,24 @@ $cfg = new Config($env);
 $g = new Http($cfg);
 $f = new Filter($cfg);
 $c = new Cache($cfg);
-//Log::debug("cfg:".json_encode($cfg));
+$tr = new Translator($cfg);
 $url = ($url=="/")?"":$url;
 $u = $cfg->host.$url;
 $ui = parse_url($u);
-//if(!isset($ui["path"]))exit;
 $upi = isset($ui["path"])?pathinfo($ui["path"]):[];
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = $c->get($u);
-//Log::debug("Fetching ".$u." ...");
-if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){
-    $h = $ch;
-}
+if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){$h = $ch;}
 else {
     $h = $g->fetch($u);
-    //$h = $g->results;
-    //Log::debug(json_encode($g->response,JSON_PRETTY_PRINT));
-    //if(!is_string($h)||!strlen(trim($h)))exit;
     if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff"])){
-        //Log::debug("Filtering: [".$ext."] ".$u);
         $h = $f->filter($h);
+        $h = $tr->translate($h);
     }
     $c->save($u,$h);
 }
 $ob_buffer = ob_get_clean();
 if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
-
 //header('Cache-Control: no-cache, no-store, must-revalidate');
 //header('Pragma: no-cache');
 //header('Expires: 0');
@@ -48,17 +40,15 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
-        if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
-        if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
-        if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
-        $h = preg_replace("/\<\/body>/i",file_get_contents("templates/analytics.php")."</body>",$h);
-
-
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])&&$_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'){
+            Log::debug("Ajax request - no attachments");
+        }else {
+            if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
+            if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
+            if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
+            $h = preg_replace("/\<\/body>/i",file_get_contents("templates/analytics.php")."</body>",$h);
+        }
     break;
 }
 echo $h;
-/*
-todo
-убрать кнопку. "Добавить в мульти корзину". и написать что происходит
-*/
 ?>

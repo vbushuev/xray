@@ -515,7 +515,8 @@
     padding: 30px;
     margin-top: 0;
     position: relative;
-    max-height: 400px;
+    max-height: 640px;
+    overflow: scroll;
 }
 
 .bootstrap-iso .bs-popup-window-content {
@@ -530,10 +531,10 @@
     color: #777;
     font-size: 2.4em;
     cursor: pointer;
-    -webkit-transition: all 0.5s ease-in;
-    -moz-transition: all 0.5s ease-in;
-    -o-transition: all 0.5s ease-in;
-    transition: all 0.5s ease-in;
+    -webkit-transition: all .24s ease-in;
+    -moz-transition: all .24s ease-in;
+    -o-transition: all .24s ease-in;
+    transition: all .24s ease-in;
 }
 
 .bootstrap-iso .bs-popup-close .elegant-icon:hover {
@@ -737,50 +738,6 @@
     transition: all 0.2s ease-in;
 }
 
-
-#choose-your-way-section .container .row {
-    max-width: none !important;
-    height: auto !important;
-}
-
-#choose-your-way-section .logo-link {
-    position: relative;
-    display: block;
-    margin: 30px 0 0 0;
-}
-
-#choose-your-way-section .logo-link .logo-link-desc {
-    position: absolute;
-    display: block;
-    text-align: center;
-    left: 0;
-    bottom: 20px;
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-    color: #444;
-    text-transform: uppercase;
-    font-family: "LatoRegular", sans-serif;
-    font-size: 10px;
-    width: 100%;
-}
-
-#choose-your-way-section .logo-link img {
-    display: block;
-    width: 100%;
-    border: 1px solid #ccc;
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-}
-
-#choose-your-way-section .logo-link:hover img {
-    border-color: #444;
-}
-
-
 @media only screen and (min-width: 737px) {
 
     #stickyHeadFunctionsWrapper {
@@ -893,15 +850,16 @@ a:hover .gcountry{
     background-color: rgba(255,255,255,0);
 }
 
-
+/*
 
 @media screen and (min-width: 768px) {
 
     .bootstrap-iso .bs-popup-window {
         max-height: 800px;
     }
-.navbar-brand code{
-    font-weight: 100;
+
+    .bootstrap-iso .bs-popup-window-content {
+        max-height: 740px;
     }
 
     .ctshirts-greetings .garan24-overlay-message .img-background {
@@ -973,4 +931,4 @@ a:hover .gcountry{
         margin: 30px auto 0 auto !important;
     }
 
-}
+}*/
