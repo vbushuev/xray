@@ -77,6 +77,11 @@ jQuery.noConflict();
         }
         // Google Analytics
         try {ga('send', 'event', 'events', 'visit', 'visit', 1, false);} catch (e) {console.warn("no ga");console.error(e);}
+
+        $(document).bind("gcart:beforeCheckout",function(e,o){
+            console.debug("beforeCheckout triggered.");
+            console.debug(o);
+        });
         //$(".translate").click(function(){autoTranslate();});
         if(garan.cookie.get("googtrans","no")=="no"){garan.cookie.set("googtrans","/de/ru");document.location.reload();}
     });

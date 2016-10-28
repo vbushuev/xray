@@ -1,7 +1,7 @@
 jQuery.noConflict();
 (function($) {
     window.parser = {
-        selector:"#weiter_btn",
+        selector:"#DisplayBasketForm .btn_toCheckout",
         init:function(){
             var messageIsShown = garan.cookie.get( "greetings_message" );
             if ( messageIsShown != "is_shown" ) {
@@ -29,7 +29,7 @@ jQuery.noConflict();
             garan.currency.converter.action({
                 replacement:/(\d+\,\d+)\s*€/i,
                 //selector:".currentPrice,.ecwi_recommendations_TEXT_2,.ecwi_recommendations_TEXT_4,#productCurrentPrice1_span,.articlePrice,#basketAmountContainer,td.total,td.costsValue,#Gratis,td.costsTotalValue",
-                selector:".productSum",
+                selector:".productSum, .total > .sum",
                 currency:"EUR"
             });
             if (window!=window.top) return;
@@ -46,9 +46,9 @@ jQuery.noConflict();
             $("td.colDescription > div > div.ath_DELIVERY_TIME").hide();
             $("#basketForm > section > div.m-delivery-list-basket--wide > div > a").hide();
 
-            $(".orderSubmitButton").each(function(){
-                var btn = $(this).find(parser.selector).clone();
-                btn.find("span span input").val("Оформить заказ")
+            //$(".orderSubmitButton").each(function(){
+                var btn = $(parser.selector).clone();
+                btn.text("Оформить заказ")
                     //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
                     //.attr("onClick","")
                     .unbind("click").click(function(e){
@@ -56,41 +56,42 @@ jQuery.noConflict();
                         e.stopPropagation();
                         parser.checkout();
                 });//.find("span").text("Оформить заказ");
-                $(this).find(parser.selector).replaceWith(btn);
-            });
+                $(parser.selector).replaceWith(btn);
+            //});
         },
         parse:function(){
             var pp = [];
-            $("#basketForm > section > table tbody tr:not(.basketSummary,.orderstarter)").each(function(){
+            $("#DisplayBasketForm > div > div.productList > div.data-panel-full").each(function(){
                 var $t = $(this);
-                if($t.find("td.colImage").length && $t.find("td.colDescription a.productName").length){
+                //if($t.find("td.colImage").length && $t.find("td.colDescription a.productName").length){
                     pp.push({
-                        shop:"eduscho.at",
-                        quantity:$t.find("td.colQuantity").text().replace(/\D+/,""),
+                        shop:"ernsting-family.at",
+                        quantity:$t.find(".productAmount > select").val().replace(/\D+/,""),
                         currency:'EUR',
-                        original_price:$t.find("td.colPrice .currentPriceTotal").text(),
-                        title:$t.find("td.colDescription > a").text(),
+                        original_price:$t.find(".productPrice p").text(),
+                        title:$t.find(".productInfo .productLink .articleName").text().trim(),
                         description:"",
-                        product_img:$t.find("td.colImage > a > img").attr("src"),
-                        product_url:"http://www.eduscho.at"+$t.find("td.colDescription a.productName").attr("href").replace(/^\./,""),//.replace(/\.xray\.bs2|\.gauzymall\.com/,".at"),
-                        sku:$t.find("td.colDescription > a").attr("href").replace(/.+\-([a-z0-9]+)?(\.html|\?).*/,"$1"),
+                        product_img:"http:"+$t.find(".productImageLink img").attr("src"),
+                        product_url:"http://www.ernsting-family.at/"+$t.find(".productInfo .productLink").attr("href").replace(/^\./,""),//.replace(/\.xray\.bs2|\.gauzymall\.com/,".at"),
+                        sku:$t.find(".productSize > select").val(),
                         variations:{
-                            size:$t.find("td.colDescription > div > div:nth-child(1) > span").text(),
-                            color:$t.find("#id3fc > tr:nth-child(3) > td.colDescription > div > div:nth-child(2):not(.ath_DELIVERY_TIME)").text()
+                            size:$t.find(".productSize > select option:selected").text(),
+                            color:$t.find(".productInfo > p").text().trim()
                         }
                     });
-                }
+                //}
             });
-            console.log(pp);
+            //console.log(pp);
             garan.cart.add2cart(pp);
         },
         checkout:function(){
             if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
-            try {
+            //try {
                 garan.cart.removeAll();
                 parser.parse();
+                console.debug(garan.cart);
                 garan.cart.checkout();
-            } catch (e) {console.debug(e);}
+            //} catch (e) {console.debug(e);}
         },
     }
 })(jQuery);
