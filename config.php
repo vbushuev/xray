@@ -5,7 +5,10 @@ date_default_timezone_set('Europe/Moscow');
 $env = [
     //"host" => "www.kik.de",
     "host" => "www.ctshirts.com",
-    "cache" => "cache",
+    "cache" => [
+        "path"=>"cache",
+        "use" => true
+    ],
     "hosts" => [
         "baby-walz" => [
             "url"=>"https://www.baby-walz.fr",
@@ -29,6 +32,7 @@ $env = [
         ],
         "ernstings-family" => [
             "url"=>"https://www.ernstings-family.at",
+            "cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]

@@ -15,7 +15,7 @@ $ui = parse_url($u);
 $upi = isset($ui["path"])?pathinfo($ui["path"]):[];
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = $c->get($u);
-if(in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){$h = $ch;}
+if($cfg->use_cache && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){$h = $ch;}
 else {
     $h = $g->fetch($u);
     if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff"])){
@@ -26,10 +26,6 @@ else {
 }
 $ob_buffer = ob_get_clean();
 if(strlen($ob_buffer))Log::debug("warns data: ".$ob_buffer);
-//header('Cache-Control: no-cache, no-store, must-revalidate');
-//header('Pragma: no-cache');
-//header('Expires: 0');
-//header('Set-Cookie: '.$g->getcookies());
 switch($ext){
     case "css": header('Content-Type: text/css');break;
     case "png": header('Content-Type: image/png');break;
@@ -40,9 +36,8 @@ switch($ext){
     default:
         header('Content-Type: text/html');
         $g->inCookie();
-        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])&&$_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'){
-            Log::debug("Ajax request - no attachments");
-        }else {
+        if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])&&$_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'){Log::debug("Ajax request - detected");}
+        else{
             if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
             if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
             if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);

@@ -29,7 +29,7 @@ class Filter extends Common{
             return $ret;
         },$out);
         foreach($patterns["special"] as $p=>$r){
-            Log::debug("replacing p[".$p."]");
+            //Log::debug("replacing p[".$p."]");
             $out = preg_replace_callback($p,function($m)use($p,$r){
                 $ret = $r;
                 //Log::debug("Replaced: p[".$p."] ".$m[0]." => ".$ret);

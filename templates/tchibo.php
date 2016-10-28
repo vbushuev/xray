@@ -256,9 +256,7 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
-<!--<script src="/js/jquery-2.2.4.min.js"></script>
-<script>$.noConflict();</script>
--->
+<script src="/js/jquery-2.2.4.min.js"></script>
 <script scr="/js/bootstrap.min.js"></script>
 
 <!--Google Analytics -->
