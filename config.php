@@ -20,12 +20,14 @@ $env = [
             "url"=>"https://www.eduscho.at",
             "js" => "tchibo.js",
             "template" => "tchibo.php",
+            "css" => "tchibo.css",
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]
         ],
         "tchibo" => [
             "url"=>"http://www.eduscho.at",
+            "cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]
@@ -33,6 +35,12 @@ $env = [
         "ernstings-family" => [
             "url"=>"https://www.ernstings-family.at",
             "cache"=>["use"=>false],
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
+        ],
+        "forever21" => [
+            "url"=>"https://www.forever21.com",
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]

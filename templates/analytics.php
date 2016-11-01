@@ -18,9 +18,6 @@ if(typeof $=="undefined"){
 <script src="//service.garan24.bs2/js/api/1.0/garan24.core.js"></script>
 <script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
 <script src="//service.garan24.bs2/js/api/1.0/garan24.delivery.js"></script>
-<!--
 
-<script>$.noConflict();</script>
--->
 
 <script src="/js/snooper.js"></script>

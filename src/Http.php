@@ -79,7 +79,7 @@ class Http extends Common{
         $_r = $_;
         if(preg_match("/^HTTP\/1\.1\s*\d+\s*.+/",$_r)){
             $_a = preg_split("/\r\n\r\n/i",$_,2);
-            Log::debug('HTTP HEADER:'.json_encode($_a,JSON_PRETTY_PRINT));
+            //Log::debug('HTTP HEADER:'.json_encode($_a,JSON_PRETTY_PRINT));
             if(is_array($_a)){
                 $_r=isset($_a[1])?$_a[1]:"";
                 if(strlen(trim($_a[0]))){

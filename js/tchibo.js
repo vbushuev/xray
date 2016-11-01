@@ -1,3 +1,9 @@
+var isMob = /^\/m\/.*$/i;
+console.debug("Screen width :"+screen.width+" isMOB:"+isMob.test(document.location.pathname));
+if(screen.width<500 && !isMob.test(document.location.pathname)){
+    console.debug(document.location.hostname+"/m"+document.location.pathname);
+    //document.location.href =document.location.hostname+"/m"+document.location.pathname
+}
 var parser = {
     selector:"#weiter_btn",
     init:function(){
