@@ -13,7 +13,7 @@ class Config extends Common{
     protected $proxy = false;
     protected $site = [];
     protected $counters = [];
-    protected $lang = "fr";
+    protected $lang = "de";
     public function __construct($a=[]){
         if(!isset($a["hosts"]))return;
         $_=$_SERVER["HTTP_HOST"];

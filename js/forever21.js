@@ -1,7 +1,7 @@
 jQuery.noConflict();
 (function($) {
     window.parser = {
-        selector:"#DisplayBasketForm .btn_toCheckout",
+        selector:"#btn_checkout",
         init:function(){
             var messageIsShown = garan.cookie.get( "greetings_message" );
             if ( messageIsShown != "is_shown" ) {
@@ -34,7 +34,7 @@ jQuery.noConflict();
             });
             if (window!=window.top) return;
             $("body").css("padding-top","10px");
-            $(".sec.service").hide();
+            $("#divGlobalContainer").hide();
             $(".m-CheckoutStep1ButtonPanel-paypalExpressLink").hide();
             $(".m-CheckoutStep1ButtonPanel-buttonChoiceSeparator").hide();
             $("tr.basketGiftcard,tr.basketShippingCost").hide();
@@ -61,14 +61,15 @@ jQuery.noConflict();
         },
         parse:function(){
             var pp = [];
-            $("#DisplayBasketForm > div > div.productList > div.data-panel-full").each(function(){
+            $("#itemList > .itemList").each(function(){
                 var $t = $(this);
                 //if($t.find("td.colImage").length && $t.find("td.colDescription a.productName").length){
-                    pp.push({
-                        shop:"ernsting-family.at",
-                        quantity:$t.find(".productAmount > select").val().replace(/\D+/,""),
+                    var p=
+                    {
+                        shop:"forever21.com",
+                        quantity:$t.find(".ck_qty_ttl .ck_qty_count").text().replace(/\D+/,""),
                         currency:'EUR',
-                        original_price:$t.find(".productPrice p").text(),
+                        original_price:$t.find(".subtotals").text().reaplce(/[^\d\.\,]/,""),
                         title:$t.find(".productInfo .productLink .articleName").text().trim(),
                         description:"",
                         product_img:"http:"+$t.find(".productImageLink img").attr("src"),
@@ -78,7 +79,9 @@ jQuery.noConflict();
                             size:$t.find(".productSize > select option:selected").text(),
                             color:$t.find(".productInfo > p").text().trim()
                         }
-                    });
+                    };
+                    p.original_price = parseFloat(p.original_price)/parseInt(p.quantity);
+                    pp.push(p);
                 //}
             });
             //console.log(pp);

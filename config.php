@@ -34,13 +34,14 @@ $env = [
         ],
         "ernstings-family" => [
             "url"=>"https://www.ernstings-family.at",
-            "cache"=>["use"=>false],
+            "cache"=>["use"=>true],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]
         ],
         "forever21" => [
             "url"=>"https://www.forever21.com",
+            //"cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ]

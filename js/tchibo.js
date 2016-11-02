@@ -37,7 +37,7 @@ var parser = {
             currency:"EUR"
         });
         if (window!=window.top) return;
-        $("body").css("padding-top","50px");
+        $("body").css("padding-top","10px");
         $(".sec.service").hide();
         $(".m-CheckoutStep1ButtonPanel-paypalExpressLink").hide();
         $(".m-CheckoutStep1ButtonPanel-buttonChoiceSeparator").hide();

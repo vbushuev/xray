@@ -37,11 +37,13 @@ switch($ext){
         header('Content-Type: text/html');
         $g->inCookie();
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH'])&&$_SERVER['HTTP_X_REQUESTED_WITH']=='XMLHttpRequest'){Log::debug("Ajax request - detected");}
+        elseif (in_array($ext,["axd"])){Log::debug("Ajax data");}
         else{
-            if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
+            $h = preg_replace("/\<\/body>/i","<link href='/css/style.css' rel='stylesheet'/></body>",$h);
             if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
-            if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
-            $h = preg_replace("/\<\/body>/i",file_get_contents("templates/analytics.php")."</body>",$h);
+            if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
+            //if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
+            //$h = preg_replace("/\<\/body>/i",file_get_contents("templates/analytics.php")."</body>",$h);
         }
     break;
 }

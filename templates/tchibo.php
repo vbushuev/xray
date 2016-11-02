@@ -23,37 +23,53 @@
                                 <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
                             </div>
                             <div class="bs-popup-window-content">
-
-
-
                                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
                                 <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
                                 <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
                                 <p>Чтобы продолжить покупки в интернет магазине, выберите интересующий Вас магазин.</p>
                                 <div class="row row-for-logo-links">
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
+                                    <div class="col-xs-12 col-sm-4">
+                                        <a href="//gauzymall.com/" target="_blank" class="logo-link">
                                             <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" />
                                             <div class="logo-link-desc">Перейти на сайт сервиса</div>
+                                            <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
-                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo/EduScho" />
-                                            <div class="logo-link-desc">Остаться в Tchibo / Eduscho </div>
+                                    <div class="col-xs-12 col-sm-4">
+                                        <a href="javascript:{jQuery('.bs-overlay').fadeOut();}" class="logo-link close-popup">
+                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo / Eduscho" />
+                                            <div class="logo-link-desc">Остаться в Tchibo / Eduscho</div>
+                                            <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-
-                                    <div class="col-xs-12 col-sm-3">
+                                    <div class="col-xs-12 col-sm-4">
                                         <a href="//ctshirts.gauzymall.com" class="logo-link">
                                             <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" />
                                             <div class="logo-link-desc">Перейти в CTShirts</div>
+                                            <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-3">
+                                </div>
+                                <div class="row row-for-logo-links">
+                                    <!--<div class="col-xs-12 col-sm-4">
+                                        <a href="//forever21.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/f21_logo.svg" alt="forever21" />
+                                            <div class="logo-link-desc">Перейти в Foreve21</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>-->
+                                    <div class="col-xs-12 col-sm-4">
+                                        <a href="//ernstings-family.gauzymall.com" class="logo-link close-popup">
+                                            <img src="/css/img/ef_logo.png" alt="Ernsting's Family" />
+                                            <div class="logo-link-desc">Перейти в Ernsting's Family</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-4">
                                         <a href="//baby-walz.gauzymall.com" class="logo-link">
                                             <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" style=""/>
                                             <div class="logo-link-desc">Перейти в Baby-Walz</div>
+                                            <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
                                 </div>

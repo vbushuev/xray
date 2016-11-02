@@ -3,7 +3,10 @@ jQuery.noConflict();
 (function($) {
     $(document).ready(function($) {
         garan.cart.init();
-        garan.currency.get();
+        garan.currency.get(function(){
+            console.debug(garan.currency.EUR);
+            $(".currency-rate-eur").text(garan.currency.EUR);
+        });
         if (window == window.top){
             $(".gauzymall-fixed-navbar:first").show();
             $(document).trigger('xray:showLine');

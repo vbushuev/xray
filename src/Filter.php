@@ -17,7 +17,12 @@ class Filter extends Common{
                 "/https".preg_quote('\x3A\x2F\x2F')."www\.".$this->donor_pattern."/"  => "\\x2F\\x2F".$_SERVER["HTTP_HOST"],
                 "/http".preg_quote('\x3A\x2F\x2F')."www\.".$this->donor_pattern."/"  => "\\x2F\\x2F".$_SERVER["HTTP_HOST"],
                 "/\<script\s+src\=\".+demandware\..+\/js\/app\.js\"\>/"     => "<script src='/app.js'></script>",
-                 "/\<script\>.+\s+.+\s+.+GoogleAnalyticsObject[\s\S]+?\<\/script\>/" => ""
+                "/\<script\>.+\s+.+\s+.+GoogleAnalyticsObject[\s\S]+?\<\/script\>/" => "",
+                "/if\s*\(document\.location\.protocol\s*==\s*'http:'\)/" => "if(false)"
+
+
+
+
             ]
         ];
         //Log::debug("Donor:".$this->donor." pattern:".$this->donor_pattern);
