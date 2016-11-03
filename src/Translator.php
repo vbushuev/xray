@@ -16,7 +16,7 @@ class Translator extends Common{
     public function translate($in){
         $out = $in;
         foreach($this->_d as $s=>$t){
-            $out = preg_replace("/".preg_quote($s)."/i",$t,$out);
+            $out = preg_replace("/[\s\>\r\n]+".preg_quote($s)."/i",$t,$out);
         }
         return $out;
     }
