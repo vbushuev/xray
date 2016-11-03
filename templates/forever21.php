@@ -1,11 +1,6 @@
-<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700&amp;subset=cyrillic" rel="stylesheet">
-<link rel="stylesheet" href="/css/bootstrap-iso.css">
-<link rel="stylesheet" href="/css/icons.css">
-<link rel="stylesheet" href="/css/fonts.css">
-<link rel="stylesheet" href="/css/style.css" />
 
 <div class="bootstrap-iso">
-    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar" style="display:none;">
+    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -288,7 +283,7 @@ Ernsting’s Family очень серьезно относится к качес
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
-<script scr="/js/bootstrap.min.js"></script>
+
 
 <!--Google Analytics --
 <script>
@@ -302,7 +297,7 @@ Ernsting’s Family очень серьезно относится к качес
 
 </script>
 <!-- end -->
-<!-- Translate -->
+<!-- Translate --
 <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');

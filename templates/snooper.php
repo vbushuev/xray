@@ -23,4 +23,4 @@ if(typeof $=="undefined"){
 <script src="//l.gauzymall.com/js/api/2.0/garan24.delivery.js"></script>
 
 <script src="/js/snooper.js"></script>
-<script>jQuery.noConflict();</script>
+<script>$=jQuery.noConflict();</script>

@@ -2,7 +2,7 @@
 class Translator extends Common{
     protected $_d = [];
     public function __construct($cfg){
-        $dict_fname = "dicts/".$cfg->lang.".php";
+        $dict_fname = "dicts/".$cfg->site["lang"].".php";
         if(file_exists($dict_fname)){
             include($dict_fname);
             if(isset($_dicts))$this->_d = array_merge($this->_d,$_dicts);

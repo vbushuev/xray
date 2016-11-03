@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="/css/style.css" />
 
 <div class="bootstrap-iso">
-    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar" style="display:none;">
+    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

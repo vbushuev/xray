@@ -2,14 +2,15 @@
 jQuery.noConflict();
 (function($) {
     $(document).ready(function($) {
+        $(document).trigger('xray:showLine');
         garan.cart.init();
         garan.currency.get(function(){
             console.debug(garan.currency.EUR);
             $(".currency-rate-eur").text(garan.currency.EUR);
         });
-        if (window == window.top){
-            $(".gauzymall-fixed-navbar:first").show();
-            $(document).trigger('xray:showLine');
+        if (window != window.top){
+            //$(".gauzymall-fixed-navbar:first").hide();
+            console.debug("I'm in frame!(");
         }
         //var current_host = document.location.hostname.split(/\./)[0];
         //console.debug("current multiHost = " + current_host);
@@ -98,53 +99,3 @@ jQuery.noConflict();
         document.location.reload();
     }
 })(jQuery);
-
-/*
-function globalAdd2Cart(){
-    var e = arguments[0],
-        p = arguments[1],
-        i = arguments[2];
-    if(typeof i != "undefined"){
-        i.clone()
-        .css({'position' : 'fixed', 'z-index' : '999'})
-        .appendTo(i)
-        .animate(
-            {
-                opacity: 0.5,
-                top: 0,
-                left:$("#garan24-cart-quantity").offset().left,
-                width: 50,
-                height: 50
-            },
-            800,function() {$(this).remove();
-        });
-    }
-    garan.cart.add2cart(p);
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-}
-*/
-/*
-    $("#garan-cart").click(function(){
-        var $c = $("#garan-cart-full");
-        if($c.hasClass("garan24-visible")){
-            $c.removeClass("garan24-visible").fadeOut();
-            $("#garan24-overlay").fadeOut();
-            //$("#garan24-overlay #garan24-overlay-message").delay(300).show();
-            return;
-        }
-        $("#garan24-overlay #garan24-overlay-message").hide();
-        $("#garan24-overlay").fadeIn().on("mouseover",function(){
-            $("#garan-cart").click();
-            $(this).unbind("mouseover");
-        });
-        $c.addClass("garan24-visible").slideDown();
-    });
-    $("#add-to-cart").click(function(){
-        if(typeof ga!="undefined")ga('send','event', 'events', 'add2cart', 'add2cart',2, false);else console.debug("no ga!!! add2cart");
-    });
-    $(".garan-checkout").click(function(){
-        if(typeof ga!="undefined")ga('send','event','events','checkout','checkout',5,false);else console.debug("no ga!!! checkout");
-    });
-*/

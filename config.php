@@ -13,37 +13,52 @@ $env = [
         "baby-walz" => [
             "url"=>"https://www.baby-walz.fr",
             "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"fr"
             ]
         ],
-        "eduscho" => [
-            "url"=>"https://www.eduscho.at",
-            "js" => "tchibo.js",
-            "template" => "tchibo.php",
-            "css" => "tchibo.css",
+        "sportsdirect" => [
+            "url"=>"http://www.sportsdirect.com",
             "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"en"
+            ]
+        ],
+        "c-and-a" => [
+            "url"=>"http://www.c-and-a.com",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"de"
             ]
         ],
         "tchibo" => [
-            "url"=>"http://www.eduscho.at",
+            "url"=>"https://www.eduscho.at",
             "cache"=>["use"=>false],
             "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"de"
             ]
         ],
         "ernstings-family" => [
             "url"=>"https://www.ernstings-family.at",
             "cache"=>["use"=>true],
+            "engine" =>[
+                "restricted_headers" => ['Origin','Referer']
+            ],
             "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"de"
             ]
         ],
         "forever21" => [
             "url"=>"https://www.forever21.com",
+            "engine" =>[
+                "encode_cookie" => false
+            ],
             //"cache"=>["use"=>false],
             "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"en"
             ]
         ],
         "ctshirts" => [
@@ -56,36 +71,7 @@ $env = [
             "filters" => [
                 "/£(\d+\.\d+)/" => ""
             ]
-        ],
-
-        "zara" => [
-            "url"=>"http://www.zara.com",
-            "site"=>[
-                "title"=>"GauzyMALL - удобные покупки"
-            ],
-            "cookie" =>[
-                "storepath" => 'fr/en',
-                "socControl" => 'http%3A%2F%2Fwww.zara.com/fr/en/'
-            ]
-        ],
-        "kenzo" => [
-            "url"=>"https://www.kenzo.com"
-        ],
-        "damart" => [
-            "url"=>"http://www.damart.fr"
-        ],
-        "disneystore" => [
-            "url"=>"http://www.disneystore.com"
-        ],
-        "esprit" => [
-            "url"=>"http://www.esprit.com",
-            "cookie"=>[
-                "UserData"=>"%7B%22salutation%22%3A%22%22%2C%22name%22%3A%22%22%2C%22id%22%3A%22%22%2C%22theme%22%3A%22default%22%2C%22geoTargeting%22%3A%22disabled%22%2C%22geoTargetingUrl%22%3A%22%22%2C%22cookieVersion%22%3A%221.0%22%2C%22wasLayerDisplay%22%3A0%7D",
-                "geoDisabled"=>"1",
-                "language"=>"fr"
-
-            ]
-        ],
+        ]
     ]
 ];
 ?>

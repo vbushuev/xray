@@ -5,6 +5,7 @@ class Http extends Common{
     protected $cookies=[];
     protected $cookieFile ='';
     protected $config;
+    protected $_html_extensions = ['html','htm','-','aspx'];
     public function __construct($a=[]){
         $this->config = $a;
         if(!isset($_COOKIE["PHPSESSID"])) Log::debug("!!!! NO PHPSESSID ". json_encode($_COOKIE,JSON_PRETTY_PRINT));
@@ -25,9 +26,13 @@ class Http extends Common{
         ];
         foreach (getallheaders() as $name => $value) {
             $countryDomain = preg_replace("/^.+\.([a-z]+)$/","$1",$this->config->host);
-            if($name == "Origin")array_push($headers,"$name: ".preg_replace("/^(http|https)\:\/\//i","",$this->config->host));
+            //if($name == "Origin")array_push($headers,"$name: ".preg_replace("/^(http|https)\:\/\//i","",$this->config->host));
+            if($name == "Origin")array_push($headers,"$name: ".$this->config->host);
             else if($name == "Referer")array_push($headers,"$name: ".preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value));
-            //else if(!in_array($name,["Host","Cookie","Referer"]))array_push($headers,"$name: $value");
+            else if(!in_array($name,["Host","Cookie","Referer"])){
+                if(($this->config->engine["restricted_headers"]===false)||(is_array($this->config->engine["restricted_headers"])&&in_array($name,$this->config->engine["restricted_headers"])))
+                    array_push($headers,"$name: $value");
+            }
         }
         if (isset($_SERVER['HTTP_X_REQUESTED_WITH']))array_push($headers, "X-Requested-With: ".$_SERVER['HTTP_X_REQUESTED_WITH']);
         $verbose = fopen('logs/curl-'.date("Y-m-d").'.log', 'wa');
@@ -59,19 +64,20 @@ class Http extends Common{
         if($this->config->proxy!==false){
             $curlOptions[CURLOPT_PROXY] = $this->config->proxy;
         }
-        if(in_array($ext,['html','htm','-']))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
+        if(in_array($ext,$this->_html_extensions))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
-            $curlOptions[CURLOPT_POSTFIELDS]=http_build_query($_POST);
-            //Log::debug("POST data: ".json_encode($_POST,JSON_PRETTY_PRINT));
+            $postData = ($this->config->engine["encode_cookie"]) ? http_build_query($_POST) : join('&',$_POST);
+            $curlOptions[CURLOPT_POSTFIELDS]=$postData;
+            Log::debug("POST data: ".$postData);
         }
         curl_setopt_array($curl, $curlOptions);
         $this->results = $this->stripHeaders(curl_exec($curl));
         $this->response = curl_getinfo($curl);
-        if($method == 'POST'){
-            if(in_array($ext,['html','htm']))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
-        }
-        if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
+        //if($method == 'POST'){
+            if(in_array($ext,$this->_html_extensions))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
+        //}
+        //if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
         return $this->results;
     }
@@ -79,7 +85,6 @@ class Http extends Common{
         $_r = $_;
         if(preg_match("/^HTTP\/1\.1\s*\d+\s*.+/",$_r)){
             $_a = preg_split("/\r\n\r\n/i",$_,2);
-            //Log::debug('HTTP HEADER:'.json_encode($_a,JSON_PRETTY_PRINT));
             if(is_array($_a)){
                 $_r=isset($_a[1])?$_a[1]:"";
                 if(strlen(trim($_a[0]))){
@@ -128,16 +133,19 @@ class Http extends Common{
         }
         $_coo = array_merge($_coo,$this->config->cookie);
         foreach($_coo as $k=>$v){
-            $v = urlencode($v);
+            if($this->config->engine["encode_cookie"])$v = urlencode($v);
             $c.="{$k}={$v}; ";
         }
         return $c;
     }
     public function inCookie(){
         foreach ($this->cookies as $key => $value) {
-            if($key!="googtrans")setcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
+            if($key!="googtrans")
+                if($this->config->engine["encode_cookie"]) setcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
+                else setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
+                //setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
             //if($key!="googtrans")setcookie($key,$value["v"],$value["e"],$value["p"]);
-            //if($key!="googtrans")header('Set-Cookie: '.$key.'='.$value."\r\n");
+            //if($key!="googtrans")header('Set-Cookie: '.$key.'='.$value."; expires=Sat, 26-Dec-2099 11:39:12 GMT; path=/\r\n");
             //if(!isset($_COOKIE[$key])){
                 //Log::debug("setcookie $key = $value");
                 //if(!isset($_COOKIE[$key]))

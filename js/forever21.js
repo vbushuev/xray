@@ -27,64 +27,48 @@ jQuery.noConflict();
         },
         styling:function(){
             garan.currency.converter.action({
-                replacement:/(\d+\,\d+)\s*€/i,
+                replacement:/€(\d+\,\d+)/i,
                 //selector:".currentPrice,.ecwi_recommendations_TEXT_2,.ecwi_recommendations_TEXT_4,#productCurrentPrice1_span,.articlePrice,#basketAmountContainer,td.total,td.costsValue,#Gratis,td.costsTotalValue",
-                selector:".productSum, .total > .sum",
+                selector:".subtotals",
                 currency:"EUR"
             });
-            if (window!=window.top) return;
-            $("body").css("padding-top","10px");
-            $("#divGlobalContainer").hide();
-            $(".m-CheckoutStep1ButtonPanel-paypalExpressLink").hide();
-            $(".m-CheckoutStep1ButtonPanel-buttonChoiceSeparator").hide();
-            $("tr.basketGiftcard,tr.basketShippingCost").hide();
-            $("body > div.pageborder > div > div.bottomBoxFull > div > div > div.linkLists > div.container.withBg.inner.payments").hide();
-            $("body > div.pageborder > div > div.headerWrapper > div.l-header.js-header > div.l-header-benefit").hide();
-            $("body > div.pageborder > div > div.headerWrapper > div.l-header.js-header > div.l-header-main > div > div.l-header-meta > div.m-metanav").hide();
-            $("#footerInternationalBox,#footerLinksBox").hide();
-            $("td.colOption > a.addProductToWatchlist.onlyClickOnce.notLoggedIn").hide();
-            $("td.colDescription > div > div.ath_DELIVERY_TIME").hide();
-            $("#basketForm > section > div.m-delivery-list-basket--wide > div > a").hide();
 
-            //$(".orderSubmitButton").each(function(){
-                var btn = $(parser.selector).clone();
-                btn.text("Оформить заказ")
-                    //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
-                    //.attr("onClick","")
-                    .unbind("click").click(function(e){
-                        e.preventDefault();
-                        e.stopPropagation();
-                        parser.checkout();
-                });//.find("span").text("Оформить заказ");
-                $(parser.selector).replaceWith(btn);
-            //});
+            $("#divGlobalContainer").hide();
+
+            var btn = $(parser.selector).clone();
+            btn.text("Оформить заказ")
+                //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
+                //.attr("onClick","")
+                .unbind("click").click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    parser.checkout();
+            });//.find("span").text("Оформить заказ");
+            $(parser.selector).replaceWith(btn);
         },
         parse:function(){
             var pp = [];
-            $("#itemList > .itemList").each(function(){
+            $("#itemlist .itemlist").each(function(){
                 var $t = $(this);
-                //if($t.find("td.colImage").length && $t.find("td.colDescription a.productName").length){
-                    var p=
-                    {
-                        shop:"forever21.com",
-                        quantity:$t.find(".ck_qty_ttl .ck_qty_count").text().replace(/\D+/,""),
-                        currency:'EUR',
-                        original_price:$t.find(".subtotals").text().reaplce(/[^\d\.\,]/,""),
-                        title:$t.find(".productInfo .productLink .articleName").text().trim(),
-                        description:"",
-                        product_img:"http:"+$t.find(".productImageLink img").attr("src"),
-                        product_url:"http://www.ernsting-family.at/"+$t.find(".productInfo .productLink").attr("href").replace(/^\./,""),//.replace(/\.xray\.bs2|\.gauzymall\.com/,".at"),
-                        sku:$t.find(".productSize > select").val(),
-                        variations:{
-                            size:$t.find(".productSize > select option:selected").text(),
-                            color:$t.find(".productInfo > p").text().trim()
-                        }
-                    };
-                    p.original_price = parseFloat(p.original_price)/parseInt(p.quantity);
-                    pp.push(p);
-                //}
+                var p = {
+                    shop:"forever21.com",
+                    quantity:$t.find(".ck_qty_ttl .ck_qty_count").text().replace(/\D+/,""),
+                    currency:'EUR',
+                    original_price:$t.find(".subtotals").text().replace(/[^\d\.\,]/,""),
+                    title:$t.find(".s_itemname > h1").text().trim(),
+                    description:"",
+                    product_img:"http://www."+$t.find(".ck_s_itempic > a img").attr("src").replace(/(\.gauzymall\.com|\.xray\.bs2)/,".com").replace(/^\/\//,""),
+                    product_url:"http://www.forever21.com/"+$t.find(".ck_s_itempic > a").attr("href"),
+                    sku:$t.find(".ck_s_itempic > a").attr("href").replace(/productid=(\d+)/ig,"$1"),
+                    variations:{
+                        color:$t.find(".n_ck_s_itemoption_list ul:nth-child(1) > li:nth-child(2)").text().trim(),
+                        size:$t.find(".n_ck_s_itemoption_list  ul:nth-child(2) > li:nth-child(2)").text().trim(),
+                    }
+                };
+                p.original_price = parseFloat(p.original_price)/parseInt(p.quantity);
+                pp.push(p);
             });
-            //console.log(pp);
+            console.log(pp);
             garan.cart.add2cart(pp);
         },
         checkout:function(){
@@ -92,9 +76,10 @@ jQuery.noConflict();
             //try {
                 garan.cart.removeAll();
                 parser.parse();
-                console.debug(garan.cart);
+                //console.debug(garan.cart);
                 garan.cart.checkout();
             //} catch (e) {console.debug(e);}
         },
     }
 })(jQuery);
+$=jQuery.noConflict();
