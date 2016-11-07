@@ -19,27 +19,31 @@
                             </div>
                             <div class="bs-popup-window-content">
                                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
-                                <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
-                                <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
-                                <p>Чтобы продолжить покупки в интернет магазине, выберите интересующий Вас магазин.</p>
                                 <div class="row row-for-logo-links">
-                                    <div class="col-xs-12 col-sm-4">
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="//gauzymall.com/" target="_blank" class="logo-link">
                                             <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" height="90px"/>
                                             <div class="logo-link-desc">Перейти на сайт сервиса</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-4">
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="javascript:{jQuery('.bs-overlay').fadeOut();}" class="logo-link">
-                                            <img src="/css/img/f21_logo.svg" alt="forever21" height="90px"/>
+                                            <img src="/css/img/geox_logo.jpg" alt="geox"/>
+                                            <div class="logo-link-desc">Остаться в Geox</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//forever21.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/f21_logo.svg" alt="forever21"/>
                                             <div class="logo-link-desc">Остаться в Foreve21</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-4">
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="//sportsdirect.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/sportsdirect_logo.svg" alt="CTShirts" height="90px"/>
+                                            <img src="/css/img/sportsdirect_logo.svg" alt="Sports Direct"/>
                                             <div class="logo-link-desc">Перейти в SportsDirect</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>

@@ -44,6 +44,7 @@ class Config extends Common{
             if(isset($cs["cache"])){
                 $this->cache = isset($cs["cache"]["path"])?$cs["cache"]["path"]:$this->cache;
                 $this->use_cache = isset($cs["cache"]["use"])?$cs["cache"]["use"]:$this->use_cache;
+
             }
             $this->engine = array_merge($this->engine,isset($cs["engine"])?$cs["engine"]:$this->engine);
         }
@@ -52,6 +53,19 @@ class Config extends Common{
         $this->donor_pattern = preg_replace("/(\/\/)?www\./i","",$this->donor);
         $this->donor_pattern = preg_replace("/\/*$/","",$this->donor_pattern);
         $this->donor_pattern = preg_quote($this->donor_pattern);
+
+        //check headers use cache
+        foreach (getallheaders() as $name => $value) {
+            if($name=="Cache-Control"&&$value=="no-cache"){
+                //Log::debug("request header $name:$value");
+                //$this->use_cache = false;
+            }
+        }
+        if(preg_match("/demandware\.store(.+?)cart\-show/i",$_SERVER["REQUEST_URI"])){
+            $this->host = preg_replace("/http/i","https",$this->host);
+            Log::debug("Host to secure.");
+        }
+
     }
 
 };

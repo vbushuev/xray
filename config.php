@@ -41,7 +41,7 @@ $env = [
         ],
         "ernstings-family" => [
             "url"=>"https://www.ernstings-family.at",
-            "cache"=>["use"=>true],
+            "cache"=>["use"=>false],
             "engine" =>[
                 "restricted_headers" => ['Origin','Referer']
             ],
@@ -51,14 +51,27 @@ $env = [
             ]
         ],
         "forever21" => [
-            "url"=>"https://www.forever21.com",
+            "url"=>"http://www.forever21.com",
             "engine" =>[
                 "encode_cookie" => false
             ],
-            //"cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
+            ]
+        ],
+        "geox" => [
+            "url"=>"http://www.geox.com",
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки",
+                "lang"=>"en"
+            ],
+            "engine" =>[
+                "encode_cookie" => false
+            ],
+            "cookie"=>[
+                "preferredCountry"=>"AT",
+                "preferredLanguage"=>"EN"
             ]
         ],
         "ctshirts" => [

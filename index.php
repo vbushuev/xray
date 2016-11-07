@@ -15,12 +15,18 @@ $ui = parse_url($u);
 $upi = isset($ui["path"])?pathinfo($ui["path"]):[];
 $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 $ch = $c->get($u);
-if($cfg->use_cache && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"]) && $ch!==false && strlen($ch) ){$h = $ch;}
+
+if($ch!==false
+    && strlen($ch)
+    && $cfg->use_cache
+    && in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])
+
+){$h = $ch;}
 else {
     $h = $g->fetch($u);
     if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff"])){
         $h = $f->filter($h);
-        $h = $tr->translate($h);
+        //$h = $tr->translate($h);
     }
     $c->save($u,$h);
 }

@@ -1,9 +1,3 @@
-<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700&amp;subset=cyrillic" rel="stylesheet">
-<link rel="stylesheet" href="/css/bootstrap-iso.css">
-<link rel="stylesheet" href="/css/icons.css">
-<link rel="stylesheet" href="/css/fonts.css">
-<link rel="stylesheet" href="/css/style.css" />
-
 <div class="bootstrap-iso">
     <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar">
         <div class="container">
@@ -288,9 +282,8 @@ Ernsting’s Family очень серьезно относится к качес
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
-<script scr="/js/bootstrap.min.js"></script>
 
-<!--Google Analytics -->
+<!--Google Analytics --
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

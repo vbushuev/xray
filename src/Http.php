@@ -19,6 +19,9 @@ class Http extends Common{
         $host = parse_url($url);
         $refer = $this->config->host.$_SERVER["REQUEST_URI"];
         $cookies = $this->outCookie();
+        //if(preg_match("/basket\.aspx/i",$url)){
+        //    $url = preg_replace("/http/i","https",$url);
+        //}
         $headers = [
             'Cookie: '.$cookies,
             //'Referer: '.$refer,
@@ -27,8 +30,15 @@ class Http extends Common{
         foreach (getallheaders() as $name => $value) {
             $countryDomain = preg_replace("/^.+\.([a-z]+)$/","$1",$this->config->host);
             //if($name == "Origin")array_push($headers,"$name: ".preg_replace("/^(http|https)\:\/\//i","",$this->config->host));
-            if($name == "Origin")array_push($headers,"$name: ".$this->config->host);
-            else if($name == "Referer")array_push($headers,"$name: ".preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value));
+            if($name == "Origin"){
+                array_push($headers,"$name: ".$this->config->host);
+                //array_push($headers,"$name: ".preg_replace("/http/i","https",$this->config->host));
+            }
+            else if($name == "Referer"){
+                $v = preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value);
+                //$v = preg_replace("/http/i","https",$v);
+                array_push($headers,"$name: ".$v);
+            }
             else if(!in_array($name,["Host","Cookie","Referer"])){
                 if(($this->config->engine["restricted_headers"]===false)||(is_array($this->config->engine["restricted_headers"])&&in_array($name,$this->config->engine["restricted_headers"])))
                     array_push($headers,"$name: $value");

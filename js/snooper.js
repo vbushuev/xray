@@ -7,6 +7,8 @@ jQuery.noConflict();
         garan.currency.get(function(){
             console.debug(garan.currency.EUR);
             $(".currency-rate-eur").text(garan.currency.EUR);
+            $(".currency-rate-gbp").text(garan.currency.GBP);
+            $(".currency-rate").show();
         });
         if (window != window.top){
             //$(".gauzymall-fixed-navbar:first").hide();

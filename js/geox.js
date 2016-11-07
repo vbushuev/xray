@@ -1,7 +1,7 @@
 jQuery.noConflict();
 (function($) {
     window.parser = {
-        selector:"#btn_checkout",
+        selector:".b-checkout_button",
         init:function(){
             var messageIsShown = garan.cookie.get( "greetings_message" );
             if ( messageIsShown != "is_shown" ) {
@@ -32,16 +32,15 @@ jQuery.noConflict();
                 selector:".subtotals,.total_price",
                 currency:"EUR"
             });
+            $("header").css("top","52px");
+            $("#main").css("margin-top","52px");
+            $("header > div.b-header_main-top > div > div.b-header_main-content > ul > li.l-header_service_menu-item.js-flyout-container.js-login_dropdown-container").hide();
+            $("header > div.b-header-promo_box").hide();
+            $("#pdp-floating,.promoct").hide();
+            $(".b-summary_list-line.b-summary_list-shipping").hide();
+            $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_order_total").hide();
+            $("#p-cart > main > div > div.l-checkout_cart-left > h3,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_coupon_code,#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty,#shippingAnchor,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_payment_method").hide();
 
-            $("#divGlobalContainer").hide();
-            $(".new_sign_in,.new_header_country").hide();
-            $("div.shopping_summarylist > ul:nth-child(4)").hide();
-            $("#checkout_placeorder > div:nth-child(1)").hide();
-            $("#ctl00_MainContent_divFreeShipping").hide();
-            $("#promotion").hide();
-
-            $(".t_wishlist").css("margin-left:1em;");
-            $(".btn_checkout").hide();
             var btn = $(parser.selector).clone();
             btn.text("Оформить заказ")
                 //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')

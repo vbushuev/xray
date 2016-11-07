@@ -34,6 +34,9 @@
 .garan-contact a:hover,.garan-contact a:hover .fa{
     color: rgba(51,187,255,1);
 }
+.currency-rate {
+    display:none;
+}
 #garan-currency {
     font-size: 110%;
     font-weight: 700;
@@ -636,10 +639,11 @@
     height:8em;
     padding:1em;
     text-align: center;
+    vertical-align: middle;
 }
 #choose-your-way-section .logo-link img {
     display: inline-block;
-    height:8em;
+    /*height:8em;*/
     -webkit-transition: all 0.2s ease-in;
     -moz-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
@@ -670,7 +674,7 @@
 }
 #choose-your-way-section .logo-link .logo-link-desc {
     position: absolute;
-    display: block;
+    display: none;
     text-align: center;
     left: 0;
     top: -2em;
