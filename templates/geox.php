@@ -294,7 +294,7 @@ Forever 21 – это бренд молодежной моды, широко и�
 </div>
 
 
-<!-- Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter --
 <script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
@@ -323,7 +323,7 @@ Forever 21 – это бренд молодежной моды, широко и�
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/40684579" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-<!--Google Analytics -->
+<!--Google Analytics --
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

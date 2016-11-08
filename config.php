@@ -67,7 +67,8 @@ $env = [
                 "lang"=>"en"
             ],
             "engine" =>[
-                "encode_cookie" => false
+                "encode_cookie" => true,
+                "restricted_headers" => ['Origin','Referer']
             ],
             "cookie"=>[
                 "preferredCountry"=>"AT",

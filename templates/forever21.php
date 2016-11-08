@@ -110,10 +110,7 @@
                     <li><a class="main-nav-item shipping">Доставка</a></li>
                     <li><a class="main-nav-item payment">Оплата</a></li>
                 </ul>
-                <!--<ul class="nav navbar-nav">
-                    <li><a class="main-nav-item translate"><img width="50px" src="/css/img/ru.jpeg" /></a></li>
-                    <li><a class="main-nav-item currency"><i class="fa fa-euro"></i></a></li>
-                </ul>-->
+                
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a class="main-nav-item promo animated-attention" id="promo-action-button">Акция
@@ -129,7 +126,6 @@
                                     <div class="bs-popup-window-content">
                                         <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                                         <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров в онлайн магазине Forever21:</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Курс евро <font class="currency-rate currency-rate-eur">67</font> руб!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
                                         <p>
@@ -258,7 +254,6 @@ Forever 21 – это бренд молодежной моды, широко и�
                             </p>
                             <p class="highlighted-text">В ноябре мы проводим акцию:<br />
                                 - доставка в Россию бесплатно!<br />
-                                - курс евро <span id="g24-rate" class="currency-rate currency-rate-eur">67.00</span> руб.!<br />
                                 - оплата после доставки
                             </p>
 

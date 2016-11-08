@@ -49,6 +49,7 @@ switch($ext){
             //if(file_exists("css/".$cfg->css))$h = preg_replace("/\<\/body>/i","<link href='/css/".$cfg->css."' rel='stylesheet'/></body>",$h);
             if(file_exists("templates/".$cfg->template))$h = preg_replace("/\<\/body>/i",file_get_contents("templates/".$cfg->template)."</body>",$h);
             if(file_exists("js/".$cfg->js))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->js."'></script></body>",$h);
+            if(file_exists("js/".$cfg->section.".goals.js"))$h = preg_replace("/\<\/body>/i","<script src='/js/".$cfg->section.".goals.js'></script></body>",$h);
             $h = preg_replace("/\<\/body>/i",file_get_contents("templates/snooper.php")."</body>",$h);
         }
     break;

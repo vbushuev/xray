@@ -1,5 +1,7 @@
 jQuery.noConflict();
 (function($) {
+    window.console.clear = function (){console.info("console was cleared by ...");}
+
     window.parser = {
         selector:".b-checkout_button",
         init:function(){
@@ -24,6 +26,16 @@ jQuery.noConflict();
                 });
 
             }
+            var btn = $(parser.selector);
+            btn.text("Оформить заказ")
+                //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
+                //.attr("onClick","")
+                .unbind("click").click(function(e){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    parser.checkout();
+            }).text("Оформить заказ");
+            //$(parser.selector).replaceWith(btn);
         },
         styling:function(){
             garan.currency.converter.action({
@@ -41,16 +53,7 @@ jQuery.noConflict();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_order_total").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > h3,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_coupon_code,#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty,#shippingAnchor,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_payment_method").hide();
 
-            var btn = $(parser.selector).clone();
-            btn.text("Оформить заказ")
-                //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
-                //.attr("onClick","")
-                .unbind("click").click(function(e){
-                    e.preventDefault();
-                    e.stopPropagation();
-                    parser.checkout();
-            });//.find("span").text("Оформить заказ");
-            $(parser.selector).replaceWith(btn);
+
             // correct functions
 
             /**/
@@ -94,103 +97,9 @@ jQuery.noConflict();
 })(jQuery);
 $=jQuery.noConflict();
 
-
-window.fnChangeColor=function(category, id, colorId, colorName) {
-    var url = '/EU/Ajax/Ajax_Product.aspx?method=CHANGEPRODUCTCOLOR&category=' + category + '&productid=' + id + '&colorid=' + colorId;
-    $.ajax({
-        type: "GET",
-        url: url,
-        dataType:"json",
-        success: function (result) {
-            $('.ItemImage.Main').fadeOut('fast', function () {
-                $('.ItemImage.Main').attr('src', result.ProductDefaultImageURL);
-                $('.ItemImage.Main').fadeIn('fast');
-            });
-
-            $('#pdp_thumbnail').fadeOut('fast', function () {
-                $('#pdp_thumbnail').html(result.ProductButtonImageHTML);
-                $('#pdp_thumbnail').fadeIn('fast');
-            });
-
-            $('#ulProductSize').fadeOut('fast', function () {
-                $('#ulProductSize').html(result.ProductSizeHTML);
-                $('#ulProductSize').fadeIn('fast');
-            });
-
-            $('#spanSelectedColorName').fadeOut('fast', function () {
-                $('#spanSelectedColorName').html(colorName);
-                $('#spanSelectedColorName').fadeIn('fast');
-            });
-
-            $('#ulProductColor li').removeClass('selected');
-            $('#colorid_' + colorId).addClass('selected');
-            $('#ulProductSize input:checkbox:checked').prop('checked', false);
-
-            // set selected color value to hidden control
-            $('.hdSelectedColor').val(colorId);
-            $('.hdSelectedColorName').val(colorName);
-            $('.hdSelectedSize').val(result.SelectedSizeID);
-
-            fnChangeSizePDP();
-        }
-    });
-}
-function fnSubtractQty(lineItemId) {
-    if (parseInt($("#spanQty_" + lineItemId).text()) != 1) {
-        $.ajax({
-            type: "POST",
-            url: AppPath + "/ajax/ajax_cart.aspx?action=subtractqty&lineItemId=" + lineItemId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                console.debug(response);
-                if (response["resultValue"] == "OK") {
-                    $("#spanQty_" + lineItemId).text(response["qty"]);
-                    $("#divSubTotal_" + lineItemId).text(response["extendedPrice"]);
-                }
-                else {
-                    fnOpenPopup("failed", msgChangeQtyError, "N");
-                }
-
-                fnReloadContents();
-            },
-            error: function (msg) {
-                fnOpenPopup("failed", msgChangeQtyError, "N");
-            },
-            timeout: 60000
-        });
-    }
-
-    return false;
-}
-function fnAdditionQty(lineItemId) {
-
-    if (parseInt($("#spanQty_" + lineItemId).text()) < 20) {
-        $.ajax({
-            type: "POST",
-            url: AppPath + "/ajax/ajax_cart.aspx?action=additionqty&lineItemId=" + lineItemId,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                console.debug(response);
-                if (response["resultValue"] == "OK") {
-                    $("#spanQty_" + lineItemId).text(response["qty"]);
-                    $("#divSubTotal_" + lineItemId).text(response["extendedPrice"]);
-                }
-                else {
-                    fnOpenPopup("failed", msgChangeQtyError, "N");
-                }
-
-                fnReloadContents();
-            },
-            error: function (msg) {
-                fnOpenPopup("failed", msgChangeQtyError, "N");
-            },
-            timeout: 60000
-        });
-    }
-}
-function fnReloadContents() {
-    document.location.reload();
-    //$("#ctl00_MainContent_btnReload").click();
+var old_alarm = window.alert;
+window.alert = function (s){
+    console.debug("alert called");
+    //old_alarm(s);
+    console.debug("alert called");
 }

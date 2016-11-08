@@ -10,7 +10,7 @@ class Common {
         $pi = pathinfo($p);
         $dir = $pi["dirname"];
         //Log::debug("check dir ".$dir);
-        if(!file_exists($dir))mkdir($dir,0777,true);
+        if(!file_exists($dir)||!is_dir($dir))mkdir($dir,0777,true);
     }
 }
 ?>

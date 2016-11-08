@@ -33,8 +33,10 @@ class Cache {
         $f = preg_replace("/\?.+/","",$f);
         if(strlen($f)>360)$f = substr($f,0,360);
         $dir = $this->cache."/".$this->donor."/";
-        //Log::debug("dir = '$dir' f='$f'");
+        $pi = pathinfo($f);
+        if(!isset($pi["extension"])||trim($pi["extension"])=="") $f.=".html";
         if(!strlen(trim($f)))$f="index.html";
+
         $ret = $dir.$f;
 
         //if($pi["extension"]==""||preg_match("/\/$/",$ret))$ret=preg_replace("/\/$/","",$ret)."/index.html";
@@ -44,15 +46,24 @@ class Cache {
     protected function checkdir($p){
         $pi = pathinfo($p);
         $dir = $pi["dirname"];
-        //Log::debug("check dir ".$dir);
-        if(!file_exists($dir))mkdir($dir,0777,true);
+        if(
+            !file_exists($dir)
+            ||!is_dir($dir)
+        ){
+            Log::debug("mkdir ".$dir);
+            mkdir($dir,0777,true);
+        }
     }
     protected function _filename2($f){
         $f = preg_replace("/(www\.)?".$this->donor_pattern."/i","",$f);
         $f = preg_replace("/\?.+/i","",$f);
         $pi = pathinfo($f);
+        if(!isset($pi["extension"])||trim($pi["extension"])==""){
+            $pi = pathinfo($f.".html");
+        }
         //$pi["extension"] = preg_replace("/\?.+/i","",$pi["extension"]);
         $dir = $this->cache."/".$this->donor."/";
+
         if(isset($pi["extension"])){
             if($pi["extension"]=="js"){$dir.="js/";}
             elseif(in_array($pi["extension"],["css","map"])){$dir.="css/";}
