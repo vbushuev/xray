@@ -1,0 +1,8 @@
+{
+    "autoload":{
+        "psr-4": { "XRay\\" : "src/" }
+    },
+    "require": {
+        "philo/laravel-blade": "3.*"
+    }
+}
