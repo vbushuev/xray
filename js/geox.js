@@ -27,14 +27,11 @@ jQuery.noConflict();
 
             }
             var btn = $(parser.selector);
-            btn.text("Оформить заказ")
-                //.replaceWith('<a class="g-baby-walz-checkout" href="javascript:parser.checkout();"><i class="fa fa-shopping-cart"></i> Оформить заказ</a>')
-                //.attr("onClick","")
-                .unbind("click").click(function(e){
+            btn.unbind("click").click(function(e){
                     e.preventDefault();
                     e.stopPropagation();
                     parser.checkout();
-            }).text("Оформить заказ");
+            }).text("Оформить заказ").css("font-size","12pt");
             //$(parser.selector).replaceWith(btn);
         },
         styling:function(){
@@ -44,12 +41,16 @@ jQuery.noConflict();
                 selector:".subtotals,.total_price",
                 currency:"EUR"
             });
-            $("header").css("top","52px");
-            $("#main").css("margin-top","52px");
+            $("body,header,main,#main").css("margin-top","50px");
+            $(".fancybox-overlay-fixed").css("top","40px");
+            //$("body").css("margin-top","50px");
             $("header > div.b-header_main-top > div > div.b-header_main-content > ul > li.l-header_service_menu-item.js-flyout-container.js-login_dropdown-container").hide();
             $("header > div.b-header-promo_box").hide();
-            $("#pdp-floating,.promoct").hide();
+            $("#pdp-floating,.promoct,.b-checkout_progress_indicator").hide();
+            $(".b-login_dropdown").hide();
+            $(".b-checkout_content_block").hide();
             $(".b-summary_list-line.b-summary_list-shipping").hide();
+            $(".js-first-visit-banner.b-first_visit_banner").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_order_total").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > h3,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_coupon_code,#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty,#shippingAnchor,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_payment_method").hide();
 
@@ -61,24 +62,26 @@ jQuery.noConflict();
         },
         parse:function(){
             var pp = [];
-            $("#itemlist .itemlist").each(function(){
+            $("#p-cart  .b-cart_table-line_body").each(function(){
                 var $t = $(this);
                 var p = {
-                    shop:"forever21.com",
-                    quantity:$t.find(".ck_qty_ttl .ck_qty_count").text().replace(/\D+/,""),
+                    shop:"geox.com",
+                    quantity:$t.find(".b-cart_table-body_col_qty > div > input").val().replace(/\D+/,""),
                     currency:'EUR',
-                    original_price:$t.find(".subtotals").text().replace(/[^\d\.\,]/,""),
-                    title:$t.find(".s_itemname > h1").text().trim(),
+                    original_price:$t.find(".b-cart_table-body_col_total_price .b-cart_table-body_col_total_price-item_total_price-value:last").text().trim()
+                    //original_price:$t.find(".b-cart_table-cols.b-cart_table-body_col_total_price-item_total_price .b-cart_table-body_col_total_price-item_total_price-value").text().trim()
+
+                        .replace(/^00/,"").replace(/[^\d\.\,]/,""),
+                    title:$t.find(".b-cart_table-body_col_product-product_name-link").text().trim(),
                     description:"",
-                    product_img:"http://www."+$t.find(".ck_s_itempic > a img").attr("src").replace(/(\.gauzymall\.com|\.xray\.bs2)/,".com").replace(/^\/\//,""),
-                    product_url:"http://www.forever21.com/"+$t.find(".ck_s_itempic > a").attr("href"),
-                    sku:$t.find(".ck_s_itempic > a").attr("href").replace(/productid=(\d+)/ig,"$1"),
+                    product_img:$t.find(".b-cart_table-body_col_image-image img").attr("src"),
+                    product_url:$t.find(".b-cart_table-body_col_product-product_name-link").attr("href").replace(/^\/\//,"http://"),
+                    sku:$t.find(".b-cart_table-body_col_product-sku-value").text().trim(),
                     variations:{
-                        color:$t.find(".n_ck_s_itemoption_list ul:nth-child(1) > li:nth-child(2)").text().trim(),
-                        size:$t.find(".n_ck_s_itemoption_list  ul:nth-child(2) > li:nth-child(2)").text().trim(),
+                        color:$t.find(".b-cart_table-body_col_product-attribute.m-color .b-cart_table-body_col_product-attribute-value").text().trim(),
+                        size:$t.find(".b-cart_table-body_col_product-attribute.m-size .b-cart_table-body_col_product-attribute-value").text().trim(),
                     }
                 };
-                p.original_price = parseFloat(p.original_price)/parseInt(p.quantity);
                 pp.push(p);
             });
             console.log(pp);

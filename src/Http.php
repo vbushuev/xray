@@ -36,7 +36,7 @@ class Http extends Common{
             }
             else if($name == "Referer"){
                 $v = preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value);
-                //$v = preg_replace("/http/i","https",$v);
+                //if($this->config->secure)$v=preg_replace("/http\:\/\//i","https://www.",$v);
                 array_push($headers,"$name: ".$v);
             }
             else if(!in_array($name,["Host","Cookie","Referer"])){

@@ -14,6 +14,7 @@ class Config extends Common{
     protected $site = [];
     protected $counters = [];
     protected $lang = "de";
+    protected $secure = false;
     protected $engine = [
         "encode_cookie" => true,
         "restricted_headers" =>false
@@ -62,10 +63,12 @@ class Config extends Common{
             }
         }
         if(preg_match("/demandware\.store(.+?)cart\-show/i",$_SERVER["REQUEST_URI"])){
-            $this->host = preg_replace("/http/i","https",$this->host);
-            Log::debug("Host to secure.");
+            if(!preg_match("/https\:\/\//i",$this->host)){
+                $this->host = preg_replace("/http/i","https",$this->host);
+                Log::debug("Host to secure.");
+            }
         }
-
+        if(preg_match("/https\:\/\//i",$this->host))$this->secure = true;
     }
 
 };

@@ -18,7 +18,7 @@ String.prototype.replaceArray = function(find, replace) {
 
 function translateAndHide() {
 
-    $('.addToBag').text('Добавить в корзину');
+    //$('.addToBag').text('Добавить в корзину');
     $('.HeaderCheckoutLink').text('Корзина');
     $('.HeaderBagEmptyMessage').text('Корзина пуста');
     $('.bagHeader > p:first').text('Моя корзина');
@@ -34,28 +34,31 @@ function translateAndHide() {
 var parser = {
     selector:".ContinueOn",
     init:function(){
-        var messageIsShown = garan.cookie.get( "greetings_message" );
-        if ( messageIsShown != "is_shown" ) {
-             var popup = $( '.bs-overlay.ctshirts-greetings' );
-             var message = $( '.bs-overlay.ctshirts-greetings .bs-popup-window' );
-             popup.css( 'display', 'block' );
-             $( '.start-shopping' ).click( function (e) {
-                 e.preventDefault();
-                 //popup.css( 'display', 'none' );
-                 garan.cookie.set("greetings_message","is_shown");
-                 message.animate({top: "-1000"},{
-                     duration: 400,
-                     complete: function() {
-                         popup.animate({opacity: "0"},{
-                             duration: 400,
-                             complete: function() {popup.css( 'display', 'none' );}
-                         });
-                     }
-                 });
-             });
+        // var messageIsShown = garan.cookie.get( "greetings_message" );
+        // if ( messageIsShown != "is_shown" ) {
+        //     var popup = $( '.bs-overlay.ctshirts-greetings' );
+        //     var message = $( '.bs-overlay.ctshirts-greetings .bs-popup-window' );
+        //     popup.css( 'display', 'block' );
+        //     $( '.start-shopping' ).click( function (e) {
+        //         e.preventDefault();
+        //         //popup.css( 'display', 'none' );
+        //         garan.cookie.set("greetings_message","is_shown");
+        //         message.animate({top: "-1000"},{
+        //             duration: 400,
+        //             complete: function() {
+        //                 popup.animate({opacity: "0"},{
+        //                     duration: 400,
+        //                     complete: function() {popup.css( 'display', 'none' );}
+        //                 });
+        //             }
+        //         });
+        //     });
+        //
+        // }
 
-        }
-        //translateAndHide();
+        translateAndHide();
+
+        advertPopup.config.advertPopupSelector = '';
 
     },
     styling:function(){
@@ -67,7 +70,6 @@ var parser = {
         });
         if (window!=window.top) return;
         $("body").css("padding-top","50px");
-        /*
         $(".sec.service").hide();
         $(".m-CheckoutStep1ButtonPanel-paypalExpressLink").hide();
         $(".m-CheckoutStep1ButtonPanel-buttonChoiceSeparator").hide();
@@ -79,8 +81,6 @@ var parser = {
         $("td.colOption > a.addProductToWatchlist.onlyClickOnce.notLoggedIn").hide();
         $("td.colDescription > div > div.ath_DELIVERY_TIME").hide();
         $("#basketForm > section > div.m-delivery-list-basket--wide > div > a").hide();
-        */
-        $("#HeaderGroup > div.TopLinkBar").hide();
 
         $( ".ContinueOn" ).unbind( "click" ).click( function(e) {
             e.preventDefault();
@@ -89,7 +89,7 @@ var parser = {
         }).text( 'Оформить заказ' );
         $( ".ContinueOn" ).removeAttr( "href" );
 
-        //translateAndHide();
+        translateAndHide();
     },
     parse:function(){
         var pp = [];
