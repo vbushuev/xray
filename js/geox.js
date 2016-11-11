@@ -1,6 +1,7 @@
+
 jQuery.noConflict();
 (function($) {
-    window.console.clear = function (){console.info("console was cleared by ...");}
+    console.clear = function(){console.debug("console was cleared by ...");}
 
     window.parser = {
         selector:".b-checkout_button",

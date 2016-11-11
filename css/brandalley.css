@@ -1,0 +1,16 @@
+#table_paiement_container .footer_paiement>div:first-child,
+.code_promo_form {
+    display: none !important;
+}
+
+@media screen and (min-width: 768px) {
+
+}
+
+@media screen and (min-width: 1024px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+}

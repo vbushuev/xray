@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/forever21.css">
 
 <div class="bootstrap-iso">
     <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar">
@@ -110,7 +111,7 @@
                     <li><a class="main-nav-item shipping">Доставка</a></li>
                     <li><a class="main-nav-item payment">Оплата</a></li>
                 </ul>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a class="main-nav-item promo animated-attention" id="promo-action-button">Акция

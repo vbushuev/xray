@@ -1,21 +1,17 @@
-if ( document.location.hostname.match(/sportsdirect/) ) {
+if ( document.location.hostname.match(/brandalley/) ) {
 
     // Добавление товара в корзину
-    var addToCart = $( ".addToBag" );
 
-    if ( typeof( addToCart ) != 'undefined' && addToCart !== null ) {
+    $(document.body).on("submit", ".add-to-cart-form", function(event) {
 
-        addToCart.click( function(e) {
+        console.log('Нажата кнопка "Добавить в корзину"');
 
-        	console.log('Нажата кнопка "Добавить в корзину"');
+        //yaCounter40684604.reachGoal('ADD-TO-CART');
 
-            yaCounter40684604.reachGoal('ADD-TO-CART');
+        return true;
 
-            return true;
+    });
 
-        });
-
-    }
 
 
 
@@ -27,7 +23,9 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             console.log('Нажата кнопка "Оформить заказ"');
 
-            yaCounter40684604.reachGoal('PLACE-ORDER');
+            //yaCounter40684604.reachGoal('PLACE-ORDER');
+
+            return true;
 
         } catch ( e ) {
 
@@ -51,7 +49,7 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             	console.log('Нажата кнопка "Как купить"');
 
-                yaCounter40684604.reachGoal('HOW-TO-BUY');
+                //yaCounter40684604.reachGoal('HOW-TO-BUY');
 
                 return true;
 
@@ -71,7 +69,7 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             	console.log('Нажата кнопка "Доставка"');
 
-                yaCounter40684604.reachGoal('SHIPPING');
+                //yaCounter40684604.reachGoal('SHIPPING');
 
                 return true;
 
@@ -91,7 +89,7 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             	console.log('Нажата кнопка "Оплата"');
 
-                yaCounter40684604.reachGoal('PAYMENT');
+                //yaCounter40684604.reachGoal('PAYMENT');
 
                 return true;
 
@@ -111,7 +109,7 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             	console.log('Нажата кнопка "О нас"');
 
-                yaCounter40684604.reachGoal('ABOUT-US');
+                //yaCounter40684604.reachGoal('ABOUT-US');
 
                 return true;
 
@@ -131,7 +129,7 @@ if ( document.location.hostname.match(/sportsdirect/) ) {
 
             	console.log('Нажата кнопка "Акция"');
 
-                yaCounter40684604.reachGoal('PROMO-ACTION');
+                //yaCounter40684604.reachGoal('PROMO-ACTION');
 
                 return true;
 

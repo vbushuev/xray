@@ -55,24 +55,38 @@ $env = [
             "engine" =>[
                 "encode_cookie" => false
             ],
+            //"cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
             ]
         ],
+        "brandalley" => [
+            "url"=>"https://www-v6.brandalley.fr",
+            //"cache"=>["use"=>false],
+            "site"=>[
+                "title"=>"GauzyMALL - удобные покупки"
+            ]
+        ],
         "geox" => [
-            "url"=>"http://www.geox.com",
+            "url"=>"https://www.geox.com",
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
             ],
+            "cache"=>["use"=>false],
             "engine" =>[
                 "encode_cookie" => true,
-                "restricted_headers" => ['Origin','Referer']
+                "client_cookie" => [
+                    "use"=>true,
+                    "list"=>[]
+                ]
+                //"restricted_headers" => ['Origin','Referer']
             ],
             "cookie"=>[
                 "preferredCountry"=>"AT",
-                "preferredLanguage"=>"EN"
+                "preferredLanguage"=>"EN",
+                "countrySelected"=>"true"
             ]
         ],
         "ctshirts" => [
@@ -85,6 +99,10 @@ $env = [
             "filters" => [
                 "/£(\d+\.\d+)/" => ""
             ]
+        ],
+        "test" => [
+            "url"=>"http://gm.bs2",
+            "template"=>"forever21.php"
         ]
     ]
 ];

@@ -632,15 +632,6 @@
     height: auto !important;
 }
 
-#choose-your-way-section .row-for-logo-links {
-    width: 100%;
-    margin: 0;
-}
-
-#choose-your-way-section .row-for-logo-links:nth-of-type(1) {
-    margin-top: 30px;
-}
-
 #choose-your-way-section .logo-link {
     position: relative;
     display: block;
@@ -650,7 +641,6 @@
     text-align: center;
     vertical-align: middle;
 }
-
 #choose-your-way-section .logo-link img {
     display: inline-block;
     /*height:8em;*/
@@ -658,35 +648,9 @@
     -moz-transition: all 0.2s ease-in;
     -o-transition: all 0.2s ease-in;
     transition: all 0.2s ease-in;
-    margin-bottom: 30px;
-    width: 100%;
-    /*border: 1px solid #eee;*/
 }
 
-#choose-your-way-section .logo-link .logo-link-desc {
-    -webkit-transition: all 0.2s ease-in;
-    -moz-transition: all 0.2s ease-in;
-    -o-transition: all 0.2s ease-in;
-    transition: all 0.2s ease-in;
-    color: #444;
-    font-family: "LatoRegular", sans-serif;
-    opacity: 1;
-    text-transform: uppercase;
-    margin-top: 10px;
-    font-size: 0.8em;
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    text-align: center;
-    width: 100%;
-    display: block;
-}
-
-#choose-your-way-section .logo-link:hover img {
-    border-color: #444;
-}
-
-/*#choose-your-way-section .logo-link .logo-link-overlay {
+#choose-your-way-section .logo-link .logo-link-overlay {
     position: absolute;
     top:0;
     left:0;
@@ -707,7 +671,22 @@
 }
 #choose-your-way-section .logo-link:hover .logo-link-overlay{
     background: rgba(255,255,255,0);
-}*/
+}
+#choose-your-way-section .logo-link .logo-link-desc {
+    position: absolute;
+    display: none;
+    text-align: center;
+    left: 0;
+    top: -2em;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+    color: #444;
+    font-family: "LatoRegular", sans-serif;
+    font-size: 9pt;
+    width: 100%;
+}
 
 
 
@@ -1048,6 +1027,10 @@ a:hover .gcountry{
         padding: 0 0 0 0;
     }
 
+    #choose-your-way-section .logo-link .logo-link-desc {
+        font-size: 9pt;
+    }
+
 }
 
 @media screen and (min-width: 1024px) {
@@ -1094,12 +1077,15 @@ a:hover .gcountry{
 
     #choose-your-way-section .logo-link .logo-link-desc {
         opacity: 0;
-        bottom: 0;
     }
 
     #choose-your-way-section .logo-link:hover .logo-link-desc {
         opacity: 1;
-        bottom: 10px;
+    }
+
+    #choose-your-way-section .row-for-logo-links {
+        width: 760px !important;
+        margin: 30px auto 0 auto !important;
     }
 
 }

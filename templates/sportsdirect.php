@@ -10,7 +10,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand"><strong>Gauzymall</strong></a>
+                <a class="navbar-brand" id="choose-your-way-button"><strong>Gauzymall</strong></a>
 
                 <div class="bs-overlay bootstrap-iso" id="choose-your-way-section">
                     <div class="container bs-popup-window-wrapper">
@@ -19,65 +19,54 @@
                                 <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
                             </div>
                             <div class="bs-popup-window-content">
+                                <div class="row row-for-logo-links">
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
+                                            <img src="/css/img/logos/gauzymall_logo.png" alt="Gauzymall" />
+                                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="//ctshirts.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/logos/ctshirts_logo.png" alt="CTShirts" />
+                                            <div class="logo-link-desc">Перейти в CTShirts</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="//tchibo.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/logos/tchibo_logo.png" alt="Tchibo/EduScho" />
+                                            <div class="logo-link-desc">Перейти в Tchibo / Eduscho</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="//forever21.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/logos/forever_21_logo.png" alt="Forever 21" />
+                                            <div class="logo-link-desc">Перейти в Forever 21</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="//ernstings-family.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/logos/ernstings_family_logo.png" alt="Ernsting's Family" />
+                                            <div class="logo-link-desc">Перейти в Ernsting's Family</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
+                                            <img src="/css/img/logos/sportsdirect_logo.png" alt="Sportsdirect" />
+                                            <div class="logo-link-desc">Остаться на Sportsdirect</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="//baby-walz.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/logos/baby_walz_logo.png" alt="Baby-walz" />
+                                            <div class="logo-link-desc">Перейти в Baby-Walz</div>
+                                        </a>
+                                    </div>
+                                </div>
                                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
                                 <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
                                 <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
                                 <p>Чтобы продолжить покупки в интернет магазине, выберите интересующий Вас магазин.</p>
-                                <div class="row row-for-logo-links">
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a href="//gauzymall.com/" target="_blank" class="logo-link">
-                                            <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" height="90px"/>
-                                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4">
-
-                                        <a href="javascript:{jQuery('.bs-overlay').fadeOut();}" class="logo-link">
-                                            <img src="/css/img/sportsdirect_logo.svg" alt="CTShirts" style="padding-top:30px;"/>
-                                            <div class="logo-link-desc">Перейти в SportsDirect</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a href="//forever21.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/f21_logo.svg" alt="forever21" height="52px" style="padding-top:16px;"/>
-                                            <div class="logo-link-desc">Остаться в Foreve21</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="row row-for-logo-links">
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="//erntsings-family.gauzymall.com" class="logo-link close-popup">
-                                            <img src="/css/img/ef_logo.png" alt="Ernsting-Family" height="82px"/>
-                                            <div class="logo-link-desc">Перейти в Ernsting-Family</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="//tchibo.gauzymall.com" class="logo-link close-popup">
-                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo/EduScho" height="82px"/>
-                                            <div class="logo-link-desc">Перейти в Tchibo / Eduscho </div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="//ctshirts.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" height="82px"/>
-                                            <div class="logo-link-desc">Перейти в CTShirts</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                    <div class="col-xs-12 col-sm-3">
-                                        <a href="//baby-walz.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" height="82px"/>
-                                            <div class="logo-link-desc">Перейти в Baby-Walz</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -85,7 +74,7 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="main-nav-item how-to-buy">Как купить</a>
+                    <li><a class="main-nav-item how-to-buy" id="how-to-buy-button">Как купить</a>
                         <div class="bs-overlay bootstrap-iso" id="how-to-buy-section">
                             <div class="container bs-popup-window-wrapper">
                                 <div class="bs-popup-window">
@@ -94,9 +83,9 @@
                                     </div>
                                     <h3>Как купить</h3>
                                     <p>
-                                        Заказ оформляется непосредственно на сайте Sports Direct с помощью сервиса Gauzymall, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.
+                                        Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Add to bag»</strong>.
                                     </p>
-                                    <p>Интерфейс магазина Sports Direct прост и удобен Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Поиск нужного товара можно осуществлять по множеству параметров: мужские, женские, детские товары, аксессуары, товары по видам спорта, брендам, для активного отдыха. Отдельно выделен раздел «Clearance» (распродажа). Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Add to Bag»</strong> (добавить в корзину)</p>
+                                    <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Корзина»</strong></p>
                                     <p>
                                         Если Вы решили продолжить покупки, то чтобы затем перейти в корзину со страниц сайта, нажмите на логотип корзины в правом верхнем углу экрана.
                                     </p>
@@ -108,8 +97,8 @@
                             </div>
                         </div>
                     </li>
-                    <li><a class="main-nav-item shipping">Доставка</a></li>
-                    <li><a class="main-nav-item payment">Оплата</a></li>
+                    <li><a class="main-nav-item shipping" id="shipping-button">Доставка</a></li>
+                    <li><a class="main-nav-item payment" id="payment-button">Оплата</a></li>
                 </ul>
                 <!--<ul class="nav navbar-nav">
                     <li><a class="main-nav-item translate"><img width="50px" src="/css/img/ru.jpeg" /></a></li>
@@ -130,20 +119,21 @@
                                     <div class="bs-popup-window-content">
                                         <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                                         <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Sportsdirect:</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Курс английского фунта <span id="g24-rate" class="currency-rate currency-rate-gbp">67.00</span>  руб!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
-                                        <p>Распродажа товаров известных спортивных брендов!
-В интернет-магазине Sports Direct Вы найдете всё, что нужно для занятий фитнесом, плаванием, баскетболом, йогой, теннисом, катанием на велосипедах и многое другое Ассортимент впечатляет своим охватом (Nike, Reebok, Adidas, Lee Cooper, Puma, Pierre Cardin – всего около 300 брендов). Покупая в этом магазине, Вы страхуете себя от приобретения подделок под знаменитые бренды. 
-В интернет-магазине Sports Direct есть не только спортивные вещи. Здесь найдется мужская, женская и даже детская одежда для повседневной носки – джинсы, поло, шорты, куртки, толстовки, нижнее и купальное белье.
-Sports Direct – крупнейший ритейлер спортивных товаров и аксессуаров Великобритании. Магазин интересен широчайшим ассортиментом товаров и брендов, адекватными ценами и по-настоящему большими скидками.</p>
-                                        <p style="text-align:center;"><strong>Присоединяйтесь!</strong></p>
+                                        <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Sportsdirect, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
+                                        <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
+                                        <p class="text-center">Лучшие европейские товары для всей семьи</p>
+                                        <p>В России бренд Tchibo известен как марка изысканного кофе. В Европе бренд Tchibo c 2003 года - это не только прекрасный кофе, но и огромный список товаров для всей семьи, не уступающих по качеству напитку, сделавшему компании имя.</p>
+                                        <p>В Австрии Tchibo торгует под маркой Eduscho, которая традиционно (уже более 40 лет) известна в этой стране.</p>
+                                        <p>К выбору товаров для своего магазина Tchibo относится так же, как и к производству кофе, давая возможность своим покупателям насладится качеством и получить удовольствие от покупок.</p>
+                                        <p>Каждую неделю магазин Tchibo выбирает новую тему, включающую в себя несколько десятков товаров, продаваемых на специальных условиях</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li><a class="main-nav-item about-us">О нас</a></li>
+                    <li><a class="main-nav-item about-us" id="about-us-button">О нас</a></li>
                     <li><a class="main-nav-item phone" href="tel:88007075103"><span aria-hidden="true" class="visible-xs-inline elegant-icon icon_phone"></span> 8 800 707 5103</a></li>
                     <li><a class="main-nav-item e-mail" href="mailto:contact@gauzymall.com" data-toggle="tooltip" data-placement="bottom" title="Напишите нам!"><span aria-hidden="true" class="elegant-icon icon_mail_alt"></span> <span class="visible-xs-inline">Обратная связь</span></a></li>
                     <li>
@@ -236,31 +226,23 @@ Sports Direct – крупнейший ритейлер спортивных т�
                 <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
             </div> -->
             <div class="bs-popup-window-content garan24-overlay-message">
-                <div class="row">
-                    <!--<div class="hidden-xs col-sm-4">
-                        <div class="img-background-ef"></div>
-                    </div>-->
-                    <div class="col-xs-12 col-sm-12">
-                        <div class="greetings-message">
-
+                <div class="greetings-message" style="padding: 0;">
+                    <div class="greetings-border-1">
+                        <div class="greetings-border-2">
                             <h1>Привет!</h1>
-                            <p>Мы рады видеть Вас в магазине  <b>Sports Direct</b> на торговом портале Gauzymall.</p>
-                            <p>Sports Direct – крупнейший ритейлер спортивных товаров и аксессуаров Великобритании. Магазин интересен широчайшим ассортиментом товаров и брендов, адекватными ценами и по-настоящему большими скидками.
-В онлайн магазине Sports Direct Вы найдете всё, что нужно для занятий фитнесом, плаванием, баскетболом, йогой, теннисом, катанием на велосипедах и многое другое Ассортимент впечатляет своим охватом (Nike, Reebok, Adidas, Lee Cooper, Puma, Pierre Cardin – всего около 300 брендов). Покупая в этом магазине, Вы страхуете себя от приобретения подделок под знаменитые бренды. 
-В магазине Sports Direct есть не только спортивные вещи. Здесь найдется мужская, женская и даже детская одежда для повседневной носки – джинсы, поло, шорты, куртки, толстовки, нижнее и купальное белье.</p>
-                            <p class="highlighted-text">В ноябре мы проводим акцию:<br />
+                            <p>Мы рады видеть Вас в магазине Sportsdirect на сервисе Gauzymall.</p>
+                            <p>Вся продукция, продаваемая в известном австрийского онлайн магазине Sportsdirect изготавливается специально для этого магазина. Разработкой продуктов занимаются специалисты Sportdirect, что позволяет заложить высокие требования к качеству уже на этом этапе. Ассортимент магазина включает тысячи товаров, таких как одежда, детские товары, товары для дома и сада, аксессуары, товары для спорта и отдыха и многое другое. Каждый член Вашей семьи сможет найти в этом магазине что то, отвечающее его желаниям.</p>
+                            <p class="highlighted-text">
+                                В ноябре мы проводим акцию:<br />
                                 - доставка в Россию бесплатно!<br />
-                                - курс английского фунта <span id="g24-rate" class="currency-rate currency-rate-gbp">67.00</span> руб.!<br />
                                 - оплата после доставки
                             </p>
                             <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Add to bag»</strong>.</p>
                             <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Корзина»</strong>.</p>
                             <p>Для оформления доставки перейдите в корзину и нажмите кнопку <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ.</p>
-                        <div class="row" style="text-align:center;">
-                            <a href="javascript:{0}" class="start-shopping">Начать</a>
+                            <button class="start-shopping">Начать</button>
                         </div>
-                        </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -286,3 +268,33 @@ function googleTranslateElementInit() {
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- end -->
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter40684604 = new Ya.Metrika({
+                    id:40684604,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<!-- /Yandex.Metrika counter -->

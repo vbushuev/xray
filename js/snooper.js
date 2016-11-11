@@ -19,6 +19,16 @@ jQuery.noConflict();
         // init multi cart
 
         // control multi cart
+        $(".main-nav-item").each(function(){
+            var ref = $(this).attr("data-ref"),$t=$(this);
+            if(typeof ref!="undefined" && ref.length>0){
+                $t.click(function(e){
+                    e.preventDefault();
+                    $('.bs-overlay:not(#'+ref+')').fadeOut();
+                    $('#'+ref).fadeToggle();
+                });
+            }
+        });
 
         $('.navbar-brand').click(function(e) {
             e.preventDefault();
@@ -91,6 +101,15 @@ jQuery.noConflict();
         });
         //$(".translate").click(function(){autoTranslate();});
         if(garan.cookie.get("googtrans","no")=="no"){garan.cookie.set("googtrans","/de/ru");document.location.reload();}
+        //GreenLine effects
+        $(".bs-message .bs-input-field input").focus(function(){
+            $(this).addClass("bs-hover");
+            $(this).parent().addClass("bs-hover");
+        }).blur(function(){
+            $(this).removeClass("bs-hover");
+            $(this).parent().removeClass("bs-hover");
+        });
+
     });
     window.autoTranslate = function(){
         console.debug("Google code "+$("#google_translate_element select > option:nth-child(2)").text());
@@ -99,5 +118,19 @@ jQuery.noConflict();
         //$("#google_translate_element select > option:nth-child(2)").click();
         garan.cookie.set("googtrans","/de/ru");
         document.location.reload();
+    }
+    window.socialCreditQuestion = function(f){
+        //f='credit-form';
+        $('.bs-overlay').fadeOut();
+        var d = {
+            amount:$("#credit_amount").val(),
+            month:$("#credit_month").val(),
+            email:$("#credit_email").val()
+        };
+        console.debug(d);
+        $.ajax({
+            url:"//l.gauzymall.com/social",
+            data:d
+        });
     }
 })(jQuery);

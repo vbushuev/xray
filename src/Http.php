@@ -36,10 +36,10 @@ class Http extends Common{
             }
             else if($name == "Referer"){
                 $v = preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value);
-                //if($this->config->secure)$v=preg_replace("/http\:\/\//i","https://www.",$v);
+                if($this->config->secure)$v=preg_replace("/http\:\/\//i","https://www.",$v);
                 array_push($headers,"$name: ".$v);
             }
-            else if(!in_array($name,["Host","Cookie","Referer"])){
+            else if(!in_array($name,["Host","Cookie","Referer","X-Requested-With"])){
                 if(($this->config->engine["restricted_headers"]===false)||(is_array($this->config->engine["restricted_headers"])&&in_array($name,$this->config->engine["restricted_headers"])))
                     array_push($headers,"$name: $value");
             }
@@ -59,7 +59,6 @@ class Http extends Common{
             //CURLOPT_FORBID_REUSE => 1,
             //CURLOPT_AUTOREFERER => 1,
             CURLOPT_FOLLOWLOCATION => 1,
-
             CURLOPT_VERBOSE => 1,
             CURLOPT_STDERR => $verbose,
             //CURLOPT_CERTINFO => 1,
@@ -86,6 +85,7 @@ class Http extends Common{
         $this->response = curl_getinfo($curl);
         //if($method == 'POST'){
             if(in_array($ext,$this->_html_extensions))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
+            //Log::debug("Response DATA: ".$this->results);
         //}
         //if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);

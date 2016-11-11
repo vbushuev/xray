@@ -14,13 +14,14 @@ if(typeof $=="undefined"){
 }
 </script>
 <!--
-<script src="//service.garan24.bs2/js/api/1.0/garan24.core.js"></script>
-<script src="//service.garan24.bs2/js/api/1.0/garan24.cart.js"></script>
-<script src="//service.garan24.bs2/js/api/1.0/garan24.delivery.js"></script>
+<script src="//service.garan24.bs2/js/api/2.0/garan24.core.js"></script>
+<script src="//service.garan24.bs2/js/api/2.0/garan24.cart.js"></script>
+<script src="//service.garan24.bs2/js/api/2.0/garan24.delivery.js"></script>
 -->
 <script src="//l.gauzymall.com/js/api/2.0/garan24.core.js"></script>
 <script src="//l.gauzymall.com/js/api/2.0/garan24.cart.js"></script>
 <script src="//l.gauzymall.com/js/api/2.0/garan24.delivery.js"></script>
 
 <script src="/js/snooper.js"></script>
+<script src="/js/gparser.js"></script>
 <script>$=jQuery.noConflict();</script>
