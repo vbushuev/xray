@@ -3,6 +3,17 @@ jQuery.noConflict();
     window.parser = {
         selector:"#btn_checkout",
         init:function(){
+
+            $( "#addtobag" ).on("click",function(e){
+                $.ajax({
+                    //url:"//service.garan24.bs2/analytics",
+                    url:"//l.gauzymall.com/analytics",
+                    success:function(d){
+                        console.log(d);
+                    }
+                });
+            });
+
             var messageIsShown = garan.cookie.get( "greetings_message" );
             if ( messageIsShown != "is_shown" ) {
                 var popup = $( '.bs-overlay.ctshirts-greetings' );

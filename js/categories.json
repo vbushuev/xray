@@ -1,0 +1,252 @@
+[
+    {
+        "id": 22,
+        "name": "Аксессуары",
+        "slug": "accessories",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 17,
+        "name": "Бабочки",
+        "slug": "bow-ties",
+        "parent": 14,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 28,
+        "name": "Бизнес неформальная обувь",
+        "slug": "business-casual-shoes",
+        "parent": 19,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 11,
+        "name": "Бизнес неформальные сорочки",
+        "slug": "business-casual-shirts",
+        "parent": 8,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 27,
+        "name": "Бизнесс обувь",
+        "slug": "business-shoes",
+        "parent": 19,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 30,
+        "name": "Ботинки\/сапоги",
+        "slug": "boots",
+        "parent": 19,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 24,
+        "name": "Брюки",
+        "slug": "trousers",
+        "parent": 18,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 21,
+        "name": "Верхняя одежда",
+        "slug": "outwear",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 13,
+        "name": "Вечерние сорочки",
+        "slug": "evening-shirts",
+        "parent": 8,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 14,
+        "name": "Галстуки",
+        "slug": "ties",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 9,
+        "name": "Деловые сорочки",
+        "slug": "formal-shirts",
+        "parent": 8,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 2
+    },
+    {
+        "id": 26,
+        "name": "Жилетки",
+        "slug": "waistcoats",
+        "parent": 18,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 15,
+        "name": "Классические галстуки",
+        "slug": "classic-ties",
+        "parent": 14,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 23,
+        "name": "Костюмы",
+        "slug": "complete-suits",
+        "parent": 18,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 18,
+        "name": "Костюмы",
+        "slug": "suits",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 7,
+        "name": "Мужчинам",
+        "slug": "men",
+        "parent": 6,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 19,
+        "name": "Обувь",
+        "slug": "shoes",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 6,
+        "name": "Одежда",
+        "slug": "clothers",
+        "parent": 0,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 25,
+        "name": "Пиджаки",
+        "slug": "jackets",
+        "parent": 18,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 29,
+        "name": "Повседневная обувь",
+        "slug": "casual-shoes",
+        "parent": 19,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 20,
+        "name": "Повседневная одежда",
+        "slug": "casualwear",
+        "parent": 7,
+        "description": "",
+        "display": "default",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 10,
+        "name": "Повседневные сорочки",
+        "slug": "casual-shirts",
+        "parent": 8,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 16,
+        "name": "Роскошные галсуки",
+        "slug": "luxury-ties",
+        "parent": 14,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 12,
+        "name": "Роскошные сорочки",
+        "slug": "luxury-shirts",
+        "parent": 8,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    },
+    {
+        "id": 8,
+        "name": "Сорочки",
+        "slug": "shirts",
+        "parent": 7,
+        "description": "",
+        "display": "subcategories",
+        "image": "",
+        "count": 0
+    }
+]

@@ -139,6 +139,26 @@ if ( document.location.hostname.match(/forever21/) ) {
 
         }
 
+
+
+        // Нажатие кнопки "Рассрочка"
+
+        var creditButton = document.getElementById( "credit-button" );
+
+        if ( typeof( creditButton ) != 'undefined' && creditButton !== null ) {
+
+            creditButton.addEventListener( "click", function(e) {
+
+                console.log('Нажата кнопка "Рассрочка"');
+
+                yaCounter40684579.reachGoal('CREDIT');
+
+                return true;
+
+            });
+
+        }
+
     });
 
 }

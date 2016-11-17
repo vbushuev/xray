@@ -19,6 +19,10 @@ $env = [
         ],
         "sportsdirect" => [
             "url"=>"http://www.sportsdirect.com",
+            "engine" =>[
+                //"restricted_headers" => ['Origin','Referer']
+            ],
+            "cache"=>["use"=>false],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
@@ -64,24 +68,30 @@ $env = [
         "brandalley" => [
             "url"=>"https://www-v6.brandalley.fr",
             //"cache"=>["use"=>false],
+            "engine" =>[
+                "restricted_headers" => ['Origin','Referer']
+            ],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
+            ],
+            "cookie"=>[
+                "AccessPrivateSale" => 'a:2:{i:0;s:31:"s:23:"xrayshopping@garan24.ru";";i:1;s:32:"9b43d56c65b0fe67996a0543e80c1b79";}'
             ]
         ],
         "geox" => [
-            "url"=>"https://www.geox.com",
+            "url"=>"http://www.geox.com",
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
             ],
-            "cache"=>["use"=>false],
+            "cache"=>["use"=>true],
             "engine" =>[
-                "encode_cookie" => true,
+                "encode_cookie" => false,
                 "client_cookie" => [
-                    "use"=>true,
+                    "use"=>false,
                     "list"=>[]
-                ]
-                //"restricted_headers" => ['Origin','Referer']
+                ],
+                //"restricted_headers" => ['Origin','Referer','User-Agent','Content-Type']
             ],
             "cookie"=>[
                 "preferredCountry"=>"AT",
@@ -92,13 +102,15 @@ $env = [
         "ctshirts" => [
             "url"=>"http://www.ctshirts.com",
             //"proxy" => "62.252.196.194:3128",
+            "cache"=>["use"=>true],
             "cookie" =>[
                 "CTCountry"=>"gb",
                 "GlobalE_Data"=>'{"countryISO":"gb","cultureCode":"ru","currencyCode":"GBP","apiVersion":"2.1.4","clientSettings":"{"AllowClientTracking":{"Value":"true"},"FullClientTracking":{"Value":"true"},"IsMonitoringMerchant":{"Value":"true"},"IsV2Checkout":{"Value":"true"}}"}'
-            ],
-            "filters" => [
-                "/£(\d+\.\d+)/" => ""
             ]
+        ],
+        "tmlewin" => [
+            "url"=>"https://www.tmlewin.co.uk",
+            "restricted_headers" => ['Origin','Referer']
         ],
         "test" => [
             "url"=>"http://gm.bs2",

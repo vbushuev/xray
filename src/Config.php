@@ -17,7 +17,8 @@ class Config extends Common{
     protected $secure = false;
     protected $engine = [
         "encode_cookie" => true,
-        "restricted_headers" =>false
+        "restricted_headers" =>false,
+        "client_cookie" => [ "use"=>false ]
     ];
     public function __construct($a=[]){
         if(!isset($a["hosts"]))return;
@@ -57,9 +58,9 @@ class Config extends Common{
 
         //check headers use cache
         foreach (getallheaders() as $name => $value) {
-            if($name=="Cache-Control"&&$value=="no-cache"){
+            if($name=="Cache-Control"&&in_array($value,["no-cache",'no-store'])){
                 //Log::debug("request header $name:$value");
-                //$this->use_cache = false;
+                $this->use_cache = false;
             }
         }
         if(preg_match("/demandware\.store(.+?)cart\-show/i",$_SERVER["REQUEST_URI"])){

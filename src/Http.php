@@ -3,6 +3,7 @@ class Http extends Common{
     protected $results;
     protected $response;
     protected $cookies=[];
+    protected $headers=[];
     protected $cookieFile ='';
     protected $config;
     protected $_html_extensions = ['html','htm','-','aspx'];
@@ -23,9 +24,12 @@ class Http extends Common{
         //    $url = preg_replace("/http/i","https",$url);
         //}
         $headers = [
+            'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host),
             'Cookie: '.$cookies,
             //'Referer: '.$refer,
-            'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host)
+            //"Cache-Control: no-cache",
+            //"Pragma: no-cache",
+            //"Connection: "
         ];
         foreach (getallheaders() as $name => $value) {
             $countryDomain = preg_replace("/^.+\.([a-z]+)$/","$1",$this->config->host);
@@ -35,11 +39,19 @@ class Http extends Common{
                 //array_push($headers,"$name: ".preg_replace("/http/i","https",$this->config->host));
             }
             else if($name == "Referer"){
-                $v = preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value);
-                if($this->config->secure)$v=preg_replace("/http\:\/\//i","https://www.",$v);
+                //$v = preg_replace("/(\.xray\.bs2|\.gauzymall\.com)/i",".".$countryDomain,$value);
+                $v = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"])."/i",preg_replace("/^(http|https)\:\/\//i","",$this->config->host),$value);
+
+                //if($this->config->secure)$v=preg_replace("/http\:\/\//i","https://www.",$v);
                 array_push($headers,"$name: ".$v);
+            }/*
+            else if($name == "Pragma"){
+                array_push($headers,"Pragma: no-cache");
             }
-            else if(!in_array($name,["Host","Cookie","Referer","X-Requested-With"])){
+            else if($name == "Cache-Control"){
+                array_push($headers,"Cache-Control: no-cache");
+            }*/
+            else if(!in_array($name,["Host","Cookie","Referer","X-Requested-With","Content-Length"])){
                 if(($this->config->engine["restricted_headers"]===false)||(is_array($this->config->engine["restricted_headers"])&&in_array($name,$this->config->engine["restricted_headers"])))
                     array_push($headers,"$name: $value");
             }
@@ -50,19 +62,21 @@ class Http extends Common{
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER=>$headers,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => 1,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => 2,
-            CURLOPT_ENCODING => "", // обрабатывает все кодировки
+            CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_MAXREDIRS =>20, // останавливаться после 10-ого редиректа
+            CURLOPT_SSL_VERIFYPEER => false,
+            //CURLOPT_SSL_VERIFYHOST => 2,
+            CURLOPT_ENCODING => "", // обрабатывает все кодировки
+
             //CURLOPT_FRESH_CONNECT => 1,
             //CURLOPT_FORBID_REUSE => 1,
             //CURLOPT_AUTOREFERER => 1,
-            CURLOPT_FOLLOWLOCATION => 1,
+            CURLOPT_HEADER => 1,
             CURLOPT_VERBOSE => 1,
             CURLOPT_STDERR => $verbose,
-            //CURLOPT_CERTINFO => 1,
             CURLINFO_HEADER_OUT => 1,
+            //CURLOPT_CERTINFO => 1,
+
         ];
         $ext = "html";
         if(isset($host["path"])){
@@ -76,22 +90,45 @@ class Http extends Common{
         if(in_array($ext,$this->_html_extensions))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
-            $postData = ($this->config->engine["encode_cookie"]) ? http_build_query($_POST) : join('&',$_POST);
+            $postData = ($this->config->engine["encode_cookie"]) ? http_build_query($_POST) : "";
+            if(!$this->config->engine["encode_cookie"]){
+                foreach($_POST as $n=>$v)
+                    $postData .= ((strlen($postData)==0)?"":"&").$n."=".$v;
+            }
             $curlOptions[CURLOPT_POSTFIELDS]=$postData;
             Log::debug("POST data: ".$postData);
         }
         curl_setopt_array($curl, $curlOptions);
-        $this->results = $this->stripHeaders(curl_exec($curl));
+        $response = curl_exec($curl);
         $this->response = curl_getinfo($curl);
+        $this->results = $this->stripHeaders($response,$this->response);
+        //Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
         //if($method == 'POST'){
-            if(in_array($ext,$this->_html_extensions))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
+            //if(in_array($ext,$this->_html_extensions))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
             //Log::debug("Response DATA: ".$this->results);
         //}
         //if(in_array($ext,['html','htm']) && count($this->cookies))Log::debug('got COOKIES:['.json_encode($this->cookies,JSON_PRETTY_PRINT)."]");
         curl_close($curl);
         return $this->results;
     }
-    protected function stripHeaders($_){
+    protected function stripHeaders($r,$h){
+        $_h = substr($r,0,$h["header_size"]);
+        $_r = substr($r,$h["header_size"]);
+        if(preg_match_all("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);/i",$_h,$_mm)){
+            for($i=0;$i<count($_mm[0]);++$i){
+                $this->cookies[$_mm["c"][$i]]=htmlspecialchars_decode(urldecode($_mm["v"][$i]));
+            }
+        }
+        if(preg_match_all("/(?<h>.+?)\:(?<v>.+?)[\r\n]+/i",$_h,$_mm)) {
+            for($i=0;$i<count($_mm[0]);$i++){
+                if($h!="Set-Cookie")$this->headers[$_mm["h"][$i]] = $_mm["v"][$i];
+            }
+        }
+        Log::debug("response_headers: ".$_h);
+        Log::debug("response_content: ".$_r);
+        return $_r;
+    }
+    protected function stripHeaders_2($_){
         $_r = $_;
         if(preg_match("/^HTTP\/1\.1\s*\d+\s*.+/",$_r)){
             $_a = preg_split("/\r\n\r\n/i",$_,2);
@@ -102,6 +139,13 @@ class Http extends Common{
                       for($i=0;$i<count($_mm[0]);++$i){
                         $this->cookies[$_mm["c"][$i]]=htmlspecialchars_decode(urldecode($_mm["v"][$i]));
                       }
+                    }
+                    elseif (preg_match_all("/(?<h>.+?)\:(?<v>.+?)\\r\\n/i",$_a[0],$_mm)) {
+                        //Log::debug(json_encode($_mm,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+                        for($i=0;$i<count($_mm[0]);$i++){
+                            $this->headers[$_mm["h"][$i]] = $_mm["v"][$i];
+                        }
+
                     }
                     /*if(preg_match_all("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);(?<e>expires=(.+?);)?/i",$_a[0],$_mm)){
                         for($i=0;$i<count($_mm[0]);++$i){
@@ -137,11 +181,20 @@ class Http extends Common{
     protected function outCookie(){
         $c='';
         $_coo = [];
-        if(file_exists($this->cookieFile)) {
-            $this->cookies = json_decode(file_get_contents($this->cookieFile),true);
-            $_coo = array_merge($_coo, $this->cookies);
-        }
         $_coo = array_merge($_coo,$this->config->cookie);
+        if($this->config->engine["client_cookie"]["use"]){
+            if(isset($this->config->engine["client_cookie"]["list"])&&count($this->config->engine["client_cookie"]["list"])){
+                foreach ($this->config->engine["client_cookie"]["list"] as $k) {
+                    if(isset($_COOKIE[$c]))$_coo[$k] = $v;
+                }
+            }else $_coo = array_merge($_coo,$_COOKIE);
+        }else{
+            if(file_exists($this->cookieFile)) {
+                $this->cookies = json_decode(file_get_contents($this->cookieFile),true);
+                $_coo = array_merge($_coo, $this->cookies);
+            }
+        }
+        $this->cookies = $_coo;
         foreach($_coo as $k=>$v){
             if($this->config->engine["encode_cookie"])$v = urlencode($v);
             $c.="{$k}={$v}; ";
@@ -152,25 +205,30 @@ class Http extends Common{
         foreach ($this->cookies as $key => $value) {
             if($key!="googtrans")
                 if($this->config->engine["encode_cookie"]) setcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
-                else setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
-                //setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
-            //if($key!="googtrans")setcookie($key,$value["v"],$value["e"],$value["p"]);
-            //if($key!="googtrans")header('Set-Cookie: '.$key.'='.$value."; expires=Sat, 26-Dec-2099 11:39:12 GMT; path=/\r\n");
-            //if(!isset($_COOKIE[$key])){
-                //Log::debug("setcookie $key = $value");
-                //if(!isset($_COOKIE[$key]))
-                //setcookie($key,$value,time()+60*60*24,"/",".".$_SERVER["HTTP_HOST"]);
-
-            //}
+                else {
+                    if(preg_match("/[\r\n\t;,]/",$value)){
+                        Log::debug("wromg cookie - ".$key."=".$value);
+                        $value = urlencode($value);
+                    }
+                    setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
+                }
         }
         file_put_contents($this->cookieFile,json_encode($this->cookies,JSON_PRETTY_PRINT));
-        /*
-        foreach ($this->config->cookie as $key => $value) {
-            //if(!isset($_COOKIE[$key])){
-                //Log::debug("setcookie $key = $value");
-                setcookie($key,$value);//,time()+60*60*24,"/",$_SERVER["HTTP_HOST"]);
-            //}
-        }*/
+    }
+    public function inHeaders(){
+        Log::debug(json_encode($this->headers,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        foreach ($this->headers as $h=>$v) {
+            if(in_array($h,[
+                "Content-Type",
+                "Last-Modified",
+                "Cache-Control",
+                "Expires",
+                "SD-X-WS",
+                "Vary",
+                "Date",
+                "Connection"
+            ]))header("{$h}: {$v}");
+        }
     }
 };
 ?>

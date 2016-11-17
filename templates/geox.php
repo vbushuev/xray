@@ -35,7 +35,7 @@
                                         </a>
                                     </div>
                                     <div class="col-xs-12 col-sm-3">
-                                        <a href="//GEOX.gauzymall.com" class="logo-link">
+                                        <a href="//forever21.gauzymall.com" class="logo-link">
                                             <img src="/css/img/f21_logo.svg" alt="GEOX"/>
                                             <div class="logo-link-desc">Остаться в Foreve21</div>
                                             <div class="logo-link-overlay"></div>
@@ -160,7 +160,7 @@
                         </div>
                     </li>
                     <li>
-                        <a class="main-nav-item credit" data-ref="credit-section"><b>Рассрочка</b></a>
+                        <a class="main-nav-item credit" data-ref="credit-section" id="credit-button"><b>Рассрочка</b></a>
                         <div class="bs-overlay bootstrap-iso" id="credit-section">
                             <div class="container bs-popup-window-wrapper">
                                 <div class="bs-popup-window" id="credit-form">
@@ -169,8 +169,7 @@
                                     </div>
                                     <h3>Уважаемый клиент!</h3>
                                     <div class="row">
-                                        Gauzymall  планирует предложить покупателям возможность приобретения товаров в рассрочку. Рассрочка будет предоставляться на срок до 6 мес со дня получения заказа на сумму в размере 100% от стоимости заказа.
-                                        Нам очень важно узнать Ваше мнение, чтобы предложить Вам эту услугу.
+                                        Gauzymall планирует предложить покупателям возможность приобретения товаров в рассрочку. Рассрочка будет предоставляться на сумму до 100% от стоимости заказа и на срок до 6 месяцев с ежемесячным погашением. Нам очень важно узнать Ваше мнение, чтобы предложить Вам эту услугу.
                                     </div>
                                     <div class="row bs-message list-group">
                                         Просим ответить на несколько вопросов:
@@ -179,7 +178,7 @@
                                             <div class="bs-input-field bs-rub"><input name="credit_amount" id="credit_amount" type="number" placeholder="0.00"></div>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list-group-item">
-                                            <h4>На какой срок Вы желаете получить рассрочку оплаты заказа?</h4>
+                                            <h4>На сколько месяцев Вы желаете получить рассрочку оплаты заказа?</h4>
                                             <div class="bs-input-field bs-calendar"><input name="credit_month" id="credit_month" type="number" placeholder="6"></div>
                                         </div>
                                     </div>
@@ -283,7 +282,7 @@
                         <div class="greetings-message">
                             <h1>Привет!</h1>
                             <p>
-                                Мы рады видеть Вас в магазине  GEOX на торговом портале Gauzymall.
+                                Мы рады видеть Вас в магазине GEOX на торговом портале Gauzymall.
                             </p>
                             <p>
                                 GEOX – это итальянская компания, которая создаёт и производит верхнюю одежду и обувь для женщин, мужчин и детей и является одним из ведущих мировых брендов в категории Casual. Визитной карточкой GEOX являются дышащие и водонепроницаемые свойства обуви и одежды, которые обеспечивают моментальное ощущение комфорта в любое время года и в любую погоду. Каждая коллекция GEOX отражает актуальные тенденции сезона. Это одежда и обувь для тех, кто ищет что-то удобное для повседневного использования с утра до вечера, в городе и на природе. Для тех, кто любит легкость и естественность не только в повседневной, но и официальной одежде. Для тех, кто хочет выглядеть стильным и современным без ущерба для комфорта, качества, и прежде всего, хорошего самочувствия.
@@ -321,17 +320,19 @@
 </div>
 
 
-<!-- Yandex.Metrika counter --
+
+<!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {
         (w[c] = w[c] || []).push(function() {
             try {
-                w.yaCounter40684579 = new Ya.Metrika({
-                    id:40684579,
+                w.yaCounter40932904 = new Ya.Metrika({
+                    id:40932904,
                     clickmap:true,
                     trackLinks:true,
                     accurateTrackBounce:true,
-                    webvisor:true
+                    webvisor:true,
+                    trackHash:true
                 });
             } catch(e) { }
         });
@@ -348,24 +349,25 @@
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/40684579" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/40932904" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
-<!--Google Analytics --
+<!-- /Yandex.Metrika counter -->
+<!--Google Analytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-84557375-8', 'auto');
+  ga('create', 'UA-84557375-10', 'auto');
   ga('send', 'pageview');
 
 </script>
 <!-- end -->
-<!-- Translate --
+<!-- Translate -->
 <div id="google_translate_element"></div><script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
-}
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
+    }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <!-- end -->

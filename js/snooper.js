@@ -129,7 +129,8 @@ jQuery.noConflict();
         };
         console.debug(d);
         $.ajax({
-            url:"//l.gauzymall.com/social",
+            //url:"//l.gauzymall.com/social",
+            url:"//service.garan24.bs2/social",
             data:d
         });
     }

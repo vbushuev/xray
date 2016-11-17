@@ -2,6 +2,7 @@
     "ctshirts":{
         "s":"www.ctshirts.com",
         "j":"#pdpMain",
-        "c":"CTS"
+        "c":"CTS",
+        "f":"^shirts\\-"
     }
 }

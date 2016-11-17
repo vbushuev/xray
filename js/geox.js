@@ -2,6 +2,12 @@
 jQuery.noConflict();
 (function($) {
     console.clear = function(){console.debug("console was cleared by ...");}
+    var old_alarm = window.alert;
+    window.alert = function (s){
+        console.debug("alert called");
+        //old_alarm(s);
+        console.debug("alert called");
+    }
 
     window.parser = {
         selector:".b-checkout_button",
@@ -45,13 +51,18 @@ jQuery.noConflict();
             $("body,header,main,#main").css("margin-top","50px");
             $(".fancybox-overlay-fixed").css("top","40px");
             //$("body").css("margin-top","50px");
+
             $("header > div.b-header_main-top > div > div.b-header_main-content > ul > li.l-header_service_menu-item.js-flyout-container.js-login_dropdown-container").hide();
             $("header > div.b-header-promo_box").hide();
             $("#pdp-floating,.promoct,.b-checkout_progress_indicator").hide();
             $(".b-login_dropdown").hide();
             $(".b-checkout_content_block").hide();
             $(".b-summary_list-line.b-summary_list-shipping").hide();
+            $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_table-list > div.b-cart_table-line_body > div:nth-child(2) > div.b-cart_table-cols.b-cart_table-body_col_product > div.b-cart_table-body_col_product-user_actions").hide();
             $(".js-first-visit-banner.b-first_visit_banner").hide();
+            $(".b-language_selector").hide();
+            //$(".b-cart_table-body_col_qty-item_quantity-minus,.b-cart_table-body_col_qty-item_quantity-plus").hide();
+            $("#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_order_total").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > h3,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_coupon_code,#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty,#shippingAnchor,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_payment_method").hide();
 
@@ -100,10 +111,3 @@ jQuery.noConflict();
     }
 })(jQuery);
 $=jQuery.noConflict();
-
-var old_alarm = window.alert;
-window.alert = function (s){
-    console.debug("alert called");
-    //old_alarm(s);
-    console.debug("alert called");
-}
