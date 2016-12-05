@@ -1,5 +1,6 @@
 jQuery.noConflict();
 (function($){
+    var api_host = document.location.href.match(/xray\.bs2/)?"//service.garan24.bs2":"//l.gauzymall.com";
     function htmlEscape(str) {
         return str.replace(/\s*\<h3(.+)?\<\/h3\>\s*/,"").trim();
         return str
@@ -23,10 +24,10 @@ jQuery.noConflict();
             var t=this,cbf = (arguments.length)?arguments[0]:null;
             if(this._l)return cbf();
             this._cp = parseInt(garan.cookie.get("gparser_cp",0));
-            $.getJSON("/js/s.json",function(d){
+            $.getJSON(api_host+"/prod/s",function(d){
                 t._i=true;
                 t.l=d;
-                $.getJSON("/js/categories.json",function(dc){
+                $.getJSON(api_host+"/prod/categories",function(dc){
                     t.cat.c=dc
                     cbf();
                 });
@@ -62,55 +63,117 @@ jQuery.noConflict();
                     {id:"product_cat-51"}//,name:"Одежда"}
                 ],*/
                 //tags:[],//[52,53,54],
-                type:"external",
+                //type:"external",
+                type:"variable",
+                variations:[],
+                attributes:[]
                 //status:"draft"
                 /*variations:{
                     color:f.j.find(".b-cart_table-body_col_product-attribute.m-color .b-cart_table-body_col_product-attribute-value").text().trim(),
                     size:f.j.find(".b-cart_table-body_col_product-attribute.m-size .b-cart_table-body_col_product-attribute-value").text().trim(),
                 }*/
-            };
-            var ii = 0;
-
+            },ii = 0,gp=this;
             $("#pdpMain img.pdp-main__image").each(function(){
                 var $t = $(this);
-                console.debug($t.attr("src"));
+                //console.debug($t.attr("src"));
                 if(ii>0)p.images.push({src:$t.attr("src").replace(/\?.*$/,""),position:ii-1});
                 ii++;
             });
-            /*if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_a.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_a.jpg"),position:0});
-            if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_b.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_b.jpg"),position:1});
-            if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_c.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_c.jpg"),position:2});
-            if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_d.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_d.jpg"),position:3});
-            if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_e.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_e.jpg"),position:3});
-            if($("img[src='"+p.product_img.replace(/_[a-z]\.jpg/,"_f.jpg")+"']").length)p.images.push({src:p.product_img.replace(/_[a-z]\.jpg/,"_f.jpg"),position:3});
-            */
             for(i in utag_data.product_category){
                 var re = new RegExp(f.f)
-                console.log(re);
-
-                console.log(utag_data.product_category[i])
-                console.log(utag_data.product_category[i].replace(re,""))
                 var c = this.cat.get(utag_data.product_category[i].replace(re,""));
-                if(c==false){
-                    console.warn("No category {"+utag_data.product_category[i]+"} matching!!!");
-                }
-                else p.categories.push(c);
+                if(c==false) console.warn("No category {"+utag_data.product_category[i]+"} matching!!!");
+                else p.categories = p.categories.concat(c);
             }
-            console.log(p);
-            this.s(p);
+            var ai = 0;
+            if($(".swatches.size.attribute.attribute__variants-swatches").length){
+                p.attributes.push({
+                    name:"Размер",
+                    position:ai,
+                    visible:true,
+                    variation:true,
+                    options:[]
+                });
+                $("ul.swatches.size.attribute.attribute__variants-swatches > li:not(.unselectable)").each(function(t){//sized
+                    var $t = $(this),v = $t.find("div").text().trim();
+                    p.variations.push({
+                        sku:p.sku+v,
+                        regular_price:p.regular_price
+                    });
+                    p.attributes[ai].options.push(v);
+                });
+                ai++;
+            }
+            if($(".swatches.width.attribute.attribute__variants-swatches").length){
+                p.attributes.push({
+                    name:"Размер воротника",
+                    slug:"collar",
+                    position:ai,
+                    visible:true,
+                    variation:true,
+                    options:[]
+                });
+                $("ul.swatches.width.attribute.attribute__variants-swatches > li:not(.unselectable)").each(function(t){//sized
+                    var $t = $(this),v = $t.find("div").text().trim();
+                    p.variations.push({
+                        sku:p.sku+v,
+                        regular_price:p.regular_price
+                    });
+                    p.attributes[ai].options.push(v);
+                });
+                ai++;
+            }
+            if($(".swatches.length.attribute.attribute__variants-swatches").length){
+                p.attributes.push({
+                    name:"Длинна рукава",
+                    slug:"sleeve",
+                    position:ai,
+                    visible:true,
+                    variation:true,
+                    options:[]
+                });
+                $("ul.swatches.length.attribute.attribute__variants-swatches > li:not(.unselectable)").each(function(t){//sized
+                    var $t = $(this),v = $t.find("div").text().trim().replace(/[\D\s]+/,"");
+                    p.variations.push({
+                        sku:p.sku+v,
+                        regular_price:p.regular_price
+                    });
+                    p.attributes[ai].options.push(v);
+                });
+                ai++;
+            }
+            if($(".swatches.cufftype.attribute.attribute__variants-swatches").length){
+                p.attributes.push({
+                    name:"Тип манжета",
+                    slug:"cuff",
+                    position:ai,
+                    visible:true,
+                    variation:true,
+                    options:[]
+                });
+                $("ul.swatches.cufftype.attribute.attribute__variants-swatches > li:not(.unselectable)").each(function(t){//sized
+                    var $t = $(this),v = $t.find("div").text().trim();
+                    p.variations.push({
+                        sku:p.sku+v,
+                        regular_price:p.regular_price
+                    });
+                    p.attributes[ai].options.push(v);
+                });
+                ai++;
+            }
+            $(document).trigger("gparser:parsed",p);
+            if(p.sku.length) this.s(p);
         },
         s:function(p){
             $.ajax({
-                url:"//service.garan24.bs2/prod/create",
+                url:api_host+"/prod/create",
                 type:"post",
                 crossDomain: true,
                 //contentType:'application/json',
                 data: JSON.stringify(p),
                 dataType:'json',
                 success: function(data){
-                    console.debug(data);
-                    garan.cookie.set("gparser_cp",parseInt(garan.cookie.get("gparser_cp",0))+1);
-                    $(document).trigger("gparser:sent");
+                    $(document).trigger("gparser:sent",data);
                 },
                 error:function(e){}
             });
@@ -128,12 +191,28 @@ jQuery.noConflict();
         cat:{
             c:false,
             get:function(c){
+                var r = [];
                 for(i in this.c){
-                    if(c==this.c[i].slug) return this.c[i].id
+                    if(c==this.c[i].slug){
+                        r.push(this.c[i].id);
+                        r = r.concat(this.getParent(this.c[i].parent));
+                        break;
+                    }
                 }
-                return false;
+                return r.length?r:false;
+            },
+            getParent:function(c){
+                var r = [];
+                for(i in this.c){
+                    if(c==this.c[i].id){
+                        r.push(this.c[i].id);
+                        r = r.concat(this.getParent(this.c[i].parent));
+                        break;
+                    }
+                }
+                return r;
             }
-        }
+        },
     };
     window.gp=gp;
     var tr = {
@@ -155,20 +234,26 @@ jQuery.noConflict();
 
     $(document).ready(function(){
         tr.init();
-        /*
-        var curp = $(".tiles-container .tile");// .product-tile .product-image.tile__image > a:nth-child(1)");
-        if(curp.length>2) {
+        /*var curp = $(".tiles-container .tile");// .product-tile .product-image.tile__image > a:nth-child(1)");
+        if(curp.length>3) {
             garan.cookie.set("gparser_last_page",document.location.href);
             if(garan.cookie.get("gparser_cp",0)<4)
+            //if(garan.cookie.get("gparser_cp",0)<4)
                 document.location = $(curp[garan.cookie.get("gparser_cp",0)]).find(".product-image.tile__image > a:nth-child(1)").attr("href");
-        }else
-        */
-        setTimeout(function(){
-            console.debug("let's parse this...");
-            gp.a();
-        },100);
-        $("#add-to-cart").on("click",function(){
-            gp.a();
-        });
+        }else */
+        gp.a();
+        $(document).bind("gparser:parsed",function(e,d){
+            console.debug("Parsed");
+            console.debug(d);
+        })
+        $(document).bind("gparser:sent",function(e,d){
+            console.debug("Sent");
+            console.debug(d);
+            //garan.cookie.set("gparser_cp",parseInt(garan.cookie.get("gparser_cp",0))+1);
+            history.back();
+        })
+        //setTimeout(function(){console.debug("let's parse this...");gp.a();},100);
+        //$("#add-to-cart").on("click",function(){gp.a();});
+
     });
 })(jQuery);

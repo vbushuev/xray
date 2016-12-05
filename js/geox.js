@@ -61,7 +61,7 @@ jQuery.noConflict();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_table-list > div.b-cart_table-line_body > div:nth-child(2) > div.b-cart_table-cols.b-cart_table-body_col_product > div.b-cart_table-body_col_product-user_actions").hide();
             $(".js-first-visit-banner.b-first_visit_banner").hide();
             $(".b-language_selector").hide();
-            //$(".b-cart_table-body_col_qty-item_quantity-minus,.b-cart_table-body_col_qty-item_quantity-plus").hide();
+            $(".b-cart_table-body_col_qty-item_quantity-minus,.b-cart_table-body_col_qty-item_quantity-plus").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_table > div.b-cart_order_total").hide();
             $("#p-cart > main > div > div.l-checkout_cart-left > h3,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_coupon_code,#p-cart > main > div > div.l-checkout_cart-left > div.l-benefeet_loyalty.js-benefeet_loyalty,#shippingAnchor,#p-cart > main > div > div.l-checkout_cart-left > div.b-cart_payment_method").hide();

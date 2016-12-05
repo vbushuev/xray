@@ -4,5 +4,11 @@
         "j":"#pdpMain",
         "c":"CTS",
         "f":"^shirts\\-"
+    },
+    "brandalley":{
+        "s":"www.brandalley.com",
+        "j":"#pdpMain",
+        "c":"BRA",
+        "f":"^shirts\\-"
     }
 }

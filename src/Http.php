@@ -25,12 +25,13 @@ class Http extends Common{
         //}
         $headers = [
             'Host:'.preg_replace("/^(http|https)\:\/\//i","",$this->config->host),
-            'Cookie: '.$cookies,
+
             //'Referer: '.$refer,
             //"Cache-Control: no-cache",
             //"Pragma: no-cache",
-            //"Connection: "
+            //"Connection: keep-alive"
         ];
+        if(strlen($cookies))$headers[]='Cookie: '.$cookies;
         foreach (getallheaders() as $name => $value) {
             $countryDomain = preg_replace("/^.+\.([a-z]+)$/","$1",$this->config->host);
             //if($name == "Origin")array_push($headers,"$name: ".preg_replace("/^(http|https)\:\/\//i","",$this->config->host));
@@ -62,20 +63,24 @@ class Http extends Common{
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER=>$headers,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => 1,
-            CURLOPT_MAXREDIRS =>20, // останавливаться после 10-ого редиректа
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_AUTOREFERER => true,
+            //CURLOPT_MAXREDIRS =>20, // останавливаться после 10-ого редиректа
             CURLOPT_SSL_VERIFYPEER => false,
-            //CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_ENCODING => "", // обрабатывает все кодировки
+            CURLOPT_SSL_VERIFYHOST => 2,
+            //CURLOPT_CERTINFO => true,
+
 
             //CURLOPT_FRESH_CONNECT => 1,
             //CURLOPT_FORBID_REUSE => 1,
-            //CURLOPT_AUTOREFERER => 1,
-            CURLOPT_HEADER => 1,
+
+            CURLOPT_HEADER => true,
             CURLOPT_VERBOSE => 1,
             CURLOPT_STDERR => $verbose,
             CURLINFO_HEADER_OUT => 1,
-            //CURLOPT_CERTINFO => 1,
+
+            //CURLOPT_POSTREDIR=> 3
 
         ];
         $ext = "html";
@@ -87,14 +92,17 @@ class Http extends Common{
         if($this->config->proxy!==false){
             $curlOptions[CURLOPT_PROXY] = $this->config->proxy;
         }
-        if(in_array($ext,$this->_html_extensions))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
+        //if(in_array($ext,$this->_html_extensions))Log::debug("Fetching by ".$method." [".$url."] with headers: ".json_encode($headers,JSON_PRETTY_PRINT)).(($method == 'POST')?" ".json_encode($_POST,JSON_PRETTY_PRINT):"");
         if($method == 'POST'){
             $curlOptions[CURLOPT_POST]=1;
+            //print_r($_POST);
+            $postData = http_build_query($_POST);
+            /*
             $postData = ($this->config->engine["encode_cookie"]) ? http_build_query($_POST) : "";
             if(!$this->config->engine["encode_cookie"]){
                 foreach($_POST as $n=>$v)
                     $postData .= ((strlen($postData)==0)?"":"&").$n."=".$v;
-            }
+            }*/
             $curlOptions[CURLOPT_POSTFIELDS]=$postData;
             Log::debug("POST data: ".$postData);
         }
@@ -102,6 +110,7 @@ class Http extends Common{
         $response = curl_exec($curl);
         $this->response = curl_getinfo($curl);
         $this->results = $this->stripHeaders($response,$this->response);
+        //if(in_array($ext,$this->_html_extensions))Log::debug(json_encode($this->headers,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         //Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
         //if($method == 'POST'){
             //if(in_array($ext,$this->_html_extensions))Log::debug("Response: ".json_encode($this->response,JSON_PRETTY_PRINT));
@@ -114,6 +123,7 @@ class Http extends Common{
     protected function stripHeaders($r,$h){
         $_h = substr($r,0,$h["header_size"]);
         $_r = substr($r,$h["header_size"]);
+        $this->cookies = ($this->cookies==false)?[]:$this->cookies;
         if(preg_match_all("/set\-cookie\:\s*(?<c>.+?)=(?<v>.+?);/i",$_h,$_mm)){
             for($i=0;$i<count($_mm[0]);++$i){
                 $this->cookies[$_mm["c"][$i]]=htmlspecialchars_decode(urldecode($_mm["v"][$i]));
@@ -121,11 +131,11 @@ class Http extends Common{
         }
         if(preg_match_all("/(?<h>.+?)\:(?<v>.+?)[\r\n]+/i",$_h,$_mm)) {
             for($i=0;$i<count($_mm[0]);$i++){
-                if($h!="Set-Cookie")$this->headers[$_mm["h"][$i]] = $_mm["v"][$i];
+                if($_mm["h"][$i]!="Set-Cookie")$this->headers[$_mm["h"][$i]] = $_mm["v"][$i];
             }
         }
-        Log::debug("response_headers: ".$_h);
-        Log::debug("response_content: ".$_r);
+        Log::debug("response_cookies: ".json_encode($this->cookies,JSON_PRETTY_PRINT));
+        //Log::debug("response_content: ".$_r);
         return $_r;
     }
     protected function stripHeaders_2($_){
@@ -207,7 +217,7 @@ class Http extends Common{
                 if($this->config->engine["encode_cookie"]) setcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
                 else {
                     if(preg_match("/[\r\n\t;,]/",$value)){
-                        Log::debug("wromg cookie - ".$key."=".$value);
+                        Log::debug("wrong cookie - ".$key."=".$value);
                         $value = urlencode($value);
                     }
                     setrawcookie($key,$value,time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
@@ -216,17 +226,20 @@ class Http extends Common{
         file_put_contents($this->cookieFile,json_encode($this->cookies,JSON_PRETTY_PRINT));
     }
     public function inHeaders(){
-        Log::debug(json_encode($this->headers,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        //Log::debug(json_encode($this->headers,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         foreach ($this->headers as $h=>$v) {
-            if(in_array($h,[
-                "Content-Type",
-                "Last-Modified",
-                "Cache-Control",
-                "Expires",
-                "SD-X-WS",
-                "Vary",
-                "Date",
-                "Connection"
+            if($h=="Location"){
+                if(preg_match("/(http|https)\:\/\/(.+?)\//i",$v,$m)){
+                    $this->config->host = $m[1]."://".$m[2];
+                    Log::debug("redirect detected - location: ".json_encode($m,JSON_PRETTY_PRINT));
+                }
+                setrawcookie("xray_host",urlencode($this->config->host),time()+60*60*24*30,'/',$_SERVER["HTTP_HOST"]);
+            }
+            if(!in_array($h,[
+                "Content-Length",
+                "Content-Encoding",
+                "Transfer-Encoding",
+                "Location"
             ]))header("{$h}: {$v}");
         }
     }

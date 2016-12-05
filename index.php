@@ -20,7 +20,7 @@ $ext = (isset($upi["extension"]))?preg_split("/\?/",$upi["extension"],1)[0]:"";
 //if($ch!==false&& strlen($ch)&& $cfg->use_cache&& in_array($ext,["js","css","png","svg","jpeg","jpg","gif","ico","swg"])){$h = $ch;$cached=true;}
 
 $h = $g->fetch($u);
-if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff"])){
+if(!in_array($ext,["png","svg","jpeg","jpg","gif","ico","ttf","woff","woff2"])){
     $h = $f->filter($h);
     //$h = $tr->translate($h);
 }

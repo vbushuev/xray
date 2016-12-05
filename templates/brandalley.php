@@ -27,6 +27,12 @@
                                         </a>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
+                                            <img src="/css/img/logos/ba_logo.png" alt="CTShirts" />
+                                            <div class="logo-link-desc">Остаться в BrandAlley</div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                         <a href="//ctshirts.gauzymall.com" class="logo-link">
                                             <img src="/css/img/logos/ctshirts_logo.png" alt="CTShirts" />
                                             <div class="logo-link-desc">Перейти в CTShirts</div>
@@ -51,9 +57,9 @@
                                         </a>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
+                                        <a href="//sportsdirect.gauzymall.com" class="logo-link">
                                             <img src="/css/img/logos/sportsdirect_logo.png" alt="Sportsdirect" />
-                                            <div class="logo-link-desc">Остаться на Sportsdirect</div>
+                                            <div class="logo-link-desc">Перейти на Sportsdirect</div>
                                         </a>
                                     </div>
                                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -63,6 +69,7 @@
                                         </a>
                                     </div>
                                 </div>
+                                <br />
                                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
                                 <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
                                 <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
@@ -82,10 +89,9 @@
                                         <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
                                     </div>
                                     <h3>Как купить</h3>
-                                    <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Add to bag»</strong>.</p>
-                                    <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Корзина»</strong></p>
-                                    <p>Если Вы решили продолжить покупки, то чтобы затем перейти в корзину со страниц сайта, нажмите на логотип корзины в правом верхнем углу экрана.</p>
-                                    <p>Для оформления доставки нажмите <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ - введите адрес электронной почты и номер мобильного телефона, выберите способ доставки, укажите адрес, по которому желаете получить заказ. Для того, чтобы ваш заказ мог пересечь границу, укажите свои паспортные данные. Вы можете оплатить заказ сразу или при получении. Требуется банковская карта.</p>
+                                    <p>Заказ оформляется непосредственно на сайте <strong>BrandAlley</strong> с помощью сервиса Gauzymall, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
+                                    <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«AJOUTER AU PANIER»</strong> (добавить в корзину).</p>
+                                    <p>Для оформления доставки перейдите в корзину (нажмите на логотип корзины в правом верхнем углу экрана) и нажмите кнопку <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ - введите адрес электронной почты и номер мобильного телефона, выберите способ доставки, укажите адрес, по которому желаете получить заказ. Для того, чтобы ваш заказ мог пересечь границу, укажите свои паспортные данные. Вы можете оплатить заказ сразу или при получении. Требуется банковская карта.</p>
                                     <p>После того, как заказ будет оформлен, наш сотрудник проверит все параметры заказа и свяжется с Вами по телефону для его подтверждения и уточнения деталей.</p>
                                     <p>В следующий раз оформить заказ будет проще – мы сохраним данные о получателе заказа и адресе доставки, и Вам не придется вводить их повторно.</p>
                                     <p style="text-align:center;"><strong>Успешных покупок!</strong></p>
@@ -95,6 +101,42 @@
                     </li>
                     <li><a class="main-nav-item shipping" id="shipping-button">Доставка</a></li>
                     <li><a class="main-nav-item payment" id="payment-button">Оплата</a></li>
+                    <li>
+                        <a class="main-nav-item credit" data-ref="credit-section" id="credit-button">Рассрочка</a>
+                        <div class="bs-overlay bootstrap-iso" id="credit-section">
+                            <div class="container bs-popup-window-wrapper">
+                                <div class="bs-popup-window" id="credit-form">
+                                    <div class="bs-popup-close">
+                                        <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
+                                    </div>
+                                    <h3>Уважаемый клиент!</h3>
+                                    <div class="row">
+                                        Gauzymall планирует предложить покупателям возможность приобретения товаров в рассрочку. Рассрочка будет предоставляться на сумму до 100% от стоимости заказа и на срок до 6 месяцев с ежемесячным погашением. Нам очень важно узнать Ваше мнение, чтобы предложить Вам эту услугу.
+                                    </div>
+                                    <div class="row bs-message list-group">
+                                        Просим ответить на несколько вопросов:
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list-group-item">
+                                            <h4>При какой сумме покупки Вам будет интересно получить рассрочку оплаты заказа?</h4>
+                                            <div class="bs-input-field bs-rub"><input name="credit_amount" id="credit_amount" type="number" placeholder="0.00"></div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list-group-item">
+                                            <h4>На сколько месяцев Вы желаете получить рассрочку оплаты заказа?</h4>
+                                            <div class="bs-input-field bs-calendar"><input name="credit_month" id="credit_month" type="number" placeholder="6"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row bs-message">
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                            Если Вы желаете поучаствовать в тестировании услуги и получить рассрочку на льготных условиях, оставьте свой адрес электронной почты:
+                                            <div class="bs-input-field bs-email"><input name="credit_email" id="credit_email" type="text" placeholder="Ваш email"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row bs-message">
+                                        <a class="bs-btn pull-right" href="javascript:socialCreditQuestion('credit-form');" id="credit-button">Спасибо!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
                 </ul>
                 <!--<ul class="nav navbar-nav">
                     <li><a class="main-nav-item translate"><img width="50px" src="/css/img/ru.jpeg" /></a></li>
@@ -115,15 +157,15 @@
                                     <div class="bs-popup-window-content">
                                         <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                                         <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от BrandAlley:</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Оформление заказа без комиссии!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
-                                        <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте BrandAlley, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
+                                        <p>Заказ оформляется непосредственно на сайте <strong>BrandAlley</strong> с помощью сервиса Gauzymall, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
                                         <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
-                                        <p class="text-center">Лучшие европейские товары для всей семьи</p>
-                                        <p>В России бренд Tchibo известен как марка изысканного кофе. В Европе бренд Tchibo c 2003 года - это не только прекрасный кофе, но и огромный список товаров для всей семьи, не уступающих по качеству напитку, сделавшему компании имя.</p>
-                                        <p>В Австрии Tchibo торгует под маркой Eduscho, которая традиционно (уже более 40 лет) известна в этой стране.</p>
-                                        <p>К выбору товаров для своего магазина Tchibo относится так же, как и к производству кофе, давая возможность своим покупателям насладится качеством и получить удовольствие от покупок.</p>
-                                        <p>Каждую неделю магазин Tchibo выбирает новую тему, включающую в себя несколько десятков товаров, продаваемых на специальных условиях</p>
+                                        <p class="text-center">Модные бренды со скидкой до 80%!</p>
+                                        <p>Интернет-магазин <strong>BrandAlley</strong> полностью оправдывает свое название – это настоящая аллея брендов с доступными ценами, отменным качеством и широким ассортиментом. Всего представлено более 300 известных брендов. В магазине постоянно проводятся распродажи со скидкой до 80 - 90%, которым посвящен отдельный раздел. Товары, продающиеся со значительными скидками, есть и в каждой группе товаров магазина.</p>
+                                        <p>По ассортименту <strong>BrandAlley</strong> - это семейный магазин, где Вы сможете купить стильные вещи и подарки для всех взрослых членов семьи и для детей. В магазине продается одежда, обувь, нижнее белье, сумки и аксессуары, игрушки, предметы интерьера и многое другое. </p>
+                                        <p>Интернет магазин <strong>BrandAlley</strong> каждый месяц посещает более 7 миллионов покупателей.</p>
+                                        <p>Присоединяйтесь!</p>
                                     </div>
                                 </div>
                             </div>
@@ -226,17 +268,19 @@
                     <div class="greetings-border-1">
                         <div class="greetings-border-2">
                             <h1>Привет!</h1>
-                            <p>Мы рады видеть Вас в магазине BrandAlley на сервисе Gauzymall.</p>
-                            <p>Вся продукция, продаваемая в известном французском онлайн магазине BrandAlley изготавливается специально для этого магазина. Разработкой продуктов занимаются специалисты BrandAlley, что позволяет заложить высокие требования к качеству уже на этом этапе. Ассортимент магазина включает тысячи товаров, таких как одежда, детские товары, товары для дома и сада, аксессуары, товары для спорта и отдыха и многое другое. Каждый член Вашей семьи сможет найти в этом магазине что то, отвечающее его желаниям.</p>
+                            <p>Мы рады видеть Вас в магазине <strong>BrandAlley</strong> на торговом портале Gauzymall.</p>
+                            <p>Интернет-магазин <strong>BrandAlley</strong> - это широкий ассортимент товаров отменного качества от более 300 известных мировых брендов, которые предлагаются по доступным ценам.</p>
+                            <p>В магазине постоянно проводятся распродажи со скидкой до 80 - 90%, которым посвящен отдельный раздел.</p>
+                            <p>По ассортименту <strong>BrandAlley</strong> - это семейный магазин, где Вы сможете купить стильные вещи и подарки для всех взрослых членов семьи и для детей. В магазине продается одежда, обувь, нижнее белье, сумки и аксессуары, игрушки, предметы интерьера и многое другое.</p>
                             <p class="highlighted-text">
                                 В ноябре мы проводим акцию:<br />
-                                - доставка в Россию бесплатно!<br />
-                                - оплата после доставки
+                                - Оформление заказа без комисии!<br />
+                                - Оплата после доставки заказа!
                             </p>
-                            <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Add to bag»</strong>.</p>
-                            <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«Корзина»</strong>.</p>
+                            <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«Ajouter au panier»</strong>.</p>
+                            <p>Чтобы перейти в корзину, нажмите <strong style="color: #0C7DCB;">«PANIER»</strong>.</p>
                             <p>Для оформления доставки перейдите в корзину и нажмите кнопку <strong style="color: #0C7DCB;">«Оформить заказ»</strong>. Дальше следуйте инструкциям, которые пошагово будут показываться на экране и помогут Вам оформить заказ.</p>
-                            <button class="start-shopping">Начать</button>
+                            <p class="text-center"><button class="start-shopping">Начать</button></p>
                         </div>
                     </div>
                 </div>
@@ -253,3 +297,54 @@
         <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
     </div>
 </div>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter40823799 = new Ya.Metrika({
+                    id:40823799,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<!-- /Yandex.Metrika counter -->
+
+<!-- Google Analytics counter -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-84557375-9', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- /Google Analytics counter -->
+
+<!-- Translate --
+<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fr', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<!-- end -->

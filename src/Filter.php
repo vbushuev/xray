@@ -17,6 +17,7 @@ class Filter extends Common{
                 "/https".preg_quote('\x3A\x2F\x2F')."www\.".$this->donor_pattern."/"  => "\\x2F\\x2F".$_SERVER["HTTP_HOST"],
                 "/http".preg_quote('\x3A\x2F\x2F')."www\.".$this->donor_pattern."/"  => "\\x2F\\x2F".$_SERVER["HTTP_HOST"],
                 "/\<script\s+src\=\".+demandware\..+\/js\/app\.js\"\>/"     => "<script src='/cache/www.ctshirts.com/app.js'></script>",
+                "/\<script\s+src\=\".+wcsstore\..+\/main\.package\.js\"\>/"     => "<script src='/cache/www.ernstings-family.at/main.package.js'></script>",
                 "/\<script\>.+\s+.+\s+.+GoogleAnalyticsObject[\s\S]+?\<\/script\>/" => "",
                 "/if\s*\(document\.location\.protocol\s*==\s*'http:'\)/" => "if(false)"
 

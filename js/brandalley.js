@@ -32,43 +32,62 @@ function translateAndHide() {
     $('input.button_add_cart').val('Добавить в корзину');
 }
 
-$(document).on("show.bs.modal", ".modal", function() {
-
-    var popup = $(this);
-
-    if ( popup.hasClass('inscription-private-sale') ) {
-
-        popup.prev().remove();
-        popup.remove();
-
-    }
-
-});
+// $(document).on("show.bs.modal", ".modal", function() {
+//
+//     var popup = $(this);
+//
+//     if ( popup.hasClass('inscription-private-sale') ) {
+//
+//         popup.prev().remove();
+//         popup.remove();
+//
+//     }
+//
+// });
 
 var parser = {
     selector:".ContinueOn",
     init:function(){
-        // var messageIsShown = garan.cookie.get( "greetings_message" );
-        // if ( messageIsShown != "is_shown" ) {
-        //     var popup = $( '.bs-overlay.ctshirts-greetings' );
-        //     var message = $( '.bs-overlay.ctshirts-greetings .bs-popup-window' );
-        //     popup.css( 'display', 'block' );
-        //     $( '.start-shopping' ).click( function (e) {
-        //         e.preventDefault();
-        //         //popup.css( 'display', 'none' );
-        //         garan.cookie.set("greetings_message","is_shown");
-        //         message.animate({top: "-1000"},{
-        //             duration: 400,
-        //             complete: function() {
-        //                 popup.animate({opacity: "0"},{
-        //                     duration: 400,
-        //                     complete: function() {popup.css( 'display', 'none' );}
-        //                 });
-        //             }
-        //         });
-        //     });
-        //
-        // }
+
+        $(document.body).on("submit", ".add-to-cart-form", function(event) {
+            $.ajax({
+                //url:"//service.garan24.bs2/analytics",
+                url:"//l.gauzymall.com/analytics",
+                success:function(d){
+                    console.log(d);
+                }
+            });
+        });
+
+        if ( document.location.href == 'http://brandalley.gauzymall.com/' ) {
+
+            $('.fade').remove();
+            $('.modal-backdrop').hide();
+            $('body').removeClass('modal-open');
+
+        }
+
+        var messageIsShown = garan.cookie.get( "greetings_message" );
+        if ( messageIsShown != "is_shown" ) {
+            var popup = $( '.bs-overlay.ctshirts-greetings' );
+            var message = $( '.bs-overlay.ctshirts-greetings .bs-popup-window' );
+            popup.css( 'display', 'block' );
+            $( '.start-shopping' ).click( function (e) {
+                e.preventDefault();
+                //popup.css( 'display', 'none' );
+                garan.cookie.set("greetings_message","is_shown");
+                message.animate({top: "-1000"},{
+                    duration: 400,
+                    complete: function() {
+                        popup.animate({opacity: "0"},{
+                            duration: 400,
+                            complete: function() {popup.css( 'display', 'none' );}
+                        });
+                    }
+                });
+            });
+
+        }
 
         translateAndHide();
 
@@ -117,7 +136,7 @@ var parser = {
                     title:$.trim($t.find(".title_product").text()),
                     description:$t.find("ss_title_product a").text(),
                     product_img:'http:' + $t.find(".articleItemImg img").attr("src"),
-                    product_url:"http://sportsdirect.com"+$t.find(".title_product a").attr("href"),
+                    product_url:"https://www-v6.brandalley.fr"+$t.find(".title_product a").attr("href"),
                     sku:$t.find(".title_product a").attr("href").replace(/\D/g,''),
                     variations:{
                         size:$t.find(".info_product_sup").text(),

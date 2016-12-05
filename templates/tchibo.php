@@ -24,50 +24,62 @@
                             </div>
                             <div class="bs-popup-window-content">
                                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
-                                <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
-                                <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
-                                <p>Чтобы продолжить покупки в интернет магазине, выберите интересующий Вас магазин.</p>
                                 <div class="row row-for-logo-links">
-                                    <div class="col-xs-12 col-sm-4">
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="//gauzymall.com/" target="_blank" class="logo-link">
-                                            <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" />
+                                            <img src="/css/img/gauzymall_logo.jpg" alt="Gauzymall" height="90px"/>
                                             <div class="logo-link-desc">Перейти на сайт сервиса</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a href="javascript:{jQuery('.bs-overlay').fadeOut();}" class="logo-link close-popup">
-                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo / Eduscho" />
-                                            <div class="logo-link-desc">Остаться в Tchibo / Eduscho</div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="javascript:{jQuery('.bs-overlay').fadeOut();}" class="logo-link">
+                                            <img src="/css/img/geox_logo.jpg" alt="geox"/>
+                                            <div class="logo-link-desc">Остаться в Tchibo</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-4">
-                                        <a href="//ctshirts.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" />
-                                            <div class="logo-link-desc">Перейти в CTShirts</div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//forever21.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/f21_logo.svg" alt="GEOX"/>
+                                            <div class="logo-link-desc">Перейти в Foreve21</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//sportsdirect.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/sportsdirect_logo.svg" alt="Sports Direct"/>
+                                            <div class="logo-link-desc">Перейти в SportsDirect</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="row row-for-logo-links">
-                                    <!--<div class="col-xs-12 col-sm-4">
-                                        <a href="//forever21.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/f21_logo.svg" alt="forever21" />
-                                            <div class="logo-link-desc">Перейти в Foreve21</div>
-                                            <div class="logo-link-overlay"></div>
-                                        </a>
-                                    </div>-->
-                                    <div class="col-xs-12 col-sm-4">
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="//ernstings-family.gauzymall.com" class="logo-link close-popup">
-                                            <img src="/css/img/ef_logo.png" alt="Ernsting's Family" />
-                                            <div class="logo-link-desc">Перейти в Ernsting's Family</div>
+                                            <img src="/css/img/ef_logo.png" alt="Ernsting-Family" height="82px"/>
+                                            <div class="logo-link-desc">Перейти в Ernsting-Family</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
                                     </div>
-                                    <div class="col-xs-12 col-sm-4">
+
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//geox.gauzymall.com" class="logo-link close-popup">
+                                            <img src="/css/img/tchibo_logo.png" alt="Tchibo/EduScho" height="82px"/>
+                                            <div class="logo-link-desc">Перейти в GEOX</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
+                                        <a href="//ctshirts.gauzymall.com" class="logo-link">
+                                            <img src="/css/img/ctshirts_logo.jpg" alt="CTShirts" height="82px"/>
+                                            <div class="logo-link-desc">Перейти в CTShirts</div>
+                                            <div class="logo-link-overlay"></div>
+                                        </a>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-3">
                                         <a href="//baby-walz.gauzymall.com" class="logo-link">
-                                            <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" style=""/>
+                                            <img src="/css/img/baby-walz.logo2.png" alt="Baby-walz" height="82px"/>
                                             <div class="logo-link-desc">Перейти в Baby-Walz</div>
                                             <div class="logo-link-overlay"></div>
                                         </a>
@@ -126,8 +138,7 @@
                                     <div class="bs-popup-window-content">
                                         <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                                         <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Tchibo/EduScho:</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Курс евро 67 руб!</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Оформление заказа без комиссии!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
                                         <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Tchibo/EduScho, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
                                         <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
@@ -245,9 +256,8 @@
                                     <h1>Привет!</h1>
                                     <p>Мы рады видеть Вас в магазине Tchibo/Eduscho на сервисе Gauzymall.</p>
                                     <p>Вся продукция, продаваемая в известном австрийского онлайн магазине Tchibo/Eduscho изготавливается специально для этого магазина. Разработкой продуктов занимаются специалисты Tchibo/Eduscho, что позволяет заложить высокие требования к качеству уже на этом этапе. Ассортимент магазина включает тысячи товаров, таких как одежда, детские товары, товары для дома и сада, аксессуары, товары для спорта и отдыха и многое другое. Каждый член Вашей семьи сможет найти в этом магазине что то, отвечающее его желаниям.</p>
-                                    <p class="highlighted-text">В октябре мы проводим акцию:<br />
-                                        - доставка в Россию бесплатно!<br />
-                                        - курс евро <span id="g24-rate">67.00</span> руб.!<br />
+                                    <p class="highlighted-text">В ноябре мы проводим акцию:<br />
+                                        - оформление заказа без комиссии<br />
                                         - оплата после доставки
                                     </p>
                                     <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«in den Warenkorb» (добавить в корзину)</strong>.</p>

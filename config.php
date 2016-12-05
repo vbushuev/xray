@@ -47,7 +47,7 @@ $env = [
             "url"=>"https://www.ernstings-family.at",
             "cache"=>["use"=>false],
             "engine" =>[
-                "restricted_headers" => ['Origin','Referer']
+                //"restricted_headers" => ['Origin','Referer']
             ],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки",
@@ -69,13 +69,17 @@ $env = [
             "url"=>"https://www-v6.brandalley.fr",
             //"cache"=>["use"=>false],
             "engine" =>[
-                "restricted_headers" => ['Origin','Referer']
+                //"restricted_headers" => ['Origin','Referer']
+                "encode_cookie" => true,
+                "client_cookie" => [
+                    "use"=>true
+                ]
             ],
             "site"=>[
                 "title"=>"GauzyMALL - удобные покупки"
             ],
             "cookie"=>[
-                "AccessPrivateSale" => 'a:2:{i:0;s:31:"s:23:"xrayshopping@garan24.ru";";i:1;s:32:"9b43d56c65b0fe67996a0543e80c1b79";}'
+                //"AccessPrivateSale" => 'a:2:{i:0;s:31:"s:23:"xrayshopping@garan24.ru";";i:1;s:32:"9b43d56c65b0fe67996a0543e80c1b79";}'
             ]
         ],
         "geox" => [
@@ -84,13 +88,17 @@ $env = [
                 "title"=>"GauzyMALL - удобные покупки",
                 "lang"=>"en"
             ],
-            "cache"=>["use"=>true],
+            //"cache"=>["use"=>true],
             "engine" =>[
-                "encode_cookie" => false,
                 "client_cookie" => [
+                    "use"=>true
+                ]
+                //"encode_cookie" => false,
+            /*    "client_cookie" => [
                     "use"=>false,
                     "list"=>[]
                 ],
+            */
                 //"restricted_headers" => ['Origin','Referer','User-Agent','Content-Type']
             ],
             "cookie"=>[

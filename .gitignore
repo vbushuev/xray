@@ -2,3 +2,5 @@ logs/*
 cache/*
 vendor/*
 composer.lock
+
+www.gauzymall.com.conf

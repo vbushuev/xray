@@ -1,17 +1,18 @@
-if ( document.location.hostname.match(/brandalley/) ) {
+if ( document.location.hostname.match(/geox/) ) {
 
     // Добавление товара в корзину
 
-    $(document.body).on("submit", ".add-to-cart-form", function(event) {
+    var form = $('.b-product_add_to_cart form');
+
+    $(document.body).on("submit", form, function(event) {
 
         console.log('Нажата кнопка "Добавить в корзину"');
 
-        yaCounter40823799.reachGoal('ADD-TO-CART');
+        yaCounter40932904.reachGoal('ADD-TO-CART');
 
         return true;
 
     });
-
 
 
 
@@ -23,9 +24,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             console.log('Нажата кнопка "Оформить заказ"');
 
-            yaCounter40823799.reachGoal('PLACE-ORDER');
-
-            return true;
+            yaCounter40932904.reachGoal('PLACE-ORDER');
 
         } catch ( e ) {
 
@@ -49,7 +48,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             	console.log('Нажата кнопка "Как купить"');
 
-                yaCounter40823799.reachGoal('HOW-TO-BUY');
+                yaCounter40932904.reachGoal('HOW-TO-BUY');
 
                 return true;
 
@@ -69,7 +68,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             	console.log('Нажата кнопка "Доставка"');
 
-                yaCounter40823799.reachGoal('SHIPPING');
+                yaCounter40932904.reachGoal('SHIPPING');
 
                 return true;
 
@@ -89,7 +88,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             	console.log('Нажата кнопка "Оплата"');
 
-                yaCounter40823799.reachGoal('PAYMENT');
+                yaCounter40932904.reachGoal('PAYMENT');
 
                 return true;
 
@@ -109,7 +108,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             	console.log('Нажата кнопка "О нас"');
 
-                yaCounter40823799.reachGoal('ABOUT-US');
+                yaCounter40932904.reachGoal('ABOUT-US');
 
                 return true;
 
@@ -129,7 +128,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
             	console.log('Нажата кнопка "Акция"');
 
-                yaCounter40823799.reachGoal('PROMO-ACTION');
+                yaCounter40932904.reachGoal('PROMO-ACTION');
 
                 return true;
 
@@ -149,7 +148,7 @@ if ( document.location.hostname.match(/brandalley/) ) {
 
                 console.log('Нажата кнопка "Рассрочка"');
 
-                yaCounter40823799.reachGoal('CREDIT');
+                yaCounter40932904.reachGoal('CREDIT');
 
                 return true;
 

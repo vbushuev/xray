@@ -1,11 +1,5 @@
-<link href="https://fonts.googleapis.com/css?family=Merriweather:300,400,700&amp;subset=cyrillic" rel="stylesheet">
-<link rel="stylesheet" href="/css/bootstrap-iso.css">
-<link rel="stylesheet" href="/css/icons.css">
-<link rel="stylesheet" href="/css/fonts.css">
-<link rel="stylesheet" href="/css/style.css" />
-
 <div class="bootstrap-iso">
-    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar" style="display:none;">
+    <nav class="navbar navbar-default navbar-fixed-top gauzymall-fixed-navbar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -205,8 +199,7 @@
             <div class="bs-popup-window-content">
                 <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                 <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Baby Walz:</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Курс евро 67 руб!</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
+                <p class="text-center" style="margin-top: 8px;"><strong> - Оформление заказа без комиссии!</strong></p>
                 <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
                 <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Baby-Walz, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
                 <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
@@ -237,9 +230,8 @@
                                     <h1>Привет!</h1>
                                     <p>Мы рады видеть Вас в магазине Baby-Walz на сервисе Gauzymall.</p>
                                     <p>Ассортимент известного немецкого онлайн магазина Baby-Walz включает более 15000 наименований товаров для беременных женщин, новорожденных, детей и их мам. На сайте магазина можно приобрести одежду, обувь, товары для ухода за детьми, игрушки и многое другое. Вся продукция соответствует самым высоким требованиям качества и безопасности.</p>
-                                    <p class="highlighted-text">В октябре мы проводим акцию:<br />
-                                        - доставка в Россию бесплатно!<br />
-                                        - курс евро <span id="g24-rate">67.00</span> руб.!<br />
+                                    <p class="highlighted-text">В ноябре мы проводим акцию:<br />
+                                        - оформление заказа без комиссии<br />
                                         - оплата после доставки
                                     </p>
                                     <p>Просматривайте и выбирайте товары так же, как и на сайте любого интернет-магазина. Найдя понравившийся Вам товар, нажмите кнопку <strong style="color: #0C7DCB;">«dans le panier» (добавить в корзину)</strong>.</p>

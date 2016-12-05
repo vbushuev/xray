@@ -75,31 +75,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand choose-your-way bs-popup-open" id="choose-your-way-button"><strong>Gauzymall</strong></a>
+                <a class="navbar-brand choose-your-way"><strong>Gauzymall</strong></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="main-nav-item how-to-buy bs-popup-open" id="how-to-buy-button">Как купить</a></li>
-                    <li><a class="main-nav-item shipping bs-popup-open" id="shipping-button">Доставка</a></li>
-                    <li><a class="main-nav-item payment bs-popup-open" id="payment-button">Оплата</a></li>
-                    <li><a class="main-nav-item credit bs-popup-open" id="credit-button">Рассрочка</a></li>
+                    <li><a class="main-nav-item how-to-buy">Как купить</a></li>
+                    <li><a class="main-nav-item shipping">Доставка</a></li>
+                    <li><a class="main-nav-item payment">Оплата</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a id="promo-button" class="main-nav-item promo animated-attention bs-popup-open">Акция
+                        <a class="main-nav-item promo animated-attention">Акция
                             <span class="animated-attention-circle-wrapper"></span>
                             <span class="animated-attention-circle">!</span>
                         </a>
                     </li>
-                    <li><a class="main-nav-item about-us bs-popup-open" id="about-us-button">О нас</a></li>
+                    <li><a class="main-nav-item about-us">О нас</a></li>
                     <li><a class="phone" href="tel:88007075103"><span aria-hidden="true" class="visible-xs-inline elegant-icon icon_phone"></span> 8 800 707 5103</a></li>
                     <li><a class="e-mail" href="mailto:contact@gauzymall.com" title="Напишите нам!"><span aria-hidden="true" class="elegant-icon icon_mail_alt"></span> <span class="visible-xs-inline">Обратная связь</span></a></li>
-                    <li>
-                        <a class="main-nav-item" href="javascript:autoTranslate();" data-toggle="tooltip" data-placement="bottom" title="Перевести на русский">
-                            <span aria-hidden="true" class="gcountry gcountry-russia"></span>
-                            <span class="visible-xs-inline">Перевести на русский</span>
-                        </a>
-                    </li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -113,54 +106,24 @@
                 <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
             </div>
             <div class="bs-popup-window-content">
-                <div class="row row-for-logo-links">
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
-                            <img src="/css/img/logos/gauzymall_logo.png" alt="Gauzymall" />
-                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="javascript:{$('.bs-overlay').fadeOut();}" class="logo-link close-popup">
-                            <img src="/css/img/logos/ctshirts_logo.png" alt="CTShirts" />
-                            <div class="logo-link-desc">Остаться на CTShirts</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="//tchibo.gauzymall.com" class="logo-link">
-                            <img src="/css/img/logos/tchibo_logo.png" alt="Tchibo/EduScho" />
-                            <div class="logo-link-desc">Перейти в Tchibo / Eduscho</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="//forever21.gauzymall.com" class="logo-link">
-                            <img src="/css/img/logos/forever_21_logo.png" alt="Forever 21" />
-                            <div class="logo-link-desc">Перейти в Forever 21</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="//ernstings-family.gauzymall.com" class="logo-link">
-                            <img src="/css/img/logos/ernstings_family_logo.png" alt="Ernsting's Family" />
-                            <div class="logo-link-desc">Перейти в Ernsting's Family</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="//sportsdirect.gauzymall.com" class="logo-link">
-                            <img src="/css/img/logos/sportsdirect_logo.png" alt="Sportsdirect" />
-                            <div class="logo-link-desc">Перейти в Sportsdirect</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <a href="//baby-walz.gauzymall.com" class="logo-link">
-                            <img src="/css/img/logos/baby_walz_logo.png" alt="Baby-walz" />
-                            <div class="logo-link-desc">Перейти в Baby-Walz</div>
-                        </a>
-                    </div>
-                </div>
                 <p><strong>Gauzymall</strong> – это сервис, предоставляющий Вам свою помощь в приобретении товаров в зарубежных интернет магазинах с доставкой в Россию.</p>
                 <p>Пользуясь нашим сервисом, Вы можете совершать покупки в разных интернет магазинах Европы и других стран, складывая выбранные товары в единую корзину.</p>
                 <p>Чтобы ознакомиться со всеми возможностями сервиса <strong>Gauzymall</strong> и полным списком зарубежных интернет-магазинов, перейдите на главную страницу сайта.</p>
                 <p>Чтобы продолжить покупки в интернет магазине <strong>Charles Tyrwhitt</strong>, останьтесь на этой странице.</p>
+                <div class="row row-for-logo-links">
+                    <div class="col-xs-12 col-sm-6">
+                        <a href="http://gauzymall.com/" target="_blank" class="logo-link">
+                            <img src="/img/gauzymall_logo.jpg" alt="Gauzymall" />
+                            <div class="logo-link-desc">Перейти на сайт сервиса</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <a href="#" class="logo-link close-popup">
+                            <img src="/img/ctshirts_logo.jpg" alt="CTShirts" />
+                            <div class="logo-link-desc">Остаться в магазине</div>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -180,50 +143,7 @@
                     <li><strong>Курьерская доставка по указанному Вами адресу</strong> <em>(При выборе курьерской доставки Ваш заказ будет доставлен курьером, который предварительно свяжется с Вами для уточнения времени доставки)</em></li>
                     <li><strong>Доставка до выбранного Вами Пункта выдачи заказов (ПВЗ)</strong> <em>При выборе получения заказа в ПВЗ Вы получите СМС сообщение, когда заказ будет доставлен в Пункт выдачи заказов. Забрать заказ Вы сможете в течение 7 дней, включая день его поступления в ПВЗ.</em></li>
                 </ul>
-                <script type="text/javascript" src="//points.boxberry.de/js/boxberry.js"></script>
-                <script>
-                    function boxberry_open(){
-                        $('.bs-overlay').hide();
-                        boxberry.open(boxberry_callback,garan.delivery.boxberry.token,'Москва',0);
-                    }
-                    function boxberry_callback(){}
-                </script>
-                <p><a href="javascript:boxberry_open()"><i class="fa fa-external-link" style="color:#aaa;"></i> Проверьте есть ли в Вашем городе Боксберри</a></p>
                 <p>Получить информацию о текущем статусе доставки заказа Вы в любой момент можете в личном кабинете на сайте сервиса <a href="http://www.gauzymall.com/">www.gauzymall.com</a>. Как правило, срок доставки заказа не превышает 20 дней. Стоимость доставки рассчитывается автоматически и включается в общую стоимость заказа.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="bs-overlay bootstrap-iso" id="credit-section">
-    <div class="container bs-popup-window-wrapper">
-        <div class="bs-popup-window" id="credit-form">
-            <div class="bs-popup-close">
-                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
-            </div>
-            <h3>Уважаемый клиент!</h3>
-            <div class="row">
-                Gauzymall планирует предложить покупателям возможность приобретения товаров в рассрочку. Рассрочка будет предоставляться на сумму до 100% от стоимости заказа и на срок до 6 месяцев с ежемесячным погашением. Нам очень важно узнать Ваше мнение, чтобы предложить Вам эту услугу.
-            </div>
-            <div class="row bs-message list-group">
-                Просим ответить на несколько вопросов:
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list-group-item">
-                    <h4>При какой сумме покупки Вам будет интересно получить рассрочку оплаты заказа?</h4>
-                    <div class="bs-input-field bs-rub"><input name="credit_amount" id="credit_amount" type="number" placeholder="0.00"></div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list-group-item">
-                    <h4>На сколько месяцев Вы желаете получить рассрочку оплаты заказа?</h4>
-                    <div class="bs-input-field bs-calendar"><input name="credit_month" id="credit_month" type="number" placeholder="6"></div>
-                </div>
-            </div>
-            <div class="row bs-message">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    Если Вы желаете поучаствовать в тестировании услуги и получить рассрочку на льготных условиях, оставьте свой адрес электронной почты:
-                    <div class="bs-input-field bs-email"><input name="credit_email" id="credit_email" type="text" placeholder="Ваш email"></div>
-                </div>
-            </div>
-            <div class="row bs-message">
-                <a class="bs-btn pull-right" href="javascript:socialCreditQuestion('credit-form');" id="credit-button">Спасибо!</a>
             </div>
         </div>
     </div>
@@ -301,18 +221,18 @@
             <div class="bs-popup-window-content">
                 <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                 <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров от Charles Tyrwhitt:</strong></p>
-                <p class="text-center" style="margin-top: 8px;"><strong> - Оформление заказа без комиссии</strong></p>
+                <p class="text-center" style="margin-top: 8px;"><strong> - Курс английского фунта 76 руб!</strong></p>
                 <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
                 <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
                 <p>Заказ оформляется с использованием сервиса Gauzymall непосредственно на сайте Charles Tyrwhitt, с сохранением всех акций и скидок на продукцию, предлагаемых в оригинальном интернет-магазине.</p>
                 <p>Вы можете получить огромные скидки при покупке нескольких товаров:</p>
                 <ul>
-                    <li style="font-size: 0.9em !important;">4 мужские сорочки за 100 фунтов (4 FOR £100 OR LESS)!</li>
-                    <li style="font-size: 0.9em !important;">2 пары брюк за 70 фунтов (2 FOR £70 OR LESS)!</li>
-                    <li style="font-size: 0.9em !important;">2 джемпера из высококачественной шерсти за 80 фунтов (2 FOR £80 OR LESS)!</li>
-                    <li style="font-size: 0.9em !important;">2 рубашки поло за 50 фунтов (2 FOR £50 OR LESS)!</li>
-                    <li style="font-size: 0.9em !important;">4 элегантных женских блузки за 100 фунтов (4 FOR £100 OR LESS)!</li>
-                    <li style="font-size: 0.9em !important;">2 кожаных ремня за 55 фунтов (2 FOR £55 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">4 премиум сорочки всего за 7600 руб. (4 FOR £100 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">2 пары брюк за 5320 руб. (2 FOR £70 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">2 джемпера из высококачественной шерсти за  6080 руб. (2 FOR £80 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">2 рубашки поло за 3800 руб. (2 FOR £50 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">4 элегантных женских блузки за 7600 руб. (4 FOR £100 OR LESS)!</li>
+                    <li style="font-size: 0.9em !important;">2 кожаных ремня за 4180 руб. (2 FOR £55 OR LESS)!</li>
                     <li style="font-size: 0.9em !important;">специальные цены при покупке 4-х и более предметов!</li>
                 </ul>
                 <p class="text-center"><strong>Сделайте заказ прямо сейчас. Предложение ограничено.</strong></p>
@@ -341,31 +261,19 @@
                                     <h1>Привет!</h1>
                                     <p>Мы рады видеть Вас в магазине<br />CHARLES TYRWHITT на сервисе Gauzymall.</p>
                                     <p>Покупайте через наш сервис английские мужские сорочки, костюмы, обувь и многое другое.</p>
-                                    <p class="highlighted-text">В ноябре мы проводим акцию:<br />
+                                    <p class="highlighted-text">В октябре мы проводим акцию:<br />
                                         - доставка в Россию бесплатно!<br />
-                                        - оформление заказа без комиссии<br />
+                                        - курс фунта <span id="g24-rate">76</span> руб.!<br />
                                         - оплата после доставки
                                     </p>
                                     <p>Вы можете получить огромные скидки при покупке нескольких товаров!</p>
+                                    <p class="highlighted-text">4 премиум сорочки<br/>всего за 7600 руб.!</p>
                                     <button class="start-shopping">Начать</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="bs-overlay bootstrap-iso" id="formal-shirts-sizes-section">
-    <div class="container bs-popup-window-wrapper sizes-container">
-        <div class="bs-popup-window">
-            <div class="bs-popup-close">
-                <i aria-hidden="true" class="elegant-icon icon_close" title="Закрыть"></i>
-            </div>
-            <div class="bs-popup-window-content">
-                <img class="sizes-image" src="/img/formal-shirts-sizes-compressed.png" alt="Размеры формальных рубашек" />
             </div>
         </div>
     </div>
@@ -391,11 +299,11 @@
                     <p>Покупайте через наш сервис английские мужские сорочки, костюмы, обувь и многое другое.</p>
                     <p class="highlighted-text">В октябре мы проводим акцию:<br />
                         - доставка в Россию бесплатно!<br />
-                        - оформление заказа без комиссии<br />
+                        - курс фунта <span id="g24-rate">76</span> руб.!<br />
                         - оплата после доставки
                     </p>
                     <p>Вы можете получить огромные скидки при покупке нескольких товаров!</p>
-                    <p class="highlighted-text">4 премиум сорочки<br/>всего за 100 фунтов!</p>
+                    <p class="highlighted-text">4 премиум сорочки<br/>всего за 7600 руб.!</p>
                     <button class="start-shopping">Начать</button>
                 </div>
             </div>
@@ -403,59 +311,15 @@
     </div>
 </div>
 
-
-
+<!--Google Analytics -->
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-    ga('create', 'UA-84557375-2', 'auto');
-    ga('send', 'pageview');
-</script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function (d, w, c) {
-        (w[c] = w[c] || []).push(function() {
-            try {
-                w.yaCounter40339220 = new Ya.Metrika({
-                    id:40339220,
-                    clickmap:true,
-                    trackLinks:true,
-                    accurateTrackBounce:true,
-                    webvisor:true,
-                    trackHash:true
-                });
-            } catch(e) { }
-        });
+  ga('create', 'UA-84557375-4', 'auto');
+  ga('send', 'pageview');
 
-        var n = d.getElementsByTagName("script")[0],
-            s = d.createElement("script"),
-            f = function () { n.parentNode.insertBefore(s, n); };
-        s.type = "text/javascript";
-        s.async = true;
-        s.src = "https://mc.yandex.ru/metrika/watch.js";
-
-        if (w.opera == "[object Opera]") {
-            d.addEventListener("DOMContentLoaded", f, false);
-        } else { f(); }
-    })(document, window, "yandex_metrika_callbacks");
 </script>
-<!-- /Yandex.Metrika counter --
-<script src="//l.gauzymall.com/js/api/1.0/garan24.core.js"></script>
-<script src="//l.gauzymall.com/js/api/1.0/garan24.cart.js"></script>
-<script src="//l.gauzymall.com/js/api/1.0/garan24.delivery.js"></script>
-<script src="/js/snooper.js"></script>
-<script src="/js/native.history.js"></script>
-<script src="/js/goals.js"></script>
-<!-- -->
-<!-- <div id="google_translate_element"></div> --
-<div id="google_translate_element"></div>
-<script>
-function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
-}
-</script>
-<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-<!-- <div id="google_translate_element"></div> -->
+<!--Google Analytics END -->

@@ -120,7 +120,7 @@
                                     <div class="bs-popup-window-content">
                                         <h3 style="color: rgb(214, 69, 65);">Акция</h3>
                                         <p class="text-center"><strong>Уникальное предложение от сервиса Gauzymall при покупке товаров в онлайн магазине Ernsting’s Family:</strong></p>
-                                        <p class="text-center" style="margin-top: 8px;"><strong> - Доставка в Россию бесплатно!</strong></p>
+                                        <p class="text-center" style="margin-top: 8px;"><strong> - Оформление заказа без комиссии!</strong></p>
                                         <p class="text-center" style="margin-top: 8px;"><strong> - Оплата после доставки заказа!</strong></p>
                                         <p>
                                             Заказ оформляется непосредственно на сайте Ernsting’s Family с помощью сервиса Gauzymall, с сохранением всех скидок на продукцию, предлагаемых в оригинальном интернет-магазине.
@@ -251,7 +251,7 @@ Ernsting’s Family очень серьезно относится к качес
                                 Немецкие покупатели по достоинству оценили товары от Ernsting’s Family. Компания продолжает активно развиваться и в настоящий момент сеть Ernsting’s Family включает в себя 1800 магазинов.Теперь возможность оценить качество и цены есть и у Вас – заходите в интернет-магазин Ernsting’s Family. Мы уверены – никто в Вашей семье не останется без покупок!
                             </p>
                             <p class="highlighted-text">В ноябре мы проводим акцию:<br />
-                                - доставка в Россию бесплатно!<br />
+                                - оформление заказа без комиссии<br />
                                 - оплата после доставки
                             </p>
 
@@ -281,7 +281,7 @@ Ernsting’s Family очень серьезно относится к качес
     </div>
 </div>
 
-<!--Google Analytics --
+<!--Google Analytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -293,7 +293,7 @@ Ernsting’s Family очень серьезно относится к качес
 
 </script>
 <!-- end -->
-<!-- Translate -->
+<!-- Translate --
 <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'de', includedLanguages: 'ru,en', layout: google.translate.TranslateElement.FloatPosition.TOP_LEFT, multilanguagePage: true,autoDisplay:true}, 'google_translate_element');
