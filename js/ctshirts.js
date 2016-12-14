@@ -1,7 +1,226 @@
+function openPopup ( name ) {
+
+    var popup = $( '#' + name );
+
+    $( 'body' ).css( 'overflow', 'hidden' );
+
+    popup.show();
+
+    var link = 'http://' + window.location.hostname + '/' + name;
+
+    History.pushState( null, null, link );
+
+    console.log( "popup opened" );
+
+}
+
+function closePopup ( name ) {
+
+    var popup = $( '#' + name );
+
+    popup.hide();
+
+    $( 'body' ).css( 'overflow', 'auto' );
+
+    History.back();
+
+}
+
+function closeOpenedPopups () {
+
+    var popups = $( '.bs-overlay' );
+
+    $.each( popups, function( key, value ) {
+
+        if ( $( this ).css( 'display' ) == 'block' ) {
+
+            var popupName = $( this ).attr( 'id' ).replace(/\#/g, '');
+
+            closePopup( popupName );
+
+        }
+
+    });
+
+}
+
 //ctshirts
 var parser = {
     loaded:false,
     init:function() {
+
+        $("#add-to-cart").on("click",function(e){
+            $.ajax({
+                //url:"//service.garan24.bs2/analytics",
+                url:"//l.gauzymall.com/analytics",
+                success:function(d){
+                    console.log(d);
+                }
+            });
+        });
+        // $( '.choose-your-way' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#choose-your-way-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+        //
+        // $( '.shipping' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#shipping-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+        //
+        // $( '.payment' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#payment-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+        //
+        // $( '.how-to-buy' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#how-to-buy-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+        //
+        // $( '.about-us' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#about-us-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+
+        // $( '.promo' ).click( function (e) {
+        //
+        //     e.preventDefault();
+        //
+        //     History.pushState( null, null, "#promo-section" );
+        //
+        //     $( '.bs-overlay' ).hide();
+        //
+        //     $( '#promo-section' ).show();
+        //
+        //     $( 'body' ).css( 'overflow', 'hidden' );
+        //
+        // });
+
+        $( '.gr' ).click( function (e) {
+
+            e.preventDefault();
+
+            $( '.bs-overlay' ).hide();
+
+            $( '#gr-section' ).show();
+
+            $( 'body' ).css( 'overflow', 'hidden' );
+
+        });
+
+        $( '.animated-attention' ).click( function(e) {
+
+            $( this ).removeClass( 'animated-attention' );
+
+            $( '.animated-attention-circle-wrapper' ).hide();
+            $( '.animated-attention-circle' ).hide();
+
+        });
+
+        var currentUrl = window.location.href;
+
+        // SIZES
+        // BEGIN
+
+        if ( currentUrl.indexOf( 'shirt' ) !== -1 ) {
+
+            var sizesLinkContainer = $( '.pdp-main__size-guide' );
+
+            sizesLinkContainer.html( '<a class="pdp-main__size-guide-link formal-shirts-sizes bs-popup-open" id="formal-shirts-sizes-button">Руководство по размерам</a>' );
+
+        }
+
+        // END
+
+        $( '.bs-popup-open' ).on( 'click', function(e) {
+
+            e.preventDefault();
+
+            closeOpenedPopups();
+
+            var hash = $( this ).attr( 'id' ).replace( /\-button/g, '-section' );
+
+            if ( typeof hash != 'undefined' && hash !== null ) {
+
+                openPopup( hash );
+
+            }
+
+        });
+
+        $( '.bs-popup-close' ).on( 'click', function(e) {
+
+            e.preventDefault();
+
+            var hash = $( this ).closest( '.bs-overlay' ).attr( 'id' ).replace(/\#/g, '');
+
+            console.log( "popup closed" );
+
+            closePopup( hash );
+
+            //$( '.bs-overlay' ).hide();
+
+        });
+
+        $( '.close-popup' ).click( function(e) {
+
+            e.preventDefault();
+
+            History.back();
+
+            $( '.bs-overlay' ).hide();
+
+            $( 'body' ).css( 'overflow', 'auto' );
+
+        });
+
+        var splitedCurrentUrl = currentUrl.split("/");
+
+        var popupName = splitedCurrentUrl[3];
+
+        if ( popupName.indexOf( '-section' ) !== -1 ) {
+
+            var buttonId = '#' + popupName.replace(/\-section/g, '') + '-button.bs-popup-open';
+
+            $( buttonId ).trigger( 'click' );
+
+        }
 
         var messageIsShown = garan.cookie.get( "greetings_message" );
 
@@ -44,9 +263,17 @@ var parser = {
             });
 
         }
-        $("[type='submit']").click(function(){parser.converter();});
+        //$("[type='submit']").click(function(){parser.converter();});
     },
     styling:function(){
+
+        garan.currency.converter.action({
+            replacement:/£\s*(\d+\.\d*).*/i,
+            //£ 29.95
+            selector:".cart-row .item-price, #js-order-subtotal",
+            currency:"GBP"
+        });
+
         $("header").css("top","52px");
         $("#main").css("margin-top","52px");
         $(".js-header-search,.input-box--silent,.header__customer,#cart-items-form .order-shipping,#shippingSwitcherLink ").hide();
@@ -66,121 +293,11 @@ var parser = {
             });
             $t.text(txt);
         });*/
-        parser.converter();
+        //parser.converter();
         $("#garan-currency").html('£1 = '+garan.currency.rates('GBP').format(2,3,' ','.')+' руб.');
 
         Urls.welcomeMat = null;
 
-        $( '.choose-your-way' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#choose-your-way-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.shipping' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#shipping-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.payment' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#payment-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.how-to-buy' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#how-to-buy-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.about-us' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#about-us-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.promo' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#promo-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.gr' ).click( function (e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( '#gr-section' ).show();
-
-            $( 'body' ).css( 'overflow', 'hidden' );
-
-        });
-
-        $( '.animated-attention' ).click( function(e) {
-
-            $( this ).removeClass( 'animated-attention' );
-
-            $( '.animated-attention-circle-wrapper' ).hide();
-            $( '.animated-attention-circle' ).hide();
-
-        });
-
-        $( '.bs-popup-close' ).click( function() {
-
-            $( '.bs-overlay' ).hide();
-
-            $( 'body' ).css( 'overflow', 'auto' );
-
-        });
-
-        $( '.close-popup' ).click( function(e) {
-
-            e.preventDefault();
-
-            $( '.bs-overlay' ).hide();
-
-            $( 'body' ).css( 'overflow', 'auto' );
-
-        });
 
 
 
@@ -247,6 +364,7 @@ var parser = {
         });
     },
     checkout:function(){
+        garan.cart.removeAll();
         this.parse();
         garan.cart.checkout();
     },
@@ -262,7 +380,7 @@ var parser = {
         for(x = 0; x < products.length; x++){
             if(products[x].className !== 'js-product-option-row item-list__row item-list__row--no-border item-list__row--option js-editable'){
                 var obj = new Object();
-                obj.currency = 'RUB';
+                obj.currency = 'GBP';
                 obj.variations = {};
                 obj.shop = document.domain;
 
@@ -399,134 +517,145 @@ var parser = {
         console.debug(pp);
         garan.cart.add2cart(pp);
     },
-    converter:function(){
-        var currencyRate = parseFloat(garan.currency.rates('GBP'));
+    converterold:function(){
+        //var currencyRate = parseFloat(83.39);
 
-        var cartRowTotals = $('.cart-row .item-total');
 
-        cartRowTotals.each(function( index ) {
+        garan.currency.get(function(){
+            var currencyRate = garan.currency.rates("GBP");
+            var cartRowTotals = $('.cart-row .item-total');
 
-            var priceWithCurrencySign = $( this ).clone()
-                .children()
-                .remove()
-                .end()
-                .text();
+            cartRowTotals.each(function( index ) {
 
-            var price = parseFloat( priceWithCurrencySign.replace('£', '') );
+                var priceWithCurrencySign = $( this ).clone()
+                    .children()
+                    .remove()
+                    .end()
+                    .text();
 
-            var priceString = price.format(2,3,' ','.');
+                var price = parseFloat( priceWithCurrencySign.replace('£', '') );
 
-            var priceInRubles = price * currencyRate;
+                var priceString = price.format(2,3,' ','.');
 
-            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+                var priceInRubles = price * currencyRate;
 
-            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+                var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
 
-            $( this ).html( replaced );
+                var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
 
-        });
+                $( this ).html( replaced );
 
+            });
 
 
-        var cartRowItemsPrice = $('.cart-row .item-price b');
 
-        cartRowItemsPrice.each(function( index ) {
+            var cartRowItemsPrice = $('.cart-row .item-price b');
 
-            var price = parseFloat( $( this ).text().replace( '£', '' ) );
+            cartRowItemsPrice.each(function( index ) {
 
-            var priceString = price.format(2,3,' ','.');
+                var price = parseFloat( $( this ).text().replace( '£', '' ) );
 
-            var priceInRubles = price * currencyRate;
+                var priceString = price.format(2,3,' ','.');
 
-            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+                var priceInRubles = price * currencyRate;
 
-            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+                var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
 
-            $( this ).html( replaced );
+                var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
 
-        });
+                $( this ).html( replaced );
 
+            });
 
 
-        var cartRowItemsPriceWas = $('.cart-row .item-price div.item-list__was-price');
 
-        cartRowItemsPriceWas.each(function( index ) {
+            var cartRowItemsPriceWas = $('.cart-row .item-price div.item-list__was-price');
 
-            var itemPriceWasString = $( this ).text();
+            cartRowItemsPriceWas.each(function( index ) {
 
-            var price = parseFloat( itemPriceWasString.replace(/[^0-9\.]/g, '') );
+                var itemPriceWasString = $( this ).text();
 
-            var priceString = price.format(2,3,' ','.');
+                var price = parseFloat( itemPriceWasString.replace(/[^0-9\.]/g, '') );
 
-            var priceInRubles = price * currencyRate;
+                var priceString = price.format(2,3,' ','.');
 
-            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+                var priceInRubles = price * currencyRate;
 
-            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+                var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
 
-            $( this ).html( replaced );
+                var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
 
-        });
+                $( this ).html( replaced );
 
+            });
 
 
-        var cartRowGiftsPrice = $( '.cart-row .item-list__addgift .button--caption' );
 
-        cartRowGiftsPrice.each(function( index ) {
+            var cartRowGiftsPrice = $( '.cart-row .item-list__addgift .button--caption' );
 
-            var price = parseFloat( $( this ).text().replace(/[^0-9\.]/g, '') );
+            cartRowGiftsPrice.each(function( index ) {
 
-            var priceString = price.format(2,3,' ','.');
+                var price = parseFloat( $( this ).text().replace(/[^0-9\.]/g, '') );
 
-            var priceInRubles = price * currencyRate;
+                var priceString = price.format(2,3,' ','.');
 
-            var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
+                var priceInRubles = price * currencyRate;
 
-            var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
+                var priceInRublesString = priceInRubles.format(2,3,' ','.') + " руб.";
 
-            $( this ).html( replaced );
+                var replaced = $( this ).html().replace( '£' + priceString, priceInRublesString );
 
-        });
+                $( this ).html( replaced );
 
+            });
 
 
-        var youveSaved = $( '.js-cart-panel #js-cart-youve-saved-area b' );
 
-        var youveSavedAmountString = youveSaved.text().replace(/[^0-9\.\£]/g, '');
+            var youveSaved = $( '.js-cart-panel #js-cart-youve-saved-area b' );
 
-        var youveSavedAmount = parseFloat( youveSaved.text().replace(/[^0-9\.]/g, '') );
+            var youveSavedAmountString = youveSaved.text().replace(/[^0-9\.\£]/g, '');
 
-        var youveSavedAmountInRubles = youveSavedAmount * currencyRate;
+            var youveSavedAmount = parseFloat( youveSaved.text().replace(/[^0-9\.]/g, '') );
 
-        var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
+            var youveSavedAmountInRubles = youveSavedAmount * currencyRate;
 
-        if (youveSaved.length) {
+            var youveSavedAmountInRublesString = youveSavedAmountInRubles.format(2,3,' ','.') + " руб.";
 
-            var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
+            if (youveSaved.length) {
 
-            youveSaved.html( youveSavedReplaced );
+                var youveSavedReplaced = youveSaved.html().replace( youveSavedAmountString, youveSavedAmountInRublesString );
 
-        }
+                youveSaved.html( youveSavedReplaced );
 
+            }
 
 
-        var orderTotal = $( '#js-order-subtotal' );
 
-        var orderTotalString = $( '#js-order-subtotal' ).text().replace(/[^0-9\.\£]/g, '');
+            var orderTotal = $( '#js-order-subtotal' );
 
-        var orderTotalPrice = orderTotalString.replace( '£', '' );
+            var orderTotalString = $( '#js-order-subtotal' ).text().replace(/[^0-9\.\£]/g, '');
 
-        var orderTotalPriceInRubles = parseFloat( orderTotalPrice ) * currencyRate;
+            var orderTotalPrice = orderTotalString.replace( '£', '' );
 
-        var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
+            var orderTotalPriceInRubles = parseFloat( orderTotalPrice ) * currencyRate;
 
-        if (orderTotal.length) {
+            var orderTotalPriceInRublesString = orderTotalPriceInRubles.format(2,3,' ','.') + " руб.";
 
-            var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
+            if (orderTotal.length) {
 
-            orderTotal.html( orderTotalReplaced );
+                var orderTotalReplaced = orderTotal.html().replace( orderTotalString, orderTotalPriceInRublesString );
 
-        }
+                orderTotal.html( orderTotalReplaced );
+
+            }
+
+        },false);
+        /*garan.currency.converter.action({
+            replacement:/(\d+\,\d+)\s*€/i,
+            //selector:".currentPrice,.ecwi_recommendations_TEXT_2,.ecwi_recommendations_TEXT_4,#productCurrentPrice1_span,.articlePrice,#basketAmountContainer,td.total,td.costsValue,#Gratis,td.costsTotalValue",
+            selector:".big_total_number, .total_command_right span, .block_price span, .price_total",
+            currency:"EUR"
+        });*/
 
     }
 };

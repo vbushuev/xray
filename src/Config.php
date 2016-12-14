@@ -18,7 +18,7 @@ class Config extends Common{
     protected $engine = [
         "encode_cookie" => true,
         "restricted_headers" =>false,
-        "client_cookie" => [ "use"=>false ]
+        "client_cookie" => [ "use"=>true ]
     ];
     public function __construct($a=[]){
         if(!isset($a["hosts"]))return;
