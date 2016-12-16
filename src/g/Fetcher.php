@@ -112,14 +112,15 @@ class Fetcher{
     protected function replaceresponse($s){
         Log::debug("replaceresponse");$r=$s;
         //$r = preg_replace("/(http|https):\/\/".preg_quote($this->cfg["host"])."/im","//".$_SERVER["HTTP_HOST"],$s);
-        $r = preg_replace("/".preg_quote($this->cfg["host"])."/im",$this->cfg["local"]["url"],$r);
+        //$r = preg_replace("/".preg_quote($this->cfg["host"])."/im",$this->cfg["local"]["url"],$r);
         //$r = preg_replace("/".preg_quote($this->cfg["domain"])."/im",$this->cfg["local"]["domain"],$r);
         //$r = preg_replace("/([\s\"']+\.*)".preg_quote($this->cfg["domain"])."/im","$1".$this->cfg["local"]["domain"],$r);
         //$r = preg_replace("/([a-z0-9\-_]+\.)".preg_quote($this->cfg["domain"])."/im",$this->cfg["local"]["domain"]."?_xg_subdomain=$1",$r);
         $t = $this;
         $r = preg_replace_callback("/".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
             return $t->cfg["local"]["domain"];
-        },$s);
+        },$r);
+        $r = preg_replace("/https:\/\//im","//",$r);
         return $r;
     }
 };
