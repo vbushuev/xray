@@ -1,17 +1,15 @@
 <?php
+date_default_timezone_set('Europe/Moscow');
 function __autoload($className){
-	$sourceDir = "/src";
-	$vendorDir = "/vendor";
-	$classmap = [
-	    "Snooper" => "src/Snooper.php",
-	    "Snoopy" => "src/Snoopy/Snoopy.class.php",
-	];
+	$sourceDir = "src";
+	$vendorDir = "vendor";
+	$classmap = [];
 	if(isset($classmap[$className])){
 		require_once $classmap[$className];
 		return true;
 	}
 	$file = str_replace('\\','/',$className);
-	require_once 'src/'.$file.'.php';
+	require_once $sourceDir.'/'.$file.'.php';
 	return true;
 }
 ?>
