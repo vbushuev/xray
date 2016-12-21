@@ -17,9 +17,8 @@ class Fetcher{
         $domains = preg_split("/\./",$this->cfg["host"]);
         if(count($domains)>1)$this->cfg["domain"] = $domains[count($domains)-2].".".$domains[count($domains)-1];
 
-
-        //$this->cfg["local"]["domain"] = "xray.bs2";
-        $this->cfg["local"]["domain"] = "x.gauzymall.com";
+        $this->cfg["local"]["domain"] = $_SERVER["SERVER_NAME"];
+        //$this->cfg["local"]["domain"] = "x.gauzymall.com";
         $domains = preg_split("/\./",$_SERVER["HTTP_HOST"]);
         $local_domains = preg_split("/\./",$this->cfg["local"]["domain"]);
         if(count($domains)>count($local_domains)){

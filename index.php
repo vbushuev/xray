@@ -5,7 +5,7 @@
  */
 include("config.php");
 $url = "https://www-v6.brandalley.fr";
-/*if(isset($_REQUEST["xray_origin_host"])){
+if(isset($_REQUEST["xray_origin_host"])){
     $url = $_REQUEST["xray_origin_host"];
     setcookie("xray_origin_host",$url);
 }
@@ -19,9 +19,9 @@ else {
     echo "<form action='/' style='display:inline-block;'><input name='xray_origin_host' /><button type='submit'>set</button></form>";
     echo '</div></body></html>';
     exit;
-}*/
+}
 $f = new \g\Fetcher(["url"=>$url]);
 $content =  $f->get();
-$content = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$content);
+if(isset($_COOKIE["xray_use_greenline"]))$content = preg_replace("/\<\/body>/i","<script src='/js/x.js#".$url."'></script></body>",$content);
 $f->pull($content);
 ?>
