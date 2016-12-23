@@ -41,6 +41,7 @@ class Fetcher{
         Log::debug();
         $s = "";
         $curl = curl_init();
+        $this->url = $this->replacerequest($this->url);
         Log::debug("REQUEST ".$this->url);
         $curlOptions = [
             CURLOPT_URL => $this->url,
@@ -137,11 +138,14 @@ class Fetcher{
         $r=$s;
         $t = $this;
 
-        $r = preg_replace_callback("/(.*)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
+        $r = preg_replace_callback("/(\S*)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
             $res = $m[0];
-            if(!preg_match("/\-".preg_quote($this->cfg["domain"])."/im",$m[0],$not_m)){
+            if(
+                !preg_match("/\-".preg_quote($this->cfg["domain"])."/im",$m[0],$not_m) &&
+                !preg_match("/eulerian\.brandalley\.fr\/col1\//im",$m[1],$not_m)
+            ){
                 $top = preg_replace("/www[^\.]*\.$/im","",$m[1]);
-                $top = preg_replace("/(http|https):\/\/$/im","//",$top);
+                $top = preg_replace("/(http|https):\/\//im","//",$top);
                 $res = $top.$t->cfg["local"]["domain"];
                 Log::debug( "replace:". trim($m[0])." >> ".trim($res) );
             }

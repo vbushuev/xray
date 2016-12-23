@@ -4,3 +4,5 @@ vendor/*
 composer.lock
 
 www.gauzymall.com.conf
+
+xray.json
