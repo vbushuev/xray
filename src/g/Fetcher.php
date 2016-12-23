@@ -12,13 +12,14 @@ class Fetcher{
         $this->cfg = $cfg;
         $this->cfg["host"] = preg_replace("/(http|https):\/\/(.+)/im","$2",$this->cfg["url"]);
         $this->cfg["schema"] = preg_replace("/(https|http).+/im","$1",$this->cfg["url"]);
-        $this->cfg["domain"] = preg_replace("/www(.*?)\./im","",$this->cfg["host"]);
-        $this->cfg["subdomain"] = preg_replace("/(www[^\.]*\.).+/im","$1",$this->cfg["host"]);
+        $this->cfg["domain"] = preg_replace("/^([^\.]*)\.*(([^.]+)\.(.+))\s*$/im","$2",$this->cfg["host"]);
+
+        $this->cfg["subdomain"] = "";
+        if(preg_match("/(www[^\.]*\.).+/im",$this->cfg["host"]))$this->cfg["subdomain"] = preg_replace("/(www[^\.]*\.).+/im","$1",$this->cfg["host"]);
         $domains = preg_split("/\./",$this->cfg["host"]);
         if(count($domains)>1)$this->cfg["domain"] = $domains[count($domains)-2].".".$domains[count($domains)-1];
 
-        $this->cfg["local"]["domain"] = $_SERVER["SERVER_NAME"];
-        //$this->cfg["local"]["domain"] = "x.gauzymall.com";
+        $this->cfg["local"]["domain"] = preg_match("/\.bs2/",$_SERVER["SERVER_NAME"])?"xray.bs2":"x.gauzymall.com";
         $domains = preg_split("/\./",$_SERVER["HTTP_HOST"]);
         $local_domains = preg_split("/\./",$this->cfg["local"]["domain"]);
         if(count($domains)>count($local_domains)){
@@ -28,12 +29,13 @@ class Fetcher{
         }
         $this->cfg["local"]["is_ssl"] = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? true : false;
         $this->cfg["local"]["url"] = "//".$this->cfg["local"]["domain"];
-
-        //$this->url = $this->cfg["url"].preg_replace("/#g_/i","",$_SERVER["REQUEST_URI"]);
         $this->url = $this->cfg["schema"]."://".$this->cfg["subdomain"].$this->cfg["domain"].preg_replace("/#g_/i","",preg_replace("/#_xg_subdomain=([^&]+)&*/i","",$_SERVER["REQUEST_URI"]));
 
-        //print_r($this->cfg);echo "<br/>";
-        //print_r($this->url);exit;
+        Log::debug("/************************************************************************************************/");
+        Log::debug("/**** START {$this->url} ****/");
+        Log::debug("/************************************************************************************************/");
+        Log::debug("DOMAIN:".$this->cfg["domain"]);
+        Log::debug("subDOMAIN:".$this->cfg["subdomain"]);
     }
     public function get(){
         Log::debug();
@@ -45,17 +47,20 @@ class Fetcher{
             CURLOPT_HTTPHEADER=>$this->requestHeaders(),
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_AUTOREFERER => true,
+            CURLOPT_AUTOREFERER => false,
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_ENCODING => "", // обрабатывает все кодировки
             CURLOPT_SSL_VERIFYHOST => 2,
             CURLOPT_HEADER => true,
-            CURLOPT_VERBOSE => 1,
-            CURLOPT_STDERR => fopen('logs/curl-'.date("Y-m-d").'.log', 'a+'),
-            CURLINFO_HEADER_OUT => 1,
+            CURLINFO_HEADER_OUT => true,
+
+            //CURLOPT_VERBOSE => true,
+            //CURLOPT_STDERR => fopen('logs/curl.log','w'),
+            //CURLOPT_FRESH_CONNECT=>false,
+            //CURLOPT_COOKIESESSION=>false,
         ];
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
-            $curlOptions[CURLOPT_POST]=1;
+            $curlOptions[CURLOPT_POST]=true;
             $postData = http_build_query($_POST);
             $curlOptions[CURLOPT_POSTFIELDS]=$postData;
         }
@@ -66,26 +71,36 @@ class Fetcher{
         //Log::debug("RESPONSE INFO: \n".json_encode($info,JSON_PRETTY_PRINT));
         $this->responseHeaders(substr($s,0,$info["header_size"]));
         $s = substr($s,$info["header_size"]);
-        $s = $this->replaceresponse($s);
         return $s;
     }
     public function pull($s){
         Log::debug("FLUSH DATA: ".ob_get_flush());
+        $s = $this->replaceresponse($s);
         foreach($this->headers as $key => $value) {
             if($key == 'Content-Encoding')continue;
             if($key == 'Transfer-Encoding')continue;
             if($key == 'Content-Length')$value = strlen($s);
+            if($key == 'Location') {
+                $new_value = $r = preg_replace("/(http|https):\/\/www[^\.]*\.".($this->cfg["domain"])."/im",($this->cfg["local"]["is_ssl"]?"https://":"http://").$this->cfg[local]["domain"],$value);
+                Log::debug("change location: ".$value." >> ".$new_value);
+                //$env = json_decode(file_get_contents("xray.json"),true);
+                //$env["url"] = preg_replace("/\/$/","",$value);
+                //file_put_contents("xray.json",json_encode($env,JSON_PRETTY_PRINT));
+                $value = $new_value;
+            }
+            $value =  $this->replaceresponse($value);
             header("{$key}: {$value}");
-            //Log::debug("SET header: "."{$key}: {$value}");
         }
-        //Log::debug($this->headers);
+        Log::debug("/************************************************************************************************/");
+        Log::debug("/**** END {$this->url} ****/");
+        Log::debug("/************************************************************************************************/");
         echo $s;
     }
     protected function responseHeaders($h){
         Log::debug("responseHeaders");
         if(preg_match_all("/^(.+?):\s*(.+?)\r*$/im",$h,$ms)){
             for($i=0; $i< count($ms[0]); $i++){
-                $this->headers[$ms[1][$i]] = $this->replaceresponse($ms[2][$i]);
+                $this->headers[$ms[1][$i]] = $ms[2][$i];
             }
         }
         Log::debug($this->headers);
@@ -108,24 +123,30 @@ class Fetcher{
         return $headers;
     }
     protected function replacerequest($s){
-        Log::debug("replacerequest");$r=$s;
-        //$r = preg_replace("/(http|https):\/\/".preg_quote($_SERVER["HTTP_HOST"])."/im",$this->cfg["url"],$s);
-        $r = preg_replace("/(http|https)*:*(\/\/)*".preg_quote($this->cfg["local"]["domain"])."/im",$this->cfg["host"],$r);
+        $r=$s;
+        if(preg_match_all("/.*".($this->cfg["local"]["domain"]).".*/im",$s,$m)){
+            Log::debug("replacerequest:");
+            Log::debug($m[0]);
+        }
+        $r = preg_replace("/(http|https)?:?\/\/".($this->cfg["local"]["domain"])."/im",$this->cfg["url"],$s);
+        $r = preg_replace("/([\s\"'\=\/\:]|\A)".preg_quote($this->cfg["local"]["domain"])."/im","$1".$this->cfg["host"],$r);
+        $r = preg_replace("/".preg_quote($this->cfg["local"]["domain"])."/im","$1".$this->cfg["domain"],$r);
         return $r;
     }
     protected function replaceresponse($s){
-        Log::debug("replaceresponse");$r=$s;
-        //$r = preg_replace("/(http|https):\/\/".preg_quote($this->cfg["host"])."/im","//".$_SERVER["HTTP_HOST"],$s);
-        $r = preg_replace("/".preg_quote($this->cfg["host"])."/im",$this->cfg["local"]["domain"],$r);
-        //$r = preg_replace("/".preg_quote($this->cfg["domain"])."/im",$this->cfg["local"]["domain"],$r);
-        //$r = preg_replace("/([\s\"']+\.*)".preg_quote($this->cfg["domain"])."/im","$1".$this->cfg["local"]["domain"],$r);
-        //$r = preg_replace("/([a-z0-9\-_]+\.)".preg_quote($this->cfg["domain"])."/im",$this->cfg["local"]["domain"]."?_xg_subdomain=$1",$r);
+        $r=$s;
         $t = $this;
-        $r = preg_replace_callback("/([\"'\s]+)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
-            return $m[1].$t->cfg["local"]["domain"];
+
+        $r = preg_replace_callback("/(.*)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
+            $res = $m[0];
+            if(!preg_match("/\-".preg_quote($this->cfg["domain"])."/im",$m[0],$not_m)){
+                $top = preg_replace("/www[^\.]*\.$/im","",$m[1]);
+                $top = preg_replace("/(http|https):\/\/$/im","//",$top);
+                $res = $top.$t->cfg["local"]["domain"];
+                Log::debug( "replace:". trim($m[0])." >> ".trim($res) );
+            }
+            return $res;
         },$r);
-        $r = preg_replace("/https:\/\//im","//",$r);
-        if(!$this->cfg["local"]["is_ssl"])$r = preg_replace("/https/im","http",$r);
         return $r;
     }
 };

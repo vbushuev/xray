@@ -1,4 +1,4 @@
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php#g_$1 [NC,L,QSA]
+RewriteRule ^(?!(admin\.php))(.*)$ /index.php#g_$2 [NC,L,QSA]
