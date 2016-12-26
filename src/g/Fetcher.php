@@ -30,15 +30,26 @@ class Fetcher{
         $this->cfg["local"]["is_ssl"] = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? true : false;
         $this->cfg["local"]["url"] = "//".$this->cfg["local"]["domain"];
         $this->url = $this->cfg["schema"]."://".$this->cfg["subdomain"].$this->cfg["domain"].preg_replace("/#g_/i","",preg_replace("/#_xg_subdomain=([^&]+)&*/i","",$_SERVER["REQUEST_URI"]));
+        //somehacks
+        if(isset($this->cfg["hacks"])&&isset($this->cfg["hacks"]["substitutions"])){
+            foreach($this->cfg["hacks"]["substitutions"] as $w=>$n){
+                if($n["url"]==preg_replace("/#_xg_subdomain=([^&]+)&*/i","",$_SERVER["REQUEST_URI"])){
+                    $this->url = $w;
+                    $this->cfg["no_cookie"] = $n["no_cookie"] or false;
+                    $this->cfg["host"] = $n["host"] or $this->cfg["host"];
+                    break;
+                }
+            }
+        }
+
 
         Log::debug("/************************************************************************************************/");
-        Log::debug("/**** START {$this->url} ****/");
+        Log::debug("/**** START ".$_SERVER['REQUEST_METHOD']." {$this->url} ****/");
         Log::debug("/************************************************************************************************/");
         Log::debug("DOMAIN:".$this->cfg["domain"]);
         Log::debug("subDOMAIN:".$this->cfg["subdomain"]);
     }
     public function get(){
-        Log::debug();
         $s = "";
         $curl = curl_init();
         $this->url = $this->replacerequest($this->url);
@@ -64,6 +75,7 @@ class Fetcher{
             $curlOptions[CURLOPT_POST]=true;
             $postData = http_build_query($_POST);
             $curlOptions[CURLOPT_POSTFIELDS]=$postData;
+            Log::debug("PostData ".$postData);
         }
         curl_setopt_array($curl, $curlOptions);
         $s = curl_exec($curl);
@@ -84,9 +96,6 @@ class Fetcher{
             if($key == 'Location') {
                 $new_value = $r = preg_replace("/(http|https):\/\/www[^\.]*\.".($this->cfg["domain"])."/im",($this->cfg["local"]["is_ssl"]?"https://":"http://").$this->cfg[local]["domain"],$value);
                 Log::debug("change location: ".$value." >> ".$new_value);
-                //$env = json_decode(file_get_contents("xray.json"),true);
-                //$env["url"] = preg_replace("/\/$/","",$value);
-                //file_put_contents("xray.json",json_encode($env,JSON_PRETTY_PRINT));
                 $value = $new_value;
             }
             $value =  $this->replaceresponse($value);
@@ -117,6 +126,9 @@ class Fetcher{
             }
             $client_headers["Cookie"] =(isset($client_headers["Cookie"])?$client_headers["Cookie"].$cc:$cc);
         }
+        if(isset($this->cfg["no_cookie"])&&$this->cfg["no_cookie"]===true){
+            unset($client_headers["Cookie"]);
+        }
         foreach ($client_headers as $name => $value) {
             $headers[]="{$name}: ".$this->replacerequest($value);
         }
@@ -134,23 +146,53 @@ class Fetcher{
         $r = preg_replace("/".preg_quote($this->cfg["local"]["domain"])."/im","$1".$this->cfg["domain"],$r);
         return $r;
     }
-    protected function replaceresponse($s){
+    protected function replaceresponse($s,$t = "html"){
         $r=$s;
         $t = $this;
-
-        $r = preg_replace_callback("/(\S*)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){
+        $r = preg_replace_callback("/(https|http)*:?(\/\/)*(([\w\-]*?)\.)*(\w+?\.\w{2,5})(.*)/im",function($m)use($t){
+            /*
+             *  0	=>	http://eulerian.brandalley.fr/script.js?query=12#asfasfsafasf
+             *  1	=>	http
+             *  2	=>	//
+             *  3	=>	eulerian.
+             *  4	=>	eulerian
+             *  5	=>	brandalley.fr
+             *  6	=>	/script.js?query=12#asfasfsafasf
+             */
+            $res = $m[0];
+            if($m[5]==$this->cfg["domain"]){
+                $res = "//".$m[3].$t->cfg["local"]["domain"].$m[6];
+            }
+            return $res;
+        },$r);
+        return $r;
+    }
+    protected function replaceresponse2($s){
+        $r=$s;
+        $t = $this;
+        //$r = preg_replace_callback("/([\S]+)".preg_quote($this->cfg["domain"])."/im",function($m)use($t){ with subdomains
+        $r = preg_replace_callback("/(\s?[\"'\=]?\.?)".preg_quote($this->cfg["domain"],'/')."/im",function($m)use($t){
             $res = $m[0];
             if(
                 !preg_match("/\-".preg_quote($this->cfg["domain"])."/im",$m[0],$not_m) &&
                 !preg_match("/eulerian\.brandalley\.fr\/col1\//im",$m[1],$not_m)
             ){
                 $top = preg_replace("/www[^\.]*\.$/im","",$m[1]);
-                $top = preg_replace("/(http|https):\/\//im","//",$top);
+                $top = preg_replace("/https/im","http",$top);
                 $res = $top.$t->cfg["local"]["domain"];
-                Log::debug( "replace:". trim($m[0])." >> ".trim($res) );
+                Log::debug( "replace : {". trim($m[0])."} >> {".trim($res)."}" );
             }
             return $res;
         },$r);
+        //somehacks
+        if(isset($this->cfg["hacks"])&&isset($this->cfg["hacks"]["substitutions"])){
+            foreach($this->cfg["hacks"]["substitutions"] as $w=>$n){
+                $r = preg_replace_callback("/".preg_quote($w,'/')."/im",function($m)use($n){
+                    Log::debug( "replace : {".$m[0]."} >> {".$n["url"]."}" );
+                    return $n["url"];
+                },$r);
+            }
+        }
         return $r;
     }
 };
