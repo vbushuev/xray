@@ -11,7 +11,7 @@ class Log{
 
         //foreach($d["args"] as $a=>$v){//$r.=$v;};
         foreach (func_get_args() as $a) {
-            $r .= is_string($a)?$a:json_encode($a,JSON_PRETTY_PRINT);
+            $r .= (is_array($a)||is_object($a))?json_encode($a,JSON_PRETTY_PRINT):$a;
         }
         self::_put($r);
     }

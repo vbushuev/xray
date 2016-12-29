@@ -7,17 +7,20 @@ var laravelHost = "//l.gauzymall."+(document.location.host.match(/\.bs2/)?"bs2":
 (function(xgj$){
     xgj$(document).ready(function(){
         console.debug("here iam");
+        console.debug(document.cookie);
         //draw green line
-        xgj$.ajax({
-            url:laravelHost+"/xray",
-            crossDomain:true,
-            success:function(d){
-                xgj$("body").append(d).animate({marginTop: "50px"},400,"linear",function(){
-                    console.debug("animated");
-                    //xgj$("#_xg_green_line").css("zIndex","999");
-                });
-            }
-        });
+        if(false){
+            xgj$.ajax({
+                url:laravelHost+"/xray",
+                crossDomain:true,
+                success:function(d){
+                    xgj$("body").append(d).animate({marginTop: "50px"},400,"linear",function(){
+                        console.debug("animated");
+                        //xgj$("#_xg_green_line").css("zIndex","999");
+                    });
+                }
+            });
+        }
 
 
         /*
