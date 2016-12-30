@@ -9,7 +9,7 @@ var laravelHost = "//l.gauzymall."+(document.location.host.match(/\.bs2/)?"bs2":
         console.debug("here iam");
         console.debug(document.cookie);
         //draw green line
-        if(false){
+        if(true){
             xgj$.ajax({
                 url:laravelHost+"/xray",
                 crossDomain:true,

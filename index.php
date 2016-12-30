@@ -25,6 +25,7 @@ $use_filters = [
     "6"=>["use"=>false,"pattern"=>"/([a-z0-9\.]+)".preg_quote($Enviroment->domain)."/ixsm","replacement"=>$Enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($m[0])],
     "7"=>["use"=>true,"pattern"=>"/([\"'][^\.]+)\.".preg_quote($Enviroment->domain,'/')."/ixsm","replacement"=>"$1.".$Enviroment->localhost],
     "8"=>["use"=>true,"pattern"=>"/".preg_quote($Enviroment->domain,'/')."/ixsm","replacement"=>$Enviroment->localhost],
+    "9"=>["use"=>false,"pattern"=>"/".preg_quote($Enviroment->domain,'/')."/ixsm","replacement"=>$Enviroment->localhost],
 ];
 if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
     /** debug for make classes*/
@@ -95,14 +96,15 @@ else if(preg_match("'javascript'ixs",$Fetcher->headers["Content-Type"])){
         Log::debug("filter[8]: [".$m[0]."] >> [".$res."]");
         return $res;},$data);
     $pattern = "/https\:\/\/(.+?)".preg_quote($Enviroment->localhost,'/')."/ixsm";
-    $data = preg_replace_callback($pattern,function($m)use($Enviroment){
+    if($use_filters["7"]["use"])$data = preg_replace_callback($pattern,function($m)use($Enviroment){
         $res = $m[0];
         $res = "//".$m[1].$Enviroment->localhost;
-        Log::debug("filter[8.1]: [".$m[0]."] >> [".$res."]");
+        Log::debug("filter[9]: [".$m[0]."] >> [".$res."]");
         return $res;},$data);
 }
 foreach($Enviroment->hacks["substitutions"] as $o=>$s){
     $data = preg_replace("/".preg_quote($o,'/')."/ixs",$s,$data);
 }
+if($Enviroment->greenline["show"]=="1" || $Enviroment->greenline["show"] == 'true'  || $Enviroment->greenline["show"] == 'true')$data = preg_replace("/\<\/body>/i","<script src='/js/x.js#".$url."'></script></body>",$data);
 $Fetcher->pull($data);
 ?>
