@@ -19,26 +19,118 @@
         <a  class="btn btn-primary pull-right" target="__blank" href="//<?php echo $_SERVER["SERVER_NAME"]?>">go to site</a>
         <!--<ul class="panels"><li class="panel-item">Settings</li></ul>-->
 	</div>
-	<div id="content" class="row">
-		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <label for="basic-url">Donor URL:</label>
-            <div class="input-group">
-              <span class="input-group-addon" id="area-field-url"><i class="fa fa-globe"></i></span>
-              <input type="text" class="form-control" id="basic-url" name="url" aria-describedby="area-field-url" value="<?php echo $html->DataUrl;?>">
-            </div>
-            <hr/>
-            <label for="basic-greenline">Show GreenLine:</label>
-
-            <input type="checkbox" id="basic-greenline" name="greenline[show]" aria-describedby="area-field-showgreenline" <?php echo ($html->DataGreenlineShow=="true")?"checked":"";?>>
-            <?php ?>
-        </div>
+	<div id="content">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	            <label for="basic-url">Donor URL:</label>
+	            <div class="input-group">
+	              <span class="input-group-addon" id="area-field-url"><i class="fa fa-globe"></i></span>
+	              <input type="text" class="form-control" id="basic-url" name="url" aria-describedby="area-field-url" value="<?php echo $html->DataUrl;?>">
+	            </div>
+	        </div>
+		</div>
+		<hr/>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label for="basic-greenline">Show GreenLine:</label>
+				<input type="checkbox" id="basic-greenline" name="greenline[show]" aria-describedby="area-field-showgreenline" <?php echo ($html->DataGreenlineShow=="true")?"checked":"";?>>
+			</div>
+		</div>
+		<div class="row">
+			<h3>Hacks</h3>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="title" for="additional-cookies">Preset cookies
+					<a class="button add" data-ref="#cookie" href="javascript:{0}"><i class="fa fa-plus"></i></a>
+				</div>
+				<?php echo $html->DataCookie;?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="title" for="basic-greenline">Subtitutions:
+					<a class="button add" data-ref="#substitutions" href="javascript:{0}"><i class="fa fa-plus"></i></a>
+				</div>
+				<?php  echo $html->DataHacksSubstitutions;?>
+			</div>
+		</div>
 	</div>
-    <div id="buttons" class="row">
+    <!--<div id="buttons" class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <br/>
             <a id="submit" class="btn btn-success pull-right" href="javascript:xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit')});">set</a>
         </div>
-    </div>
+    </div>-->
 </div>
+<script>
+(function($){
+	function initResponsibility(){
+		$(".delete").unbind("click").on("click",function(e){
+			var todel = $(this).parent($(this).attr("data-ref"));
+			todel.fadeOut(400,function(){todel.remove()});
+			xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug(d);}});
+		});
+		$(".add").unbind("click").on("click",function(e){
+			var name = $(this).attr("data-ref").replace(/#/,''),toadd = $('#'+name),
+				i = $(this).parent().next(".listvalues:first").children("li").length,
+				uldata = $(this).parent().next(".listvalues:first").attr("data");
+				html = '<li class="listvalue"><i class="fa fa-square-"></i>&nbsp;';
+			console.debug("Li count = "+i);
+			html+= '<div class="editable inline key" data-rel="#'+name+'-'+i+'" data-field="name"></div>&nbsp;';
+			html+= '<i class="fa fa-exchange"></i>&nbsp;';
+			html+= '<div class="editable inline value" data-rel="#'+name+'-'+i+'" data-field="value"></div>&nbsp;';
+			html+= '<a class="button delete" data-ref=".listvalue" href="javascript:{0}"><i class="fa fa-times"></i></a>';
+			html+= '<input id="'+name+'-'+i+'" type="hidden" name="'+uldata+'" value=""></li>';
+			var app = toadd.append(html);
+			initResponsibility();
+			app.children(".key").click();
+		});
+		$(".editable").unbind("click").on("click",function(e){
+			if(!$(this).hasClass("editting")){
+				$(this).attr("contentEditable","true")
+					.addClass("editting");
+					//.append('<a style="z-index:1000" class="submit" href="javascript:{xray.form.submit({form:$(\'#content\'),url:\'/admin.php\',button:$(this),callback:function(d){console.debug(d);}});}"><i class="fa fa-check">&nbsp;</i></a>');
+				$(this).focus();
+			}
+			else{
+				var edt = $(this);
+				xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){
+					edt.removeAttr("contentEditable").removeClass("editting").find('.submit').remove();
+				}});
+			}
+		}).unbind("blur").on("blur",function(){
+			if($(this).hasClass("editting")){
+				$(this).removeAttr("contentEditable")
+					.removeClass("editting")
+					.find('.submit').remove();
+			}
+		}).unbind("keydown").on("keydown",function(e){
+			var keycode = (e.keyCode ? e.keyCode : e.which);
+        	if(keycode == '13'){
+        		e.preventDefault();
+				e.stopPropagation();
+				$(this).click();
+        	}
+		}).unbind("keyup").on("keyup",function(e){
+			var inp = $($(this).attr("data-rel")),field = $(this).attr("data-field");
+			if(field=="value") inp.val($(this).text().trim());
+			else if(field=="name"){
+				//var fn = $(this).parent(".listvalues").attr("data");
+				var fn = inp.attr("name").replace(/\[.+?\]$/,'');
+				inp.attr("name",fn+"["+$(this).text().trim()+"]");
+			}
+		});
+	}
+    $(document).ready(function(){
+        $(document).keypress(function(event){
+        	var keycode = (event.keyCode ? event.keyCode : event.which);
+        	if(keycode == '13'){
+        		console.log("Enter pressed. Saving settings")
+                xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug("settings saved.");}});
+        	}
+        });
+		initResponsibility();
+	});
+})(jQuery);
+</script>
 </body>
 </html>

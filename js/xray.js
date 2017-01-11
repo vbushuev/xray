@@ -127,7 +127,8 @@
                     beforeSend:function(){
                         if(typeof args.button != "ubdefined")args.button.html('<i class="fa fa-cog fa-spin fa-fw" aria-hidden="true"></i>');
                     },
-                    success:function(){
+                    success:function(d){
+                        if(typeof args.callback=="function")args.callback(d);
                         //location.reload();
                     },
                     complete:function(){
@@ -188,7 +189,8 @@
                     if($t.hasClass("phone")){
                         v=v.replace(/[\(\)\s]/ig,'');
                     }
-                    if(n!="undefined"&&v.length)tt.ret[n] = v;
+                    //if(n!="undefined"&&v.length)tt.ret[n] = v;
+                    if(n!="undefined")tt.ret[n] = v;
                 });
                 tt.json=function(){return tt.ret;};
                 tt.html=function(){
@@ -209,7 +211,4 @@
             }
         },
     };
-    $(document).ready(function(){
-
-    });
 })(jQuery);

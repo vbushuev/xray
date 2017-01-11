@@ -14,6 +14,7 @@ use \Log as Log;
 $env = json_decode(file_get_contents("xray.json"),true);
 $Enviroment = new Enviroment($env);
 $Fetcher = new Fetcher($Enviroment->url);
+$Fetcher->cookie = $Enviroment->cookie;
 $Filter = new Filter($Enviroment);
 $data = $Fetcher->fetch();
 $use_filters = [

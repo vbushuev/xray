@@ -1,4 +1,4 @@
-@import url("//fonts.googleapis.com/css?family=Lato:100,300");
+@import url("//fonts.googleapis.com/css?family=Lato:100,300,700");
 @import url("//fonts.googleapis.com/css?family=Open+Sans:300,700&subset=latin,cyrillic");
 *{
     font-family: "Lato", "Open Sans";
@@ -14,4 +14,89 @@
 
 @media screen and (min-width: 1200px) {
 
+}
+.fa{
+    color: rgba(0, 0, 0,.5);
+}
+.inline {
+    display: inline-block;
+}
+.editable{
+    min-width: 10em;
+    min-height: 1em;
+    cursor: pointer;
+}
+.title {
+    font-weight: 700;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: solid 1px rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    height:2.4em;
+    line-height: 2.4em;
+    padding:0 .4em;
+    margin: 1em 0 0.5em 0;
+    vertical-align: middle;
+}
+a.button{
+    display: inline-block;
+    height:1.9em;
+    line-height: 1.9em;
+    width:1.9em;
+    margin-top: .2em;
+    text-align: center;
+    padding: 0;
+    border: solid .05em transparent;
+    color: rgba(51,122,183, 0.7);
+    cursor: pointer;
+}
+a.button .fa{
+    color: rgba(51,122,183, 0.7);
+}
+a.button:hover{
+    /*border: solid .05em rgba(51,122,183, .5);*/
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    color: #337ab7;
+    transition: .4s ease-out;
+}
+a.button:hover .fa{
+    color: rgba(51,122,183,1);
+}
+.title a.button{
+    float:right;
+}
+.listvalues{
+    list-style: none;
+    padding: 0;
+}
+.listvalues .listvalue{
+    -webkit-border-radius: 0.3em;
+    -moz-border-radius: 0.3em;
+    border-radius: 0.3em;
+    font-size: .9em;
+    height:2.4em;
+    line-height: 2.4em;
+    padding:0 1em;
+}
+.listvalues .listvalue:hover{
+    background-color: rgba(0, 191, 128,.1);
+    transition: .4s ease-out;
+}
+.listvalues .listvalue a.button{
+    float:right;
+    display: none;
+}
+.listvalues .listvalue:hover a.button{
+    display: block;
+}
+.listvalues .listvalue .key{
+    margin-right: 1em;
+}
+.listvalues .listvalue .value{
+    color:rgba(0, 191, 128,1);
+    font-weight: 700;
+    margin:0 1em;
 }
