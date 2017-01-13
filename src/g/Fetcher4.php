@@ -43,7 +43,6 @@ class Fetcher4{
         return $s;
     }
     public function pull($s){
-        Log::debug($this->url.":: ","FLUSH DATA: ".ob_get_flush());
         foreach($this->headers as $key => $value) {
             if($key == 'Content-Encoding')continue;
             if($key == 'Transfer-Encoding')continue;

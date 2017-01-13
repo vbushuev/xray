@@ -2,116 +2,106 @@
 namespace g;
 use \Log as Log;
 class Filter{
-    protected $cfg;
+    protected $_enviroment;
     protected $s;
-    public function __construct($cfg){
-        $this->cfg = $cfg;
-
+    public function __construct($env){
+        $this->_enviroment = $env;
     }
-    public function fetch($s = "",$contentType){
-        $this->s = $s;
-        if(preg_match("'text/css'i",$contentType)) {//Cascading Style sheets
-            // local url replace
-            $this->s = preg_replace_callback('#(["\'])(/[a-z0-9\\-]+)+["\']#ixs',function($r)use($t){
-                $res = $this->_expandlinks($r[2]);
-                Log::debug("filtered [".$r[2]."] >> [".$res."]");
-                return $res;
-            },$this->s);
+    public function fetch($data = "",$contentType){
+        $use_filters = [
+            "1"=>["use"=>true],
+            "2"=>["use"=>true],
+            "3"=>["use"=>true],
+            "4"=>["use"=>false],
+            "5"=>["use"=>false],
+            "6"=>["use"=>false],
+            "7"=>["use"=>true],
+            "8"=>["use"=>true],
+            "9"=>["use"=>false],
+        ];
+        if(preg_match("'text/html'ixs",$contentType)){
+            /** debug for make classes*/
+            // filter 1
+            $t = $this;
+            $pattern = "/(http|https)\:?\/{0,2}".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
+            if($use_filters["1"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = "//".$t->_enviroment->localhost; Log::debug("filter[1]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            // filter 2
+            $pattern = "/".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
+            if($use_filters["2"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $t->_enviroment->localhost; Log::debug("filter[2]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            // filter 3
+            $pattern = "/([\=\"'\s]+\.?)".preg_quote($t->_enviroment->domain)."/ixsm";
+            if($use_filters["3"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $m[1].$t->_enviroment->localhost;Log::debug("filter[3]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            // filter 4
+            $pattern = "/http(s)?:\/{2}[^\s\?\"'\>]+\.js[^\"'\s\>]*/ixs";
+            if($use_filters["4"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                if(
+                    !preg_match("/".preg_quote($t->_enviroment->localhost)."/ixs",$m[0]) &&
+                    !preg_match("/jquery/ixs",$m[0]) &&
+                    !preg_match("/\.googleanalytics/ixs",$m[0])
+                ){
+
+                    $res = "//".$t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($m[0]);
+                    Log::debug("filter[4]: [".$m[0]."] >> [".$res."]");
+                }
+                return $res;},$data);
+            // filter 5
+            $pattern = "/\/{2}[^\s\?\"']+?\.js[^\"'\s\>]*/ixs";
+            if($use_filters["5"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                if(
+                    !preg_match("/".preg_quote($t->_enviroment->localhost)."/ixs",$m[0]) &&
+                    !preg_match("/jquery/ixs",$m[0]) &&
+                    !preg_match("/\.google/ixs",$m[0])
+                ){
+                    $res = "//".$t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($t->_enviroment->localschema.":".$m[0]);
+                    Log::debug("filter[5]: [".$m[0]."] >> [".$res."]");
+                }
+                return $res;},$data);
+            // filter 6
+            $pattern = "/([a-z0-9\.]+)".preg_quote($t->_enviroment->domain)."/ixsm";
+            if($use_filters["6"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                if(
+                    !preg_match("/".preg_quote($t->_enviroment->localhost)."/ixs",$m[0]) &&
+                    !preg_match("/jquery/ixs",$m[0]) &&
+                    !preg_match("/\.google/ixs",$m[0])
+                ){
+                    $res = $t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($m[0]);
+                    Log::debug("filter[6]: [".$m[0]."] >> [".$res."]");
+                }
+                return $res;},$data);
+            // filter 7
+            $pattern = "/([\"'][a-z0-9\-]+)\.".preg_quote($t->_enviroment->domain,'/')."/ixsm";
+            if($use_filters["7"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                $res = $m[1].".".$t->_enviroment->localhost;
+                Log::debug("filter[7]: [".$m[0]."] >> [".$res."]");
+                return $res;},$data);
+
         }
-        if(preg_match("'text/html'i",$contentType)){//HTML
-            $this->_stripurls();
-            $this->_striphost();
+        else if(preg_match("'javascript'ixs",$contentType)){
+            // filter 8
+            $pattern = "/".preg_quote($t->_enviroment->domain,'/')."/ixsm";
+            if($use_filters["8"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                $res = $t->_enviroment->localhost;
+                Log::debug("filter[8]: [".$m[0]."] >> [".$res."]");
+                return $res;},$data);
+            $pattern = "/https\:\/\/(.+?)".preg_quote($t->_enviroment->localhost,'/')."/ixsm";
+            if($use_filters["9"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
+                $res = $m[0];
+                $res = "//".$m[1].$t->_enviroment->localhost;
+                Log::debug("filter[9]: [".$m[0]."] >> [".$res."]");
+                return $res;},$data);
         }
-        if(preg_match("'json|javascript'i",$contentType)) {//javascript
-            //$this->_striphost();
-        }
-
-        return $this->s;
-    }
-    protected function _stripurls(){
-        $t=$this;
-        //preg_match_all("/(?:https?:)?\/{2}[^\s\?\"'\>]+/ixs",$this->s,$m1);
-        //preg_match_all('#(["\'])(/[a-z0-9\\-]*)+["\']#ixs',$this->s,$m2);
-        //preg_match_all('/'.preg_quote($this->cfg["domain"],'/').'/ixs',$this->s,$m3);
-        //$m = array_merge($m1[0],$this->_expandlinks($m2[2]),$m3[0]);
-
-        // full urls replace
-        $this->s = preg_replace_callback("/(?:https?:)?\/{2}[^\s\?\"'\>]+/ixs",function($r)use($t){
-            $res = "//".$this->cfg["localhost"]."?".REQUEST_PARAMETER_NAME."=".base64_encode($r[0]);
-            Log::debug("filtered [".$r[0]."] >> [".$res."]");
-            return $res;
-        },$this->s);
-        // local url replace
-        $this->s = preg_replace_callback('#(["\'])(/[a-z0-9\\-]+)+["\']#ixs',function($r)use($t){
-            $res = "//".$this->cfg["localhost"]."?".REQUEST_PARAMETER_NAME."=".base64_encode($this->_expandlinks($r[2]));
-            Log::debug("filtered [".$r[2]."] >> [".$res."]");
-            return $res;
-        },$this->s);
-
-    }
-    protected function _striphost(){
-        $t=$this;
-        // donor domain in scripts context
-        $this->s = preg_replace_callback('/'.preg_quote($this->cfg["mainhost"],'/').'/ixs',function($r)use($t){
-            $res = $this->cfg["localhost"];
-            Log::debug("filtered [".$r[0]."] >> [".$res."]");
-            return $res;
-        },$this->s);
-        // donor domain in scripts context
-        $this->s = preg_replace_callback('/'.preg_quote($this->cfg["domain"],'/').'/ixs',function($r)use($t){
-            $res = $this->cfg["localhost"];
-            Log::debug("filtered [".$r[0]."] >> [".$res."]");
-            return $res;
-        },$this->s);
-    }
-    protected function _striplinks(){
-        preg_match_all("'(href|src|link)\s*=\s*			# find <a href=
-						([\"\'])?					# find single or double quote
-						(?(1) (.*?)\\1 | ([^\s\>]+))		# if quote found, match up to next matching
-													# quote, otherwise match up to next space
-						'isx", $this->s, $links);
-
-
-        // catenate the non-empty matches from the conditional subpattern
-
-        while (list($key, $val) = each($links[3])) {
-            if (!empty($val))
-                $match[] = $val;
+        if(isset($t->_enviroment->hacks["substitutions"])){
+            foreach($t->_enviroment->hacks["substitutions"] as $o=>$s){
+                $data = preg_replace("/".preg_quote($o,'/')."/ixs",$s,$data);
+            }
         }
 
-        while (list($key, $val) = each($links[3])) {
-            if (!empty($val))
-                $match[] = $val;
-        }
-        $match = $this->_expandlinks($match);
-        // return the links
-        return $match;
-    }
-    protected function _expandlinks($links){
-        $URI = $this->cfg["lasturl"];
-        preg_match("/^[^\?]+/", $URI, $match);
-        $match = preg_replace("|/[^\/\.]+\.[^\/\.]+$|", "", $match[0]);
-        $match = preg_replace("|/$|", "", $match);
-        $match_part = parse_url($match);
-        $match_root = $match_part["scheme"] . "://" . $match_part["host"];
-
-        $search = array("|^http://" . preg_quote($this->host) . "|i",
-            "|^(\/)|i",
-            "|^(?!http://)(?!mailto:)|i",
-            "|/\./|",
-            "|/[^\/]+/\.\./|"
-        );
-
-        $replace = array("",
-            $match_root . "/",
-            $match . "/",
-            "/",
-            "/"
-        );
-
-        $expandedLinks = preg_replace($search, $replace, $links);
-
-        return $expandedLinks;
+        return $data;
     }
 };
 ?>
