@@ -37,6 +37,15 @@
 			</div>
 		</div>
 		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<label for="basic-translate">Use Translator:</label>
+				<input type="checkbox" id="basic-translate" name="translate[use]" aria-describedby="area-field-usetranslate" <?php echo ($html->DataTranslateUse=="true")?"checked":"";?>>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+				<a href="https://dictionary.gauzymall.com?lang=fr">Dictionary editor</a>
+			</div>
+		</div>
+		<div class="row">
 			<h3>Hacks</h3>
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div class="title" for="additional-cookies">Preset cookies
@@ -128,6 +137,10 @@
                 xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug("settings saved.");}});
         	}
         });
+		$("input[type=checkbox]").on("change",function(e){
+			console.log("Checkbox. Saving settings")
+			xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug("settings saved.");}});
+		})
 		initResponsibility();
 	});
 })(jQuery);

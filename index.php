@@ -20,7 +20,7 @@ $Filter = new Filter($Enviroment);
 $Translator = new Translator(["lang"=>"fr"]);
 $data = $Fetcher->fetch();
 $data = $Filter->fetch($data,$Fetcher->headers["Content-Type"]);
-if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
+if($Enviroment->translate["use"]=="true" && preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
     $data = $Translator->translateHtml($data);
 }
 if($Enviroment->greenline["show"]=="1" || $Enviroment->greenline["show"] == 'true'  || $Enviroment->greenline["show"] == 'true')$data = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$data);

@@ -7,7 +7,9 @@ function __autoload($className){
 	$vendorDir = "vendor";
 	$classmap = [
 		"Snoopy" => $vendorDir."/Snoopy/Snoopy.class.php",
-		"phpQuery" => $vendorDir."/phpquery/phpQuery/phpQuery.php"
+		"phpQuery" => $vendorDir."/phpquery/phpQuery/phpQuery.php",
+		"simple_html_dom" => $vendorDir."/simple_html_dom.php",
+		"simple_html_dom_node" => $vendorDir."/simple_html_dom.php"
 	];
 	if(isset($classmap[$className])){
 		require_once $classmap[$className];
