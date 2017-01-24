@@ -7,7 +7,8 @@ class Enviroment{
         $this->cfg = $cfg;
         if(!isset($this->cfg["url"])) throw new \Exception("no url");
         $ui = parse_url($this->cfg["url"]);
-        $this->cfg["localhost"] = preg_match("/\.bs2/i",$_SERVER["SERVER_NAME"])?"xray.bs2":"x.gauzymall.com";
+        //$this->cfg["localhost"] = preg_match("/\.bs2/i",$_SERVER["SERVER_NAME"])?"xray.bs2":"x.gauzymall.com";
+        $this->cfg["localhost"] = $_SERVER["SERVER_NAME"];
         $this->cfg["localschema"] = preg_match("/\.bs2/i",$_SERVER["SERVER_NAME"])?"http":"https";
         //$this->cfg["domain"] = preg_replace("/^[^\.]*\./i","",$ui["host"]);
         $this->cfg["domain"] = preg_replace("/^([^\.]*)\.?([^\.]+)\.(.+)$/i","$2.$3",$ui["host"]);

@@ -24,21 +24,37 @@ class Translator{
     public function translateText($in){
         $out = $in;
         foreach($this->_d as $di){
-            $out = preg_replace("/\b".preg_quote($di["original"])."\b/im",$di["translate"],$out);
+            if(!preg_match("/[^a-z]/im",$out))return $out;
+            $out = preg_replace("/".preg_quote(strtolower($di["original"]))."/im","$1".$di["translate"],$out);
         }
         return $out;
     }
     public function translateHtml($in){
         //return $this->translateText($in);
-        $out = $in;
+        $out = $in; $t = $this;
+        //$out = preg_replace("/[\r\n]/m"," ",$out);
+        $pattern = "/(<(".join("|",$this->_textTags).")[^>]*>)([^<]+)/ixsm";
+        Log::debug($pattern);
+        $out = preg_replace_callback($pattern,function($m)use($t){
+            $val = $m[3];$he = $m[1];
+            if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
+                $res = $t->translateText($val);
+                Log::debug("[".$m[2]."]\t".$val." >>> ".$res);
+            }
+            return $he.$res;
+        },$out); return $out;
+
         $html = new simple_html_dom();
         $html->load($in);
         //$els = $html->find(":text:not(:has(".join($this->_textTags,", ")."))");
-        $els = $html->find(join($this->_textTags,":not(:has(".join($this->_textTags,", ").")), "));
+        //$els = $html->find(join($this->_textTags,":not(:has(".join($this->_textTags,", ").")), "));
+        $els = $html->find(join($this->_textTags,", "));
         foreach ($els as $el) {
-            $tr = $this->translateText($el->innertext);
-            Log::debug($el->innertext." >>> ".$tr);
-            $el->innertext = $tr;
+            if(!empty(trim($el->innertext))){
+                $tr = $this->translateText($el->innertext);
+                Log::debug($el->tag.": ".$el->innertext." >>> ".$tr);
+                $el->innertext = $tr;
+            }
         }
         return $html->save();
         $doc = \phpQuery::newDocument($in);
