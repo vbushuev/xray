@@ -41,7 +41,14 @@
 				<label for="basic-translate">Use Translator:</label>
 				<input type="checkbox" id="basic-translate" name="translate[use]" aria-describedby="area-field-usetranslate" <?php echo ($html->DataTranslateUse=="true")?"checked":"";?>>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<label for="basic-language">Language:</label>
+				<select id="basic-language" name="translate[lang]" aria-describedby="area-field-language">
+					<<option value="fr" <?php echo ($html->DataTranslateLang=="fr")?"selected":"";?>>French</option>
+					<<option value="en" <?php echo ($html->DataTranslateLang=="en")?"selected":"";?>>English</option>
+				</select>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 				<a href="https://dictionary.gauzymall.com?lang=fr">Dictionary editor</a>
 			</div>
 		</div>
@@ -137,7 +144,7 @@
                 xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug("settings saved.");}});
         	}
         });
-		$("input[type=checkbox]").on("change",function(e){
+		$("input[type=checkbox],select").on("change",function(e){
 			console.log("Checkbox. Saving settings")
 			xray.form.submit({form:$('#content'),url:'/admin.php',button:$('#submit'),callback:function(d){console.debug("settings saved.");}});
 		})

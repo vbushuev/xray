@@ -17,13 +17,18 @@ $Enviroment = new Enviroment($env);
 $Fetcher = new Fetcher($Enviroment->url);
 $Fetcher->cookie = $Enviroment->cookie;
 $Filter = new Filter($Enviroment);
-$Translator = new Translator(["lang"=>"fr"]);
+$Translator = new Translator($Enviroment->translate);
 $data = $Fetcher->fetch();
 $data = $Filter->fetch($data,$Fetcher->headers["Content-Type"]);
+
 if($Enviroment->translate["use"]=="true" && preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
     $data = $Translator->translateHtml($data);
 }
-if($Enviroment->greenline["show"]=="1" || $Enviroment->greenline["show"] == 'true'  || $Enviroment->greenline["show"] == 'true')$data = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$data);
+if($Enviroment->greenline["show"]=="1" || $Enviroment->greenline["show"] == 'true'  || $Enviroment->greenline["show"] == 'true') {
+    //$data = preg_replace("/<body([^>]*)>/i","<body$1>".'<script src="js/cover.js"></script>',$data);
+    $data = preg_replace("/<body([^>]*)>/i","<body$1>".file_get_contents('css/cover.html'),$data);
+    $data = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$data);
+}
 Log::debug(ob_get_clean());
 $Fetcher->pull($data);
 ?>

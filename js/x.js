@@ -14,7 +14,8 @@ var xG = {
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var r = new XHR();
         var uriparams = (o.url.match(/\?/)?"&":"?")+Object.keys(o.data).map(function(k) {return encodeURIComponent(k) + '=' + encodeURIComponent(o.data[k])}).join('&');
-        r.open(o.type.toUpperCase(), o.url, true);
+        if(o.type=="get")r.open(o.type.toUpperCase(), o.url+uriparams, true);
+        else r.open(o.type.toUpperCase(), o.url, true);
         r.onreadystatechange = function () {
             if (r.readyState != 4 || r.status != 200) {
                 o.error(r);
@@ -27,10 +28,16 @@ var xG = {
         r.send(o.data);
     },
     checkout:function(){
-        var orderId = 'BA'+Math.random(9),
+        var orderId = 'X'+Math.random(9),
             carthost = (document.location.hostname.match(/\.bs2/i))?"//cart.gauzymall.bs2":"https://cart.gauzymall.com",
             checkouthost = "https://checkout.gauzymall.com",//(document.location.hostname.match(/\.bs2/i))?"//checkout.gauzymall.bs2":"https://checkout.gauzymall.com",
-            items = arguments[0];
+            items = arguments[0],
+            lc = {},
+            localCookies = document.cookie.split(/;/);
+        for(var i=0;i<localCookies.length;++i){
+            var cookie = localCookies[i].split(/\=/);
+            lc[cookie[0].trim()]=encodeURIComponent(cookie[1]);
+        }
         var rq = {
             domain_id:8,
             version: "1.0",
@@ -41,9 +48,15 @@ var xG = {
                 order_total:0.0,
                 order_currency:"EUR",
                 items:[]
+            },
+            session:{
+
+                cookies: lc
+                //,localStorage:(typeof(window.localStorage)!="undefined")?JSON.stringify(window.localStorage):{}
+                //,sessionStorage:typeof(window.sessionStorage)?JSON.stringify(window.sessionStorage):{}
             }
         },$m = this.find("#garan24-overlay")[0];
-        var tot = 0;
+        var tot = 0,shop;
         for(var i=0;i<items.length;++i ) {
             var itm = items[i];
             if(typeof itm.product_id == "undefined"){
@@ -52,6 +65,8 @@ var xG = {
                 }
                 else itm.product_id = -1;
             }
+            rq.order.order_currency = itm.currency;
+            shop = itm.shop;
             //delete itm.variations;
             //delete itm.currency;
             //delete itm.shop;
@@ -60,6 +75,7 @@ var xG = {
             tot+=itm.sale_price*itm.quantity;
             //console.debug(itm);
         }
+        rq.session.shop = shop;
         rq.order.order_total = tot;
         //$(document).trigger('gcart:beforeCheckout',rq);
         //return ;
@@ -75,6 +91,8 @@ var xG = {
                 //$m.find("#garan24-overlay-message").show();
                 //$m.find(".garan24-overlay-message-text").html("Обрабатываются товары из Вашей корзины...");
                 //$m.fadeIn();
+                var loader = document.getElementById('xr_g_cover_layer');
+                loader.style.display="block";
             },
             complete:function(){
                 //$m.delay(4).fadeOut();
@@ -90,7 +108,7 @@ var xG = {
                     //$m.find(".garan24-overlay-message-text").html("Переход на страницу оформления заказа...");
 
                     //document.location.href=garan.cart.isframe?d.redirect_url:"//gauzymall.com/g24-checkout?order-id="+d.id;
-                    if(confirm('Переходим на checkout?'))
+                    //if(confirm('Переходим на checkout?'))
                     document.location.href = d.redirect_url;
                 }
             },
@@ -99,16 +117,34 @@ var xG = {
             }
         });
     },
-    insertGreenLine:function(html){
-        var gl = document.createElement('div');
-        gl.innerHTML = html;
-        //document.body.style.marginTop = "50px";
-        this.margin({obj:document.body.style,itr:4,interval:5,to:50,callback:function(){
-            document.body.appendChild(gl);
-            var js = html.replace(/[\s\S]*<script.*?>([\s\S]+?)<\/script>[\s\S]*/ig,"$1");
-            eval(js);
-        }});
+    insertGreenLine:function(html,topelement){
+        try{
+            var gl = document.createElement('div');
+            gl.innerHTML = html;
+            if(document.getElementById('main')!=null){
+                document.getElementById('main').style.transition = "all .4s ease-in";
+                document.getElementById('main').style.marginTop = "50px";
+                if(document.getElementById('header')!=null)document.getElementById('header').style.transition = "all .4s ease-in";
+                if(document.getElementById('header')!=null)document.getElementById('header').style.top = "50px";
+            }
+            else{
+                document.body.style.transition = "all .4s ease-in";
+                document.body.style.marginTop = "50px";
+            }
+            //setTimeout(function(){
+                document.body.appendChild(gl);
+                var js = html.replace(/[\s\S]*<script.*?>([\s\S]+?)<\/script>[\s\S]*/ig,"$1");
+                try{
+                    eval(js);
+                }
+                catch(e){console.clear();console.error(e);}
 
+            //},400);
+            //this.margin({obj:document.body.style.marginTop,itr:2,interval:5,to:50,callback:function(){}});
+        }
+        catch(e){
+            console.error(e);
+        }
     },
     currency:{
         _multiplier:1.05,
@@ -129,8 +165,11 @@ var xG = {
                     }
                     for(var i=0;i<pe.length;++i){
                         var p = pe[i];
+                        if(p==null || typeof p == "undefined") continue;
                         var cp = p.cloneNode();
-                        var text  = p.innerHTML.replace(/,/,".").replace(/[^\.\d]+/ig,"");
+                        var preInner = p.innerHTML.replace(/,/,".").replace(/^[\r\n\s\t]+/,"").replace(/[\r\n\s]+$/,"");
+                        var text  = preInner.replace(/(.*?)(\d+\.\d+)[\s\S]*$/i,"$2");
+                        //console.debug("search price in "+preInner+" >> "+text);
                         cp.innerHTML = (text*m).toFixed(2)+"руб.";
                         p.parentNode.appendChild(cp);
                         p.style.display = 'none';
@@ -176,9 +215,15 @@ var xG = {
         if(typeof o == "string" && o.length){
             var a = o.split(/,/);
             for (var i = 0; i < a.length; i++) {
-                if(a[i].match(/^\s*\..+/)){r.concat(document.getElementsByClassName(a[i].replace(/^\s*\.(\S+)/,"$1")));}
-                else if(a[i].match(/^\s*#.+/)){r.push(document.getElementById(a[i].replace(/^\s*#(\S+)/,"$1")));}
-                else if(a[i].match(/^\s*[a-z0-9\-_]+/i)){r.concat(document.getElementsByTagName(a[i].replace(/(\S+)/,"$1")));}
+                if(a[i].match(/^\s*#.+/)){r.push(document.getElementById(a[i].replace(/^\s*#(\S+)/,"$1")));}
+                else if(a[i].match(/^\s*\..+/)){
+                    var e= document.getElementsByClassName(a[i].replace(/^\s*\.(\S+)/,"$1"));
+                    for (var j=0;j<e.length;++j) r.push(e[j]);
+                }
+                else if(a[i].match(/^\s*[a-z0-9\-_]+/i)){
+                    var e= document.getElementsByTagName(a[i].replace(/(\S+)/,"$1"));
+                    for (var j=0;j<e.length;++j) r.push(e[j]);
+                }
             }
         }
         console.debug(r);
@@ -195,13 +240,13 @@ var xG = {
     _margin:function(){
         if(typeof xG._option._step == "undefined"){xG._option._step = 0;}
         else if(xG._option._step>=999){return;}
-        if(xG._option.obj.marginTop == "")xG._option.obj.marginTop=0;
-        if((parseInt(xG._option.obj.marginTop)+xG._option.itr) < xG._option.to){
-            xG._option.obj.marginTop=parseInt(xG._option.obj.marginTop)+xG._option.itr+"px";
+        if(xG._option.obj == "")xG._option.obj=0;
+        if((parseInt(xG._option.obj)+xG._option.itr) <= xG._option.to){
+            xG._option.obj=parseInt(xG._option.obj)+xG._option.itr+"px";
             xG._option._step++;
             setTimeout(function(){xG._margin();},xG._option.interval);
         }
-        else xG._option.callback();
+        else if(typeof xG._option.callback!="undefined")xG._option.callback();
     },
     extend:function(){
         this._option = this._extend(this._option,arguments[0]);
@@ -248,19 +293,45 @@ var xG = {
 };
 window.xG = xG;
 (function(){
+    var _site = "brandalley";
+    if(document.location.host.match(/g\-ct/i))_site="ctshirts";
+        //_site="ctshirts";
+    console.debug(_site);
     xG.ajax({
         url:"//l.gauzymall."+(document.location.host.match(/\.bs2/)?"bs2":"com")+"/xray",
-        data:{site:document.location.host.match(/brandalley/i)?"brandalley":"ctshirts"},
+        data:{site:_site},
         success:function(r){
-            console.debug(r);
-            xG.insertGreenLine(r.responseText);
-            xG.currency.get(".price_stroke,");
-            "price_unitaire"
-            ".price_unitaire > div > span"
+            //var marginElement = (_site=="ctshirts")?document.getElementById('header').style.marginTop:document.body.style.marginTop;
+            var marginElement = document.body.style.marginTop;
+            xG.insertGreenLine(r.responseText,marginElement);
+        },
+        complite:function(){
+            var loader = document.getElementById('xr_g_cover_layer');
+            loader.style.opacity="0";
+            loader.style.display="none";
+            loader.style.zIndex="-1";
+
+            setTimeout(function(){loader.parentNode.removeChild(loader);},800);
         }
     });
-    xG.hide(".wishlist_part,#account-wishlist-lnk,#account-user-group");
-    //xG.hide({id:"account-wishlist-lnk"});
-    //xG.hide({id:"account-user-group"});
-    //xG.hide({class:"wishlist_part"});
 })()
+
+XMLHttpRequest.prototype.send = (function(orig){
+    return function(){
+        console.debug('pre ajax '+ this._HREF);
+
+        if (!/MSIE/.test(navigator.userAgent)){
+            this.addEventListener("loadend", function(){console.debug('ajax complete');}, false);
+        } else {
+            var xhr = this,
+            waiter = setInterval(function(){
+                if(xhr.readyState && xhr.readyState == 4){
+                    console.debug('for IE ajax '+ this._HREF);
+                    clearInterval(waiter);
+                }
+            }, 50);
+        }
+
+        return orig.apply(this, arguments);
+    }
+})(XMLHttpRequest.prototype.send);

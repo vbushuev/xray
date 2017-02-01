@@ -6,16 +6,17 @@ class Translator{
     protected $_d = [];
     protected $_d_sorted = [];
     protected $db;
-    protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div"];
+    protected $_langDetectPattern = "/[a-zàÉêé]/i";
+    protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div","button","section","article","td"];
     public function __construct($cfg){
         $this->db = new \g\DBConnector();
         $this->setLang($cfg);
     }
     public function setLang($cfg){
         $lang = isset($cfg["lang"])?$cfg["lang"]:"fr";
-        $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by priority desc");
+        $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
         $this->_d_sorted = array_map(function($v){return [strtolower($v["original"])=>$v["translate"]];},$this->_d);
-        //Log::debug($this->_d_sorted);
+        if($lang=="en")$this->_langDetectPattern = '/[a-zA-Z]/i';
     }
     public function translate($in){
         $out = isset($this->_d_sorted[strtolower(trim($in))])?$this->_d_sorted[strtolower(trim($in))]:$in;
@@ -24,8 +25,9 @@ class Translator{
     public function translateText($in){
         $out = $in;
         foreach($this->_d as $di){
-            if(!preg_match("/[^a-z]/im",$out))return $out;
-            $out = preg_replace("/".preg_quote(strtolower($di["original"]))."/im","$1".$di["translate"],$out);
+            if(preg_match($this->_langDetectPattern,$out))$out = preg_replace("/".preg_quote($di["original"],'/')."/im",$di["translate"],$out);
+            else return $out;
+
         }
         return $out;
     }
@@ -33,16 +35,27 @@ class Translator{
         //return $this->translateText($in);
         $out = $in; $t = $this;
         //$out = preg_replace("/[\r\n]/m"," ",$out);
-        $pattern = "/(<(".join("|",$this->_textTags).")[^>]*>)([^<]+)/ixsm";
+        //$pattern = "/(<(".join("|",$this->_textTags).")[^>]*>)([^<]+)/ixsm";
+        $pattern = "/(<(?!script|\!|\s)[^>]*>)([^<]+)<\//ixsm";
         Log::debug($pattern);
         $out = preg_replace_callback($pattern,function($m)use($t){
-            $val = $m[3];$he = $m[1];
+            $val = trim($m[2]);$he = trim($m[1]);
             if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
                 $res = $t->translateText($val);
-                Log::debug("[".$m[2]."]\t".$val." >>> ".$res);
+                Log::debug("[".preg_replace("/<([^>\s]+).*/i","$1",$he)."] ".$val." >>> ".$res);
             }
-            return $he.$res;
+            return $he.$res.'</';
         },$out); return $out;
+        /*$pattern = "/<input(.+?)value=['\"](.+?)['\"]/ixsm";
+        Log::debug($pattern);
+        $out = preg_replace_callback($pattern,function($m)use($t){
+            $val = $m[2];$he = $m[1];
+            if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
+                $res = $t->translateText($val);
+                Log::debug("[input]\t".$val." >>> ".$res);
+            }
+            return "<input".$he."value='".$res."'";
+        },$out); return $out;*/
 
         $html = new simple_html_dom();
         $html->load($in);

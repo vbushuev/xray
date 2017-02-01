@@ -1,0 +1,13 @@
+"use strict";
+document.body.style.filter = "grayscale(100%) blur(8px)";
+document.body.style.transition = "all 0.8s ease-in-out";
+var loaderImg = document.createElement('img');
+loaderImg.setAttribute("src","css/loader.gif");
+loaderImg.setAttribute("id","xg_cover_loader");
+loaderImg.style.display="block";
+loaderImg.style.position="fixed";
+loaderImg.style.zIndex="9999";
+loaderImg.style.margin="30% 50%";
+loaderImg.style.left="-64px";
+loaderImg.style.filter = "grayscale(0) blur(0)";
+document.body.appendChild(loaderImg);

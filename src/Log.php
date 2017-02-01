@@ -38,12 +38,16 @@ class Log{
     protected static function _put($s){
         if(!is_dir(self::$config["path"]))mkdir(self::$config["path"]);
         $f = self::$config["path"]."log";
+        $f_common = self::$config["path"]."log";
         if(self::$config["type"]=="daily"){
             if(!empty(self::$config["class"]))$f.="-".self::$config["class"];
             $f.="-".date("Y-m-d");
+            $f_common.="-".date("Y-m-d");
         }
         $f.=".log";
+        $f_common.=".log";
         file_put_contents($f,$s."\n",FILE_APPEND);
+        file_put_contents($f_common,$s."\n",FILE_APPEND);
     }
 };
 ?>

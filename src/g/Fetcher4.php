@@ -12,6 +12,7 @@ class Fetcher4{
     public function __construct($url){
         $this->url = $url;
         $this->_urlinfo = parse_url($url);
+        $this->_urlinfo["domain"] = preg_replace("/^([^\.]*)\.?([^\.]+)\.(.+)$/i","$2.$3",$this->_urlinfo["host"]);
         $this->_pathinfo = isset($this->_urlinfo["path"])?pathinfo($this->_urlinfo["path"]):[];
     }
     public function fetch(){
@@ -47,7 +48,19 @@ class Fetcher4{
             if($key == 'Content-Encoding')continue;
             if($key == 'Transfer-Encoding')continue;
             if($key == 'Content-Length')$value = strlen($s);
-            if($key == 'Location') continue;
+            if($key == 'Location') {
+                //continue;
+                $vpi = parse_url($value);
+                if(preg_match("/(m\.|www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$value)){
+                    if($vpi["host"]!=$this->_urlinfo["host"]){
+                        $_SESSION["current_url"] = $value;
+                        Log::debug("Change session main url to {$value}");
+                        $value = "http://".$_SERVER["SERVER_NAME"];
+                    }
+
+                }
+                $value = preg_replace("/(www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$_SERVER["SERVER_NAME"],$value);
+            }
             $value =  $this->_replaceresponse($value);
             header("{$key}: {$value}");
         }
@@ -71,8 +84,9 @@ class Fetcher4{
             if(!strlen(trim($value)))continue;
             $headers[]="{$name}: ".$value;
         }
-        $this->url = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"],'/')."/i",$this->_urlinfo["host"],$value);
-        Log::debug($this->url.":: ",$headers);
+
+        //$this->url = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"],'/')."/i",$this->_urlinfo["host"],$value);
+        Log::debug($this->url." HTTP 1.1/ ".$_SERVER['REQUEST_METHOD']." : ",$headers);
         return $headers;
     }
     protected function responseHeaders($h){
@@ -81,6 +95,7 @@ class Fetcher4{
                 $this->headers[$ms[1][$i]] = $ms[2][$i];
             }
         }
+        Log::debug($this->headers);
     }
     protected function _replacerequest($s){return $s;}
     protected function _replaceresponse($s,$t = "html"){return $s;}
