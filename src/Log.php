@@ -30,8 +30,8 @@ class Log{
         self::_put($r);
     }
     protected static function _backtrace($d){
-        $d = $d[1];
-        $s =  date("Y-m-d H:i:s")."  ".$d["file"].":".$d["line"]."  ";
+        $d = isset($d[1])?$d[1]:$d[0];
+        $s =  date("Y-m-d H:i:s")."  ".(isset($d["file"])?$d["file"]:"").":".(isset($d["line"])?$d["line"]:"")."  ";
         self::$config["class"]=(isset($d["class"]))?strtolower(preg_replace("/.*\\\(\w+)$/ixsm","$1",$d["class"])):"";
         return $s;
     }
@@ -47,7 +47,7 @@ class Log{
         $f.=".log";
         $f_common.=".log";
         file_put_contents($f,$s."\n",FILE_APPEND);
-        file_put_contents($f_common,$s."\n",FILE_APPEND);
+        //file_put_contents($f_common,$s."\n",FILE_APPEND);
     }
 };
 ?>

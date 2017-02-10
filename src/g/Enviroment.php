@@ -26,7 +26,7 @@ class Enviroment{
             $this->cfg["subdomain"] = $m[1];
             $this->cfg["mainhost"] = $this->cfg["subdomain"].".".$this->cfg["domain"];
         }
-        if(isset($_REQUEST[REQUEST_PARAMETER_NAME])){
+        if(isset($_REQUEST["_xg_u"])){
             $this->url = urldecode($_REQUEST["_xg_u"]);
             $ui = parse_url($this->url);
             $this->cfg["url"] = $this->url;

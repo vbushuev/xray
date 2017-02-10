@@ -64,6 +64,11 @@ class Fetcher4{
             $value =  $this->_replaceresponse($value);
             header("{$key}: {$value}");
         }
+        foreach ($this->cookie as $c => $v) {
+            if(!isset($_COOKIE[$c])){
+                setcookie($c,$v);
+            }
+        }
         echo $s;
     }
     protected function requestHeaders(){
@@ -72,7 +77,9 @@ class Fetcher4{
         if(isset($this->cookie)){
             $cc = "";
             foreach ($this->cookie as $c => $v) {
-                if(!isset($_COOKIE[$c]))$cc .= "{$c}={$v};";
+                if(!isset($_COOKIE[$c])){
+                    $cc .= "{$c}={$v};";
+                }
             }
             $client_headers["Cookie"] =(isset($client_headers["Cookie"])?$client_headers["Cookie"].";".$cc:$cc);
         }

@@ -19,10 +19,10 @@ class Filter{
             "8"=>["use"=>true],
             "9"=>["use"=>false],
         ];
+        $t = $this;
         if(preg_match("'text/html'ixs",$contentType)){
             /** debug for make classes*/
             // filter 1
-            $t = $this;
             $pattern = "/(http|https)\:?\/{0,2}".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
             if($use_filters["1"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = "//".$t->_enviroment->localhost; Log::debug("filter[1]: [".$m[0]."] >> [".$res."]");return $res;},$data);
             // filter 2

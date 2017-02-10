@@ -6,11 +6,13 @@ var xG = {
             url:"/",
             type:"get",
             data:{},
+            beforeSend:function(){},
             success:function(){},
             complite:function(){},
             error:function(){}
         };
         o = this._extend(o,arguments[0]);
+        o.beforeSend(r);
         var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
         var r = new XHR();
         var uriparams = (o.url.match(/\?/)?"&":"?")+Object.keys(o.data).map(function(k) {return encodeURIComponent(k) + '=' + encodeURIComponent(o.data[k])}).join('&');
@@ -24,7 +26,6 @@ var xG = {
             else o.success(r);
             o.complite(r);
         };
-
         r.send(o.data);
     },
     checkout:function(){
@@ -67,36 +68,30 @@ var xG = {
             }
             rq.order.order_currency = itm.currency;
             shop = itm.shop;
-            //delete itm.variations;
-            //delete itm.currency;
-            //delete itm.shop;
-            //delete itm.sku;
             rq.order.items.push(itm);
             tot+=itm.sale_price*itm.quantity;
-            //console.debug(itm);
         }
         rq.session.shop = shop;
         rq.order.order_total = tot;
-        //$(document).trigger('gcart:beforeCheckout',rq);
-        //return ;
+        var loaderLayer = document.createElement("div");
+        loaderLayer.setAttribute("style","position:fixed;top:0;left:0;background-color: rgba(255,255,255,.94);width:100%;height:100%;z-index: 9999;transition: opacity 0.8s ease-in-out;");
+        var loaderGif = document.createElement("img");
+        loaderGif.setAttribute("src","/css/loader.gif");
+        loaderGif.setAttribute("style","position:fixed;top:0;left:-64px;margin: 30% 50%;z-index: 10000;");
+        loaderLayer.appendChild(loaderGif);
+
         this.ajax({
             type:"POST",
-            //url:"//service.garan24.ru/checkout/",
-            //url:"http://service.garan24.bs2/checkout/",
             url:checkouthost,
             dataType: "json",
             data:JSON.stringify(rq).replace(/\'/,""),
             beforeSend:function(){
-                //if($("#garan-cart-full").hasClass("garan24-visible")){$("#garan-cart").click();}
-                //$m.find("#garan24-overlay-message").show();
-                //$m.find(".garan24-overlay-message-text").html("Обрабатываются товары из Вашей корзины...");
-                //$m.fadeIn();
-                var loader = document.getElementById('xr_g_cover_layer');
-                loader.style.display="block";
+                console.debug("add layer");
+                console.debug(loaderLayer);
+                document.body.appendChild(loaderLayer);
             },
             complete:function(){
-                //$m.delay(4).fadeOut();
-                //$(document).trigger('gcart:checkout',rq);
+                loaderLayer.style.display = "none";
             },
             success:function(data){
                 //var d=JSON.parse(data);
@@ -105,9 +100,6 @@ var xG = {
                 console.debug(d);
 
                 if(!d.error){
-                    //$m.find(".garan24-overlay-message-text").html("Переход на страницу оформления заказа...");
-
-                    //document.location.href=garan.cart.isframe?d.redirect_url:"//gauzymall.com/g24-checkout?order-id="+d.id;
                     //if(confirm('Переходим на checkout?'))
                     document.location.href = d.redirect_url;
                 }
@@ -148,40 +140,66 @@ var xG = {
     },
     currency:{
         _multiplier:1.05,
-        get:function(){
+        rates:false,
+        rateReplace:function(){
             if(arguments.length<2)return;
             var pe = arguments[0],cur = arguments[1];
-            xG.ajax({
-                url:"https://l.gauzymall.com/currency",
-                success:function(r){
-                    //console.debug(r.responseText);
-                    var d = eval(r.responseText);
-                    var m = 1;
-                    for(var i=0;i<d.length;++i){
-                        if(d[i].iso_code == cur){
-                            m = d[i].value*xG.currency._multiplier;
-                            break;
-                        }
-                    }
-                    for(var i=0;i<pe.length;++i){
-                        var p = pe[i];
-                        if(p==null || typeof p == "undefined") continue;
-                        var cp = p.cloneNode();
-                        var preInner = p.innerHTML.replace(/,/,".").replace(/^[\r\n\s\t]+/,"").replace(/[\r\n\s]+$/,"");
-                        var text  = preInner.replace(/(.*?)(\d+\.\d+)[\s\S]*$/i,"$2");
-                        //console.debug("search price in "+preInner+" >> "+text);
-                        cp.innerHTML = (text*m).toFixed(2)+"руб.";
-                        p.parentNode.appendChild(cp);
-                        p.style.display = 'none';
-                    }
+            var m = 1;
+            for(var i=0;i<xG.currency.rates.length;++i){
+                if(xG.currency.rates[i].iso_code == cur){
+                    m = xG.currency.rates[i].value*xG.currency._multiplier;
+                    break;
                 }
-            });
+            }
+            for(var i=0;i<pe.length;++i){
+                var p = pe[i];
+                if(p==null || typeof p == "undefined") continue;
+                if(xG.hasClass(p,'xg_converted'))continue;
+                var cp = p.cloneNode();
+                var preInner = p.innerHTML.replace(/,/,".").replace(/^[\r\n\s\t]+/,"").replace(/[\r\n\s]+$/,"");
+                var text  = preInner.replace(/(.*?)(\d+\.\d+)[\s\S]*$/i,"$2");
+                //console.debug("search price in "+preInner+" >> "+text);
+                if(!isNaN(text*m)){
+                    cp.innerHTML = "&nbsp;"+(text*m).toFixed(2)+"руб.";
+                    p.parentNode.appendChild(cp);
+                    p.style.display = 'none';
+                    p.classList.add('xg_converted');
+                    cp.classList.add('xg_converted');
+                }
+            }
+        },
+        get:function(){
+            if(arguments.length<2)return;
+            var pes = arguments[0],curs = arguments[1];
+            if(xG.currency.rates==false){
+                xG.ajax({
+                    url:"https://l.gauzymall.com/currency",
+                    success:function(r){
+                        xG.currency.rates = eval(r.responseText);
+                        xG.currency.rateReplace(pes,curs);
+                    }
+                });
+
+            }else xG.currency.rateReplace(pes,curs);
+
         }
+    },
+    isMobile:{
+        Android: function() {return navigator.userAgent.match(/Android/i);},
+        BlackBerry: function() {return navigator.userAgent.match(/BlackBerry/i);},
+        iOS: function() {return navigator.userAgent.match(/iPhone|iPad|iPod/i);},
+        Opera: function() {return navigator.userAgent.match(/Opera Mini/i);},
+        Windows: function() {return navigator.userAgent.match(/IEMobile/i);},
+        any: function() {return (xG.isMobile.Android() || xG.isMobile.BlackBerry() || xG.isMobile.iOS() || xG.isMobile.Opera() || xG.isMobile.Windows());}
     },
     fadeOut:function(opt){
         //var s = document.getElementById('thing').style;
         opt.obj.opacity = 1;
         (function fade(){(s.opacity-=.1)<0?s.display="none":setTimeout(fade,40)})();
+    },
+    hasClass:function(element, className) {
+        return !(!className || !element || !element.className
+        || !element.className.match(new RegExp('(\\s|^)' + className + '(\\s|$)')));
     },
     margin:function(opt){
         xG._option = opt;
@@ -226,7 +244,7 @@ var xG = {
                 }
             }
         }
-        console.debug(r);
+        //console.debug(r);
         return r;
     },
     _getElement2:function(){
@@ -293,12 +311,13 @@ var xG = {
 };
 window.xG = xG;
 (function(){
-    var _site = "brandalley";
-    if(document.location.host.match(/g\-ct/i))_site="ctshirts";
+    var _site = "ctshirts";
+    if(document.location.host.match(/g\-ba/i))_site="brandalley";
         //_site="ctshirts";
     console.debug(_site);
     xG.ajax({
         url:"//l.gauzymall."+(document.location.host.match(/\.bs2/)?"bs2":"com")+"/xray",
+        //url:"//l.gauzymall.com/xray",
         data:{site:_site},
         success:function(r){
             //var marginElement = (_site=="ctshirts")?document.getElementById('header').style.marginTop:document.body.style.marginTop;
@@ -307,15 +326,17 @@ window.xG = xG;
         },
         complite:function(){
             var loader = document.getElementById('xr_g_cover_layer');
+            loader.style.transition="all .4s ease-in";
             loader.style.opacity="0";
             loader.style.display="none";
             loader.style.zIndex="-1";
 
-            setTimeout(function(){loader.parentNode.removeChild(loader);},800);
+            setTimeout(function(){loader.parentNode.removeChild(loader);},2000);
         }
     });
 })()
 
+/*
 XMLHttpRequest.prototype.send = (function(orig){
     return function(){
         console.debug('pre ajax '+ this._HREF);
@@ -335,3 +356,4 @@ XMLHttpRequest.prototype.send = (function(orig){
         return orig.apply(this, arguments);
     }
 })(XMLHttpRequest.prototype.send);
+*/
