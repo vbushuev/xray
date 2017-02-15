@@ -56,7 +56,7 @@ var xG = {
                 //,localStorage:(typeof(window.localStorage)!="undefined")?JSON.stringify(window.localStorage):{}
                 //,sessionStorage:typeof(window.sessionStorage)?JSON.stringify(window.sessionStorage):{}
             }
-        },$m = this.find("#garan24-overlay")[0];
+        },$m = (typeof(window.xr_g_loader)=="undefined" || window.xr_g_loader==null)?window.xr_g_loader:document.querySelector(".xr_g_cover_layer");
         var tot = 0,shop;
         for(var i=0;i<items.length;++i ) {
             var itm = items[i];
@@ -86,21 +86,17 @@ var xG = {
             dataType: "json",
             data:JSON.stringify(rq).replace(/\'/,""),
             beforeSend:function(){
-                console.debug("add layer");
-                console.debug(loaderLayer);
                 document.body.appendChild(loaderLayer);
             },
             complete:function(){
-                loaderLayer.style.display = "none";
+                document.body.removeChild(loaderLayer);
             },
             success:function(data){
                 //var d=JSON.parse(data);
                 var d=JSON.parse(data.response);
-                console.debug("checkout response: ");
                 console.debug(d);
-
                 if(!d.error){
-                    //if(confirm('Переходим на checkout?'))
+                    if(confirm('Переходим на checkout?'))
                     document.location.href = d.redirect_url;
                 }
             },
@@ -123,34 +119,74 @@ var xG = {
                 document.body.style.transition = "all .4s ease-in";
                 document.body.style.marginTop = "50px";
             }
-            //setTimeout(function(){
-                document.body.appendChild(gl);
-                var js = html.replace(/[\s\S]*<script.*?>([\s\S]+?)<\/script>[\s\S]*/ig,"$1");
-                try{
-                    eval(js);
-                }
-                catch(e){console.clear();console.error(e);}
+            document.body.appendChild(gl);
+            var jss = html.match(/<script[^>]*?>([\s\S]+?)<\/script>/img);
+            //console.debug(jss);
+            try{
+                for(var i in jss){
+                    var js = jss[i];
+                    if(js.match(/<script.*?src=['"\s]?(.+?)['"\s]?/)){
+                        var src = js.replace(/<script.*?src=['"](.+?)['"].*/,"$1");
+                        console.debug(js);
+                        console.debug("src = "+ src);
+                        var srcjs = document.createElement("script");
+                        srcjs.setAttribute("src",src);
+                        document.body.appendChild(srcjs);
+                    }
+                    else {
+                        js=js.replace(/<script[^>]*?>([\s\S]+?)<\/script>/ig,"$1");
+                        eval(js);
+                    }
 
-            //},400);
-            //this.margin({obj:document.body.style.marginTop,itr:2,interval:5,to:50,callback:function(){}});
+                }
+            }
+            //catch(e){console.clear();console.error(e);}
+            catch(e){console.error(e);}
         }
         catch(e){
             console.error(e);
         }
     },
     currency:{
-        _multiplier:1.05,
+        _multiplier:1.1,
         rates:false,
+        calc:function(c,r){
+            var f1 = parseFloat(c.replace(/,/,"."));
+            f1=f1*r;
+            f1=f1.toFixed(0);
+            return f1;
+        },
         rateReplace:function(){
             if(arguments.length<2)return;
-            var pe = arguments[0],cur = arguments[1];
-            var m = 1;
+            var pe = arguments[0],cur = arguments[1],pattern= arguments[2];
+            var rate = 1;
             for(var i=0;i<xG.currency.rates.length;++i){
                 if(xG.currency.rates[i].iso_code == cur){
-                    m = xG.currency.rates[i].value*xG.currency._multiplier;
+                    rate = xG.currency.rates[i].value*xG.currency.rates[i].multiplier;
                     break;
                 }
             }
+            for(var i=0;i<pe.length;++i){
+                var p = pe[i];
+                if(p==null || typeof p == "undefined") continue;
+                if(xG.hasClass(p,'xg_converted') || xG.hasClass(p,'xg_original_converted'))continue;
+                var cp = p.cloneNode();
+                pattern = (pattern==null)?((cur=="GBP")?/£(\d+\.?\d*)/g:/(\d+,?\d*)\s€/g):pattern;
+                //console.debug(p);
+                //console.debug(pattern+" for cur="+cur+"("+rate+")");
+                cp.innerHTML = p.innerHTML.replace(pattern,function(m,c,o,s){
+                    var res = xG.currency.calc(c,rate);
+                    //console.debug(m+"{"+c+"} -> "+res);
+                    return "&nbsp;"+res+"&#8381;";
+                });
+                p.parentNode.insertBefore(cp,p);
+                //p.parentNode.appendChild(cp);
+                p.style.display = 'none';
+                //p.classList.add('xg_converted');
+                p.classList.add('xg_original_converted');
+                cp.classList.add('xg_converted');
+            }
+            /*
             for(var i=0;i<pe.length;++i){
                 var p = pe[i];
                 if(p==null || typeof p == "undefined") continue;
@@ -160,28 +196,57 @@ var xG = {
                 var text  = preInner.replace(/(.*?)(\d+\.\d+)[\s\S]*$/i,"$2");
                 //console.debug("search price in "+preInner+" >> "+text);
                 if(!isNaN(text*m)){
-                    cp.innerHTML = "&nbsp;"+(text*m).toFixed(2)+"руб.";
+                    var res = this.calc(text,m);
+                    cp.innerHTML = "&nbsp;"+res+"руб.";
                     p.parentNode.appendChild(cp);
                     p.style.display = 'none';
                     p.classList.add('xg_converted');
                     cp.classList.add('xg_converted');
                 }
-            }
+            }*/
         },
         get:function(){
             if(arguments.length<2)return;
-            var pes = arguments[0],curs = arguments[1];
+            var pes = arguments[0],curs = arguments[1],pattern=(arguments.length>2)?arguments[2]:null;
             if(xG.currency.rates==false){
                 xG.ajax({
                     url:"https://l.gauzymall.com/currency",
                     success:function(r){
                         xG.currency.rates = eval(r.responseText);
-                        xG.currency.rateReplace(pes,curs);
+                        xG.currency.rateReplace(pes,curs,pattern);
                     }
                 });
 
-            }else xG.currency.rateReplace(pes,curs);
+            }else xG.currency.rateReplace(pes,curs,pattern);
 
+        },
+        contextGet:function(){
+            if(arguments.length<2)return;
+            var pattern = arguments[0],curs = arguments[1],
+            replaceFunc = function(pattern,cur){
+                var rate = 1;
+                for(var i=0;i<xG.currency.rates.length;++i){
+                    if(xG.currency.rates[i].iso_code == cur){
+                        rate = xG.currency.rates[i].value*xG.currency._multiplier;
+                        break;
+                    }
+                }
+                document.body.innerHTML = document.body.innerHTML.replace(pattern,function(m,c,o,s){
+                    var res = this.calc(c,rate);
+                    console.debug(m+" -> "+res);
+                    return "&nbsp;"+res+"руб."+'<span class="xg_converted" date-rel="'+cur+'" style="display:none;">'+c+'</span>';
+                });
+            };
+            if(xG.currency.rates==false){
+                xG.ajax({
+                    url:"https://l.gauzymall.com/currency",
+                    success:function(r){
+                        xG.currency.rates = eval(r.responseText);
+                        replaceFunc(pattern,curs);
+                    }
+                });
+
+            }else replaceFunc(pattern,curs);
         }
     },
     isMobile:{
@@ -311,9 +376,9 @@ var xG = {
 };
 window.xG = xG;
 (function(){
-    var _site = "ctshirts";
+    var _site = "brandalley";
     if(document.location.host.match(/g\-ba/i))_site="brandalley";
-        //_site="ctshirts";
+    if(document.location.host.match(/g\-ct/i))_site="ctshirts";
     console.debug(_site);
     xG.ajax({
         url:"//l.gauzymall."+(document.location.host.match(/\.bs2/)?"bs2":"com")+"/xray",
@@ -325,13 +390,20 @@ window.xG = xG;
             xG.insertGreenLine(r.responseText,marginElement);
         },
         complite:function(){
-            var loader = document.getElementById('xr_g_cover_layer');
-            loader.style.transition="all .4s ease-in";
-            loader.style.opacity="0";
-            loader.style.display="none";
-            loader.style.zIndex="-1";
-
-            setTimeout(function(){loader.parentNode.removeChild(loader);},2000);
+            if(typeof(window.xr_g_loader)=="undefined" || window.xr_g_loader==null){
+                //xr_g_loader.style.transition="all .4s ease-in";
+                window.xr_g_loader.style.opacity="0";
+                //window.xr_g_loader.style.display="none";
+                //window.xr_g_loader.style.zIndex="-1";
+            }else{
+                var loader = document.getElementById('xr_g_cover_layer');
+                if(loader!=null){
+                    window.xr_g_loader=loader;
+                    window.xr_g_loader.style.opacity="0";
+                    window.xr_g_loader.style.display="none";
+                    //window.xr_g_loader.style.zIndex="-1";
+                }
+            }
         }
     });
 })()

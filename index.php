@@ -5,6 +5,7 @@
  */
 require_once("autoload.php");
 date_default_timezone_set('Europe/Moscow');
+ini_set('max_execution_time', 60*60*12);
 session_start();
 ob_start();
 use \g\Fetcher4 as Fetcher;
@@ -29,7 +30,6 @@ if($Enviroment->translate["use"]=="true"){
     if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
         $data = $Translator->translateHtml($data);
         //$data = $Translator->translateText($data);
-        $monstat.="\tpage translated in ".(time()-$tick)."\n";
     }
     if(preg_match("'application/json'ixs",$Fetcher->headers["Content-Type"])){
         $jdata = json_decode($data,true);
@@ -39,17 +39,23 @@ if($Enviroment->translate["use"]=="true"){
             $data = json_encode($jdata);
         }
 
-        $monstat.="\tpage translated in ".(time()-$tick)."\n";
     }
+    $monstat.="\tpage translated in ".(time()-$tick)."\n";
 }
 if($Enviroment->greenline["show"]=="1" || $Enviroment->greenline["show"] == 'true'  || $Enviroment->greenline["show"] == 'true') {
     //$data = preg_replace("/<body([^>]*)>/i","<body$1>".'<script src="js/cover.js"></script>',$data);
-    $data = preg_replace("/<body([^>]*)>/i","<body$1>".file_get_contents('css/cover.html'),$data);
-    $data = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$data);
+    //if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == "xmlhttprequest"){
+    if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) ){
+        Log::debug("Ajax request - no greenline");
+    }
+    else if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
+        $data = preg_replace("/<body([^>]*)>/i","<body $1>".file_get_contents('css/cover.html'),$data);
+        $data = preg_replace("/\<\/body>/i","<script src='/js/x.js'></script></body>",$data);
+    }
     $monstat.="\tgreenline added in ".(time()-$tick)."\n";
 }
 Log::debug(ob_get_clean());
 $Fetcher->pull($data);
 $monstat.="\tall page [".$Enviroment->url."] in ".(time()-$tick)." seconds.\n";
-Log::debug($monstat);
+//Log::debug($monstat);
 ?>

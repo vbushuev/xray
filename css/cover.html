@@ -1,25 +1,13 @@
-<style>
-body{
-    /*background-image: url("css/test.jpeg");*/
-}
-#xr_cover_loader{
-    position:fixed;
-    top:0;
-    left:-64px;
-    margin: 30% 50%;
-    z-index: 10000;
-}
-#xr_g_cover_layer{
-    position:fixed;
-    top:0;
-    left:0;
-    background-color: rgba(255,255,255,.94);
-    width:100%;
-    height:100%;
-    z-index: 9999;
-    transition: opacity 0.8s ease-in-out;
-}
-</style>
-<div id="xr_g_cover_layer">
-    <img id="xr_cover_loader" src="/css/loader.gif" />
-</div>
+<script>
+    if(typeof(window.xr_g_loader)=="undefined" || window.xr_g_loader==null){
+        var xgl = document.createElement("div");
+        xgl.setAttribute("id","xr_g_cover_layer");
+        xgl.setAttribute("style","position:fixed;top:0;left:0;background-color: rgba(255,255,255,.94);width:100%;height:100%;z-index: 9999;transition: all .4s ease-in;");
+        var img = document.createElement("img");
+        img.setAttribute("src","/css/loader.gif");
+        img.setAttribute("style","position:fixed;top:0;left:-64px;margin: 30% 50%;z-index: 10000;");
+        xgl.appendChild(img);
+        document.body.appendChild(xgl);
+        window.xr_g_loader = xgl;
+    }
+</script>

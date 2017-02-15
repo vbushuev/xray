@@ -78,6 +78,7 @@ class Filter{
                 $res = $m[1].".".$t->_enviroment->localhost;
                 Log::debug("filter[7]: [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
+            $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="ru"',$data);
 
         }
         else if(preg_match("'javascript'ixs",$contentType)){

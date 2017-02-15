@@ -1,5 +1,6 @@
 <?php
 namespace g;
+require("vendor/HTML5/Parser.php");
 use \Log as Log;
 use \simple_html_dom as simple_html_dom;
 class Translator{
@@ -17,8 +18,8 @@ class Translator{
         $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
         //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         $this->_d_sorted = [];
-        foreach($this->_d as $v){$this->_d_sorted[mb_strtolower(preg_replace('/\\\u2019/ium',"'",$v["original"]))]=$v["translate"];}
-        Log::debug(array_keys($this->_d_sorted));
+        foreach($this->_d as $v){$this->_d_sorted[mb_strtolower(preg_replace(['/\\\u2019/ium','/[\r\n]+/'],["'",""],$v["original"]))]=$v["translate"];}
+        //Log::debug(json_encode($this->_d_sorted,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         if($lang=="en")$this->_langDetectPattern = '/[a-z]/i';
     }
     public function translate($in){
@@ -26,75 +27,135 @@ class Translator{
         return $out;
     }
     public function translateText($in){
-        $out = trim($in);
-        $_last='cc';
+        $out = $in;
         foreach($this->_d as $di){
             if(strlen($out)<$di["priority"])continue;
-            //if(preg_match("/jusq.*/im",$di["original"])&&preg_match("/jusq.*/im",$out)) Log::debug("replace for "."/\b".preg_quote(strtolower($di["original"]),'/')."\b/ium  -- ".$out);
             if(preg_match($this->_langDetectPattern,$out)){
+                $out = preg_replace("/^[\r\n\s]*(.+)[\s\r\n]*$/mu","$1",$out);
                 $out = preg_replace("/&#039;/mu","'",$out);
                 $out = preg_replace("/&nbsp;/mu"," ",$out);
-                if(empty($out)) return $in;
-                if(isset($this->_d_sorted[mb_strtolower($out)])) {
-                    Log::debug("Identical !!! ".$out);
-                    $out = $this->_d_sorted[mb_strtolower($out)];
-                    $out = mb_strtoupper(mb_substr($out, 0, 1)).mb_substr($out, 1);
-                    return $out;
+                if(isset($this->_d_sorted[mb_strtolower($out)])){
+                    $out =$this->_d_sorted[mb_strtolower($out)];
+                    break;
                 }
-                if($out!=$_last){
-                    Log::debug("Try {".$di["original"]."} on {".$out."}");
-                    $_last = $out;
+                else {
+                    $original = mb_strtolower($di["original"]);
+                    $original = preg_replace(['/\\\u2019/ium','/[\r\n]+/um','/&amp;/um'],["'","",'&'],$original);
+                    $original = preg_quote($original,'/');
+                    $out = preg_replace("/\b".$original."\b/ium",$di["translate"],$out);
                 }
-                //$out = preg_replace("/\b".preg_quote(strtolower($di["original"]),'/')."\b/ium",$di["translate"],$out);
-                $pattern = preg_quote(mb_strtolower(preg_replace("/\\\u2019/ium","'",$di["original"])),'/');
-                $out = preg_replace_callback("/\b".$pattern."\b/ium",function($m)use($di){
-                    $vin = $m[0];
-                    $vou = $di["translate"];
-                    if(preg_match("/^\s*[A-Z]/m",trim($vin))){
-                        $vou = trim($vou);
-                        $vou = mb_strtoupper(mb_substr($vou, 0, 1)).mb_substr($vou, 1);
-                    }
-                    return $vou;
-                },$out);
-
             }
             else break;
+        }
+        if(preg_match("/^[A-Z]/m",trim($in))){
+            $out = trim($out);
+            $out = $this->toupper($out);
         }
         return $out;
     }
     public function translateHtml($in){
         //return $this->translateText($in);
-        $out = $in; $t = $this;
-        //$out = preg_replace("/[\r\n]/m"," ",$out);
-        //$pattern = "/(<(".join("|",$this->_textTags).")[^>]*>)([^<]+)/ixsm";
-        $pattern = "/(<(?!script|\!|\s)[^>]*>)([^<]+)<\//ixsm";
-        //Log::debug($pattern);
+        $out = $in; $t = $this;$skip=false;
+
+        // Do your load here
+        //libxml_use_internal_errors(TRUE);
+        if(!preg_match("/<\/html>/",$out))$out = "<noscript>".$out."</noscript>";
+        $doc = new \DOMDocument("1.0","UTF-8");
+        if($doc->loadHTML(mb_convert_encoding($out, 'HTML-ENTITIES', 'UTF-8'),LIBXML_HTML_NOIMPLIED|LIBXML_NOWARNING|LIBXML_HTML_NODEFDTD|LIBXML_NOERROR
+            |LIBXML_ERR_NONE
+            |LIBXML_ERR_WARNING
+            |LIBXML_ERR_ERROR
+            |LIBXML_ERR_FATAL
+        )){
+        //$doc = \HTML5_Parser::parse($out);
+        //if($doc){
+            $errors = libxml_get_errors();
+            //Log::debug("DOM loaded");
+            $node=$doc;
+            while ($node) {
+                //Log::debug($node->nodeName." child = ".($node->firstChild?"yes":"no")." slibling=".($node->nextSibling?"yes":"no"));
+                if ($node->nodeType == 3) {
+                    if(!empty(trim($node->nodeValue)) && $node->parentNode->nodeName!="script"){
+                        $new = $this->translateText($node->nodeValue);
+                        Log::debug($node->parentNode->nodeName."\t".$node->nodeValue." -> ".$new);
+                        $node->nodeValue = $new;
+                    }
+                }
+                else if ($node->nodeType == 1) {
+                    if($node->hasAttribute("placeholder")) {
+                        $new = $this->translateText($node->getAttribute("placeholder"));
+                        Log::debug($node->nodeName."\t".$node->getAttribute("placeholder")." -> ".$new);
+                        $node->setAttribute("placeholder",$new);
+                    }
+                    if($node->hasAttribute("type")&&$node->getAttribute("type")=="submit") {
+                        $new = $this->translateText($node->getAttribute("value"));
+                        Log::debug($node->nodeName."\t".$node->getAttribute("value")." -> ".$new);
+                        $node->setAttribute("value",$this->translateText($node->getAttribute("value")));
+                    }
+                }
+                //else {
+                    //Log::debug($node->nodeName." T".$node->nodeType."\t".join(" ",$node->attributes));
+                //}
+                //if($node->nodeName == "script"){$skip=true;}else
+                if(!$skip && $node->firstChild) {$node = $node->firstChild;}
+                elseif ($node->nextSibling) {$node = $node->nextSibling;$skip = false;}
+                else {$node = $node->parentNode;$skip = true;}
+            }
+            $out = $doc->saveHTML();
+            $out = preg_replace("/<\/?noscript>/","",$out);
+            //Log::debug();
+            return $out;
+        }
+        /*
+        $pattern = "/(<(?!script|\!|\s)[^>]*>)([^<]+)<\//iuxsm";
         $out = preg_replace_callback($pattern,function($m)use($t){
             $val = trim($m[2]);$he = trim($m[1]);$res=$val;
             if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
                 $res = $t->translateText($val);
-                //Log::debug("[".preg_replace("/<([^>\s]+).*/i","$1",$he)."] ".$val." >>> ".$res);
+                //Log::debug(preg_replace("/[\r\n]+/mu","",$m[0])." >>> ".$res);
             }
-            return $he.$res.'</';
-        },$out); return $out;
+            return $he.$res."</";
+        },$out);
+
+        \( ( (?>[^()]+) | (?R) )* \)
+        */
+        //$pattern = '~<([a-z0-6]+)([^>]*)>(.+?)<(/\1)>~iuxsm';
+        //$pattern = "/<([a-z0-6]+)([^>]*)>(.+?)<(\/\S+)>/iuxsm";
+        $pattern = "/<([a-z0-6]+)([^>]*)>(.+?)</iuxsm";
+        $out = preg_replace_callback($pattern,function($m)use($t){
+            $val = trim($m[3]);
+            $attr = trim($m[2]);
+            $tag = trim($m[1]);
+            $res=$val;
+            if($tag == "script")return $m[0];
+            if(empty(trim(preg_replace("/[\r\n]+/"," ",$val))))return $m[0];
+            $res = $t->translateText($val);
+            //Log::debug("[{$tag}]\t{$val} >>> {$res}");
+            return "<{$tag} {$attr}>{$res}<";
+        },$out);
+
+
         $pattern = "/<input(.+?)value=['\"]([^\"']+)['\"]/ixsm";
 
         $out = preg_replace_callback($pattern,function($m)use($t){
             $val = $m[2];$he = $m[1];
             if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
                 $res = $t->translateText($val);
-                Log::debug("[input]\t".$val." >>> ".$res);
+                //Log::debug("[input]\t".$val." >>> ".$res);
             }
             return "<input".$he."value='".$res."'";
-        },$out); return $out;
+        },$out);
 
         $out = preg_replace_callback('/placeholder=[\'"](.+?)[\'"]/',function($m)use($t){
             $val = $m[1];;
             if(!empty(trim(preg_replace("/[\r\n]+/"," ",$val)))){
                 $res = $t->translateText($val);
+                //Log::debug("[placeholder]\t".$val." >>> ".$res);
             }
             return 'placeholder="'.$res.'""';
-        },$out); return $out;
+        },$out);
+
+        return $out;
 
 
         $html = new simple_html_dom();
