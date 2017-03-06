@@ -73,7 +73,7 @@ class Fetcher4{
     }
     protected function requestHeaders(){
         $headers = [];
-        $client_headers = getallheaders();
+        $client_headers = $this->getallheaders();
         if(isset($this->cookie)){
             $cc = "";
             foreach ($this->cookie as $c => $v) {
@@ -106,5 +106,14 @@ class Fetcher4{
     }
     protected function _replacerequest($s){return $s;}
     protected function _replaceresponse($s,$t = "html"){return $s;}
+    protected function getallheaders(){
+        $headers = [];
+        foreach ($_SERVER as $name => $value){
+           if (substr($name, 0, 5) == 'HTTP_'){
+               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value;
+           }
+       }
+       return $headers;
+    }
 };
 ?>

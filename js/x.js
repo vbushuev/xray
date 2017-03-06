@@ -96,7 +96,7 @@ var xG = {
                 var d=JSON.parse(data.response);
                 console.debug(d);
                 if(!d.error){
-                    if(confirm('Переходим на checkout?'))
+                    //if(confirm('Переходим на checkout?'))
                     document.location.href = d.redirect_url;
                 }
             },
@@ -158,52 +158,40 @@ var xG = {
         },
         rateReplace:function(){
             if(arguments.length<2)return;
-            var pe = arguments[0],cur = arguments[1],pattern= arguments[2];
-            var rate = 1;
-            for(var i=0;i<xG.currency.rates.length;++i){
-                if(xG.currency.rates[i].iso_code == cur){
-                    rate = xG.currency.rates[i].value*xG.currency.rates[i].multiplier;
-                    break;
+            try{
+                var pe = arguments[0],cur = arguments[1],pattern= arguments[2];
+                var rate = 1;
+                for(var i=0;i<xG.currency.rates.length;++i){
+                    if(xG.currency.rates[i].iso_code == cur){
+                        rate = xG.currency.rates[i].value*xG.currency.rates[i].multiplier;
+                        break;
+                    }
                 }
-            }
-            for(var i=0;i<pe.length;++i){
-                var p = pe[i];
-                if(p==null || typeof p == "undefined") continue;
-                if(xG.hasClass(p,'xg_converted') || xG.hasClass(p,'xg_original_converted'))continue;
-                var cp = p.cloneNode();
-                pattern = (pattern==null)?((cur=="GBP")?/£(\d+\.?\d*)/g:/(\d+,?\d*)\s€/g):pattern;
-                //console.debug(p);
-                //console.debug(pattern+" for cur="+cur+"("+rate+")");
-                cp.innerHTML = p.innerHTML.replace(pattern,function(m,c,o,s){
-                    var res = xG.currency.calc(c,rate);
-                    //console.debug(m+"{"+c+"} -> "+res);
-                    return "&nbsp;"+res+"&#8381;";
-                });
-                p.parentNode.insertBefore(cp,p);
-                //p.parentNode.appendChild(cp);
-                p.style.display = 'none';
-                //p.classList.add('xg_converted');
-                p.classList.add('xg_original_converted');
-                cp.classList.add('xg_converted');
-            }
-            /*
-            for(var i=0;i<pe.length;++i){
-                var p = pe[i];
-                if(p==null || typeof p == "undefined") continue;
-                if(xG.hasClass(p,'xg_converted'))continue;
-                var cp = p.cloneNode();
-                var preInner = p.innerHTML.replace(/,/,".").replace(/^[\r\n\s\t]+/,"").replace(/[\r\n\s]+$/,"");
-                var text  = preInner.replace(/(.*?)(\d+\.\d+)[\s\S]*$/i,"$2");
-                //console.debug("search price in "+preInner+" >> "+text);
-                if(!isNaN(text*m)){
-                    var res = this.calc(text,m);
-                    cp.innerHTML = "&nbsp;"+res+"руб.";
-                    p.parentNode.appendChild(cp);
+                for(var i=0;i<pe.length;++i){
+                    var p = pe[i];
+                    if(p==null || typeof p == "undefined") continue;
+                    if(xG.hasClass(p,'xg_converted') || xG.hasClass(p,'xg_original_converted'))continue;
+                    var cp = p.cloneNode();
+                    pattern = (pattern==null)?((cur=="GBP")?/£(\d+\.?\d*)/g:/(\d+,?\d*)\s€/g):pattern;
+                    //console.debug(p);
+                    //console.debug(pattern+" for cur="+cur+"("+rate+")");
+                    cp.innerHTML = p.innerHTML.replace(pattern,function(m,c,o,s){
+                        var res = xG.currency.calc(c,rate);
+                        //console.debug(m+"{"+c+"} -> "+res);
+                        return "&nbsp;"+res+"&#8381;";
+                    });
+                    console.debug(p);
+                    p.parentNode.insertBefore(cp,p);
+                    //if(p.parentNode!=null)p.parentNode.insertBefore(cp,p);else document.insertBefore(cp,p);
+                    //p.parentNode.appendChild(cp);
                     p.style.display = 'none';
-                    p.classList.add('xg_converted');
+                    //p.classList.add('xg_converted');
+                    p.classList.add('xg_original_converted');
                     cp.classList.add('xg_converted');
                 }
-            }*/
+            }catch(e){
+                console.error(e);
+            }
         },
         get:function(){
             if(arguments.length<2)return;
@@ -376,7 +364,7 @@ var xG = {
 };
 window.xG = xG;
 (function(){
-    var _site = "brandalley";
+    var _site = "ctshirts";
     if(document.location.host.match(/g\-ba/i))_site="brandalley";
     if(document.location.host.match(/g\-ct/i))_site="ctshirts";
     console.debug(_site);

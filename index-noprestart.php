@@ -1,5 +1,4 @@
 <?php
-
 /*
  * ServerAlias *.gauzymall.com
  * VirtualDocumentRoot /var/www/www/data/www/%0
@@ -7,26 +6,8 @@
 require_once("autoload.php");
 date_default_timezone_set('Europe/Moscow');
 ini_set('max_execution_time', 60*60*12);
-ob_start();
 session_start();
-/*?>
-<script>
-    if(typeof(window.xr_g_loader)=="undefined" || window.xr_g_loader==null){
-        var xgl = document.createElement("div");
-        xgl.setAttribute("id","xr_g_cover_layer");
-        xgl.setAttribute("style","position:fixed;top:0;left:0;background-color: rgba(255,255,255,.94);width:100%;height:100%;z-index: 9999;transition: all .4s ease-in;");
-        var img = document.createElement("img");
-        img.setAttribute("src","/css/loader.gif");
-        img.setAttribute("style","position:fixed;top:0;left:-64px;margin: 30% 50%;z-index: 10000;");
-        xgl.appendChild(img);
-        document.body.appendChild(xgl);
-        window.xr_g_loader = xgl;
-    }
-</script>
-
-<?php
-ob_flush();*/
-
+ob_start();
 use \g\Fetcher4 as Fetcher;
 use \g\Enviroment as Enviroment;
 use \g\Filter as Filter;
@@ -53,7 +34,7 @@ if($Enviroment->translate["use"]=="true"){
     if(preg_match("'application/json'ixs",$Fetcher->headers["Content-Type"])){
         $jdata = json_decode($data,true);
         if(array_walk_recursive($jdata,function(&$v,$k,$t){
-            $v = $t->translateText($v);
+            $v = $t->translateHtml($v);
         },$Translator)){
             $data = json_encode($jdata);
         }

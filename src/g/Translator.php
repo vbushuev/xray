@@ -3,12 +3,14 @@ namespace g;
 require("vendor/HTML5/Parser.php");
 use \Log as Log;
 use \simple_html_dom as simple_html_dom;
+use \Masterminds\HTML5 as HTML5;
 class Translator{
     protected $_d = [];
     protected $_d_sorted = [];
     protected $db;
     protected $_langDetectPattern = "/[a-zàÉêé]/iu";
     protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div","button","section","article","td"];
+    protected $_currency = [];
     public function __construct($cfg){
         $this->db = new \g\DBConnector();
         $this->setLang($cfg);
@@ -16,11 +18,15 @@ class Translator{
     public function setLang($cfg){
         $lang = isset($cfg["lang"])?$cfg["lang"]:"fr";
         $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
+
         //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         $this->_d_sorted = [];
         foreach($this->_d as $v){$this->_d_sorted[mb_strtolower(preg_replace(['/\\\u2019/ium','/[\r\n]+/'],["'",""],$v["original"]))]=$v["translate"];}
         //Log::debug(json_encode($this->_d_sorted,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         if($lang=="en")$this->_langDetectPattern = '/[a-z]/i';
+        //currencies
+        $_currencies= json_decode(file_get_contents("https://l.gauzymall.com/currency"),true);
+        foreach($_currencies as $currency){$this->_currency[$currency["iso_code"]] = $currency["value"]*$currency["multiplier"];}
     }
     public function translate($in){
         $out = isset($this->_d_sorted[strtolower(trim($in))])?$this->_d_sorted[strtolower(trim($in))]:$in;
@@ -34,12 +40,14 @@ class Translator{
                 $out = preg_replace("/^[\r\n\s]*(.+)[\s\r\n]*$/mu","$1",$out);
                 $out = preg_replace("/&#039;/mu","'",$out);
                 $out = preg_replace("/&nbsp;/mu"," ",$out);
-                if(isset($this->_d_sorted[mb_strtolower($out)])){
-                    $out =$this->_d_sorted[mb_strtolower($out)];
+                $out_low = mb_strtolower($out);
+                if(isset($this->_d_sorted[$out_low])){
+                    $out =$this->_d_sorted[$out_low];
                     break;
                 }
                 else {
-                    $original = mb_strtolower($di["original"]);
+                    $original = $di["original"];
+                    //$original = mb_strtolower($di["original"]);
                     $original = preg_replace(['/\\\u2019/ium','/[\r\n]+/um','/&amp;/um'],["'","",'&'],$original);
                     $original = preg_quote($original,'/');
                     $out = preg_replace("/\b".$original."\b/ium",$di["translate"],$out);
@@ -51,25 +59,30 @@ class Translator{
             $out = trim($out);
             $out = $this->toupper($out);
         }
+
         return $out;
     }
     public function translateHtml($in){
         //return $this->translateText($in);
         $out = $in; $t = $this;$skip=false;
 
-        // Do your load here
+        // Do your load here original DOM
+        /*
         //libxml_use_internal_errors(TRUE);
-        if(!preg_match("/<\/html>/",$out))$out = "<noscript>".$out."</noscript>";
+        //if(!preg_match("/<\/html>/",$out))$out = "<noscript>".$out."</noscript>";
         $doc = new \DOMDocument("1.0","UTF-8");
         if($doc->loadHTML(mb_convert_encoding($out, 'HTML-ENTITIES', 'UTF-8'),LIBXML_HTML_NOIMPLIED|LIBXML_NOWARNING|LIBXML_HTML_NODEFDTD|LIBXML_NOERROR
             |LIBXML_ERR_NONE
             |LIBXML_ERR_WARNING
             |LIBXML_ERR_ERROR
             |LIBXML_ERR_FATAL
-        )){
+        )){*/
         //$doc = \HTML5_Parser::parse($out);
-        //if($doc){
-            $errors = libxml_get_errors();
+        $in = preg_replace("/<div class=\"js\-product\-content\"\/>/im",'<div class="js-product-content">',$in);
+        $html5 = new HTML5(["disable_html_ns"=>true]);
+        $doc = $html5->loadHTML($in);
+        if($doc){
+            //$errors = libxml_get_errors();
             //Log::debug("DOM loaded");
             $node=$doc;
             while ($node) {
@@ -77,19 +90,19 @@ class Translator{
                 if ($node->nodeType == 3) {
                     if(!empty(trim($node->nodeValue)) && $node->parentNode->nodeName!="script"){
                         $new = $this->translateText($node->nodeValue);
-                        Log::debug($node->parentNode->nodeName."\t".$node->nodeValue." -> ".$new);
+                        //Log::debug($node->parentNode->nodeName."\t".$node->nodeValue." -> ".$new);
                         $node->nodeValue = $new;
                     }
                 }
                 else if ($node->nodeType == 1) {
                     if($node->hasAttribute("placeholder")) {
                         $new = $this->translateText($node->getAttribute("placeholder"));
-                        Log::debug($node->nodeName."\t".$node->getAttribute("placeholder")." -> ".$new);
+                        //Log::debug($node->nodeName."\t".$node->getAttribute("placeholder")." -> ".$new);
                         $node->setAttribute("placeholder",$new);
                     }
                     if($node->hasAttribute("type")&&$node->getAttribute("type")=="submit") {
                         $new = $this->translateText($node->getAttribute("value"));
-                        Log::debug($node->nodeName."\t".$node->getAttribute("value")." -> ".$new);
+                        //Log::debug($node->nodeName."\t".$node->getAttribute("value")." -> ".$new);
                         $node->setAttribute("value",$this->translateText($node->getAttribute("value")));
                     }
                 }
@@ -102,8 +115,28 @@ class Translator{
                 else {$node = $node->parentNode;$skip = true;}
             }
             $out = $doc->saveHTML();
-            $out = preg_replace("/<\/?noscript>/","",$out);
-            //Log::debug();
+            if(!preg_match("/<\/html>/i",$in)){ //for fragments
+                $out = preg_replace("/<\/?html[^>]*>/im","",$out);
+                $out = preg_replace("/<\!doctype[^>]*>/im","",$out);
+            }
+
+
+            // currency convert
+            //convert GBP
+            $currency = $this->_currency["GBP"];
+            $out = preg_replace_callback("/(£|\&pound;|\&#163;)(\d+\.?\d*)/um",function($m)use($currency){
+                $res = floor(floatval($m[2])*$currency);
+                return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[2].'</span>';
+            },$out);
+            /*
+            //convert EUR
+            $currency = $this->_currency["EUR"];
+            $out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
+                $res = floor(floatval($m[1])*$currency);
+                Log::debug($m[1]." x ".$currency." => ".$res);
+                return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[1].'</span>';
+            },$out);
+            */
             return $out;
         }
         /*
@@ -155,7 +188,6 @@ class Translator{
             return 'placeholder="'.$res.'""';
         },$out);
 
-        return $out;
 
 
         $html = new simple_html_dom();

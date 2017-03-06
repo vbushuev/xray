@@ -3,6 +3,8 @@
         "psr-4": { "XRay\\" : "src/" }
     },
     "require": {
-        "philo/laravel-blade": "3.*"
+        "philo/laravel-blade": "3.*",
+        "masterminds/html5": "2.*"
+
     }
 }
