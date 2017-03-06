@@ -53,7 +53,7 @@ class Fetcher4{
                 $value = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"],'/')."/i",$this->_urlinfo["domain"],$value);
             }
             if($key == 'Location') {
-                continue;
+                //continue;
                 $vpi = parse_url($value);
                 if(preg_match("/(m\.|www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$value)){
                     if($vpi["host"]!=$this->_urlinfo["host"]){
