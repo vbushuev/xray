@@ -5,7 +5,7 @@ class Enviroment{
     protected $cfg = [];
     public function __construct($cfg){
         $this->cfg = $cfg;
-        if(isset($_SESSION["current_url"]))$this->cfg["url"]= $_SESSION["current_url"];
+        //if(isset($_SESSION["current_url"]))$this->cfg["url"]= $_SESSION["current_url"];
         if(!isset($this->cfg["url"])) throw new \Exception("no url");
         $ui = parse_url($this->cfg["url"]);
 

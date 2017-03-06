@@ -7,7 +7,7 @@ class Filter{
     public function __construct($env){
         $this->_enviroment = $env;
     }
-    public function fetch($data = "",$contentType){
+    public function fetch($data = "",$contentType="text/html",$fileName = "content"){
         $use_filters = [
             "1"=>["use"=>true],
             "2"=>["use"=>true],
@@ -20,7 +20,7 @@ class Filter{
             "9"=>["use"=>false],
         ];
         $t = $this;
-        if(preg_match("'text/html'ixs",$contentType)){
+        if(preg_match("'text/html|application/json'ixs",$contentType)){
             /** debug for make classes*/
             // filter 1
             $pattern = "/(http|https)\:?\/{0,2}".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
@@ -72,14 +72,15 @@ class Filter{
                 }
                 return $res;},$data);
             // filter 7
-            $pattern = "/([\"'][a-z0-9\-]+)\.".preg_quote($t->_enviroment->domain,'/')."/ixsm";
+            //$pattern = "/([a-z0-9\-]+)\.".preg_quote($t->_enviroment->domain,'/')."/ixsm";
+            $pattern = "/((http|https)\:?\/{0,2})([a-z0-9\-]+)\.".preg_quote($t->_enviroment->domain,'/')."/ixsm";
             if($use_filters["7"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
                 $res = $m[0];
-                $res = $m[1].".".$t->_enviroment->localhost;
+                $res = "//".$m[3].".".$t->_enviroment->localhost;
                 Log::debug("filter[7]: [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
-            $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="ru"',$data);
 
+            $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="ru"',$data);
         }
         else if(preg_match("'javascript'ixs",$contentType)){
             // filter 8
@@ -87,8 +88,9 @@ class Filter{
             if($use_filters["8"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
                 $res = $m[0];
                 $res = $t->_enviroment->localhost;
-                Log::debug("filter[8]: [".$m[0]."] >> [".$res."]");
+                Log::debug("filter[8] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
+
             $pattern = "/https\:\/\/(.+?)".preg_quote($t->_enviroment->localhost,'/')."/ixsm";
             if($use_filters["9"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
                 $res = $m[0];

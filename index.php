@@ -43,7 +43,7 @@ $Translator = new Translator($Enviroment->translate);
 $monstat.="\tdictionary loaded in ".(time()-$tick)."\n";
 $data = $Fetcher->fetch();
 $monstat.="\tpage fetched in ".(time()-$tick)."\n";
-$data = $Filter->fetch($data,isset($Fetcher->headers["Content-Type"])?$Fetcher->headers["Content-Type"]:"all");
+$data = $Filter->fetch($data,isset($Fetcher->headers["Content-Type"])?$Fetcher->headers["Content-Type"]:"all",$env->url);
 $monstat.="\tpage filtered in ".(time()-$tick)."\n";
 if($Enviroment->translate["use"]=="true"){
     if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){

@@ -4,7 +4,7 @@ require("vendor/HTML5/Parser.php");
 use \Log as Log;
 use \simple_html_dom as simple_html_dom;
 use \Masterminds\HTML5 as HTML5;
-class Translator{
+class Translator extends \Common{
     protected $_d = [];
     protected $_d_sorted = [];
     protected $db;
@@ -17,16 +17,42 @@ class Translator{
     }
     public function setLang($cfg){
         $lang = isset($cfg["lang"])?$cfg["lang"]:"fr";
-        $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
+        //check today hash
+        $file_dict = "dicts/".$lang."-".date("Y-m-d").".json";
+        $file_dict_sorted = "dicts/".$lang."-".date("Y-m-d")."-sorted.json";
+        $file_currencies = "logs/currencies-".date("Y-m-d").".json";
 
-        //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
-        $this->_d_sorted = [];
-        foreach($this->_d as $v){$this->_d_sorted[mb_strtolower(preg_replace(['/\\\u2019/ium','/[\r\n]+/'],["'",""],$v["original"]))]=$v["translate"];}
-        //Log::debug(json_encode($this->_d_sorted,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
-        if($lang=="en")$this->_langDetectPattern = '/[a-z]/i';
+        $this->checkPath($file_dict);
+        $this->checkPath($file_dict_sorted);
+        $this->checkPath($file_currencies);
+        if(file_exists($file_dict)){
+            $this->_d = json_decode(file_get_contents($file_dict),true);
+        }
+        else {
+            $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
+            file_put_contents($file_dict,json_encode($this->_d,JSON_UNESCAPED_UNICODE));
+            Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        }
+        if(file_exists($file_dict_sorted)){
+            $this->_d_sorted = json_decode(file_get_contents($file_dict_sorted),true);
+        }
+        else {
+            $this->_d_sorted = [];
+            foreach($this->_d as $v){$this->_d_sorted[mb_strtolower(preg_replace(['/\\\u2019/ium','/[\r\n]+/'],["'",""],$v["original"]))]=$v["translate"];}
+            file_put_contents($file_dict_sorted,json_encode($this->_d_sorted,JSON_UNESCAPED_UNICODE));
+            //Log::debug(json_encode($this->_d_sorted,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+        }
+
         //currencies
-        $_currencies= json_decode(file_get_contents("https://l.gauzymall.com/currency"),true);
-        foreach($_currencies as $currency){$this->_currency[$currency["iso_code"]] = $currency["value"]*$currency["multiplier"];}
+        if(file_exists($file_currencies)){
+            $this->_currency= json_decode(file_get_contents($file_currencies),true);
+        }
+        else {
+            $_currencies= json_decode(file_get_contents("https://l.gauzymall.com/currency"),true);
+            foreach($_currencies as $currency){$this->_currency[$currency["iso_code"]] = $currency["value"]*$currency["multiplier"];}
+            file_put_contents($file_currencies,json_encode($this->_currency,JSON_UNESCAPED_UNICODE));
+        }
+        if($lang=="en")$this->_langDetectPattern = '/[a-z]/i';
     }
     public function translate($in){
         $out = isset($this->_d_sorted[strtolower(trim($in))])?$this->_d_sorted[strtolower(trim($in))]:$in;
