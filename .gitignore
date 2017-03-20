@@ -14,3 +14,6 @@ xray.json.bak
 js/brandalley.js
 
 js/ctshirts.js
+
+analyze
+dicts/*.json

@@ -21,16 +21,17 @@ class Filter{
         ];
         $t = $this;
         if(preg_match("'text/html|application/json'ixs",$contentType)){
+            $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="en"',$data);
             /** debug for make classes*/
             // filter 1
             $pattern = "/(http|https)\:?\/{0,2}".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
-            if($use_filters["1"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = "//".$t->_enviroment->localhost; Log::debug("filter[1]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            if($use_filters["1"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = "//".$t->_enviroment->localhost; Log::debug("filter[1] ".$fileName.": [".$m[0]."] >> [".$res."]");return $res;},$data);
             // filter 2
             $pattern = "/".preg_quote($t->_enviroment->mainhost,'/')."/ixsm";
-            if($use_filters["2"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $t->_enviroment->localhost; Log::debug("filter[2]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            if($use_filters["2"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $t->_enviroment->localhost; Log::debug("filter[2] ".$fileName.": [".$m[0]."] >> [".$res."]");return $res;},$data);
             // filter 3
             $pattern = "/([\=\"'\s]+\.?)".preg_quote($t->_enviroment->domain)."/ixsm";
-            if($use_filters["3"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $m[1].$t->_enviroment->localhost;Log::debug("filter[3]: [".$m[0]."] >> [".$res."]");return $res;},$data);
+            if($use_filters["3"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){$res = $m[1].$t->_enviroment->localhost;Log::debug("filter[3] ".$fileName.": [".$m[0]."] >> [".$res."]");return $res;},$data);
             // filter 4
             $pattern = "/http(s)?:\/{2}[^\s\?\"'\>]+\.js[^\"'\s\>]*/ixs";
             if($use_filters["4"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
@@ -42,7 +43,7 @@ class Filter{
                 ){
 
                     $res = "//".$t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($m[0]);
-                    Log::debug("filter[4]: [".$m[0]."] >> [".$res."]");
+                    Log::debug("filter[4] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 }
                 return $res;},$data);
             // filter 5
@@ -55,7 +56,7 @@ class Filter{
                     !preg_match("/\.google/ixs",$m[0])
                 ){
                     $res = "//".$t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($t->_enviroment->localschema.":".$m[0]);
-                    Log::debug("filter[5]: [".$m[0]."] >> [".$res."]");
+                    Log::debug("filter[5] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 }
                 return $res;},$data);
             // filter 6
@@ -68,7 +69,7 @@ class Filter{
                     !preg_match("/\.google/ixs",$m[0])
                 ){
                     $res = $t->_enviroment->localhost."/ext.php?".REQUEST_PARAMETER_NAME."=".urlencode($m[0]);
-                    Log::debug("filter[6]: [".$m[0]."] >> [".$res."]");
+                    Log::debug("filter[6] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 }
                 return $res;},$data);
             // filter 7
@@ -77,10 +78,8 @@ class Filter{
             if($use_filters["7"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
                 $res = $m[0];
                 $res = "//".$m[3].".".$t->_enviroment->localhost;
-                Log::debug("filter[7]: [".$m[0]."] >> [".$res."]");
+                Log::debug("filter[7] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
-
-            $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="ru"',$data);
         }
         else if(preg_match("'javascript'ixs",$contentType)){
             // filter 8
@@ -95,7 +94,7 @@ class Filter{
             if($use_filters["9"]["use"])$data = preg_replace_callback($pattern,function($m)use($t){
                 $res = $m[0];
                 $res = "//".$m[1].$t->_enviroment->localhost;
-                Log::debug("filter[9]: [".$m[0]."] >> [".$res."]");
+                Log::debug("filter[9] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
         }
         if(isset($t->_enviroment->hacks["substitutions"])){
@@ -103,7 +102,6 @@ class Filter{
                 $data = preg_replace("/".preg_quote($o,'/')."/ixs",$s,$data);
             }
         }
-
         return $data;
     }
 };

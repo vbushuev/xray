@@ -44,12 +44,25 @@
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 				<label for="basic-language">Language:</label>
 				<select id="basic-language" name="translate[lang]" aria-describedby="area-field-language">
-					<<option value="fr" <?php echo ($html->DataTranslateLang=="fr")?"selected":"";?>>French</option>
-					<<option value="en" <?php echo ($html->DataTranslateLang=="en")?"selected":"";?>>English</option>
+					<option value="fr" <?php echo ($html->DataTranslateLang=="fr")?"selected":"";?>>French</option>
+					<option value="de" <?php echo ($html->DataTranslateLang=="de")?"selected":"";?>>Deutsch</option>
+					<option value="en" <?php echo ($html->DataTranslateLang=="en")?"selected":"";?>>English</option>
 				</select>
 			</div>
 			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 				<a href="https://dictionary.gauzymall.com?lang=fr">Dictionary editor</a>
+			</div>
+		</div>
+		<hr/>
+		<div class="row">
+			<h3>JS additional scripts</h3>
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+				<label for="basic-translate">Use JS script:</label>
+				<input type="checkbox" id="basic-translate" name="script[use]" aria-describedby="area-field-usetranslate" <?php echo ($html->DataScriptUse=="true")?"checked":"";?>>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<label for="basic-translate">Script name & path:</label>
+				<input type="text" class="form-control" id="basic-url" name="script[name]" aria-describedby="area-field-url" value="<?php echo $html->DataScriptName;?>">
 			</div>
 		</div>
 		<div class="row">

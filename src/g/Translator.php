@@ -11,12 +11,14 @@ class Translator extends \Common{
     protected $_langDetectPattern = "/[a-zàÉêé]/iu";
     protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div","button","section","article","td"];
     protected $_currency = [];
+    protected $_lang = 'en';
     public function __construct($cfg){
         $this->db = new \g\DBConnector();
         $this->setLang($cfg);
     }
     public function setLang($cfg){
         $lang = isset($cfg["lang"])?$cfg["lang"]:"fr";
+        $this->_lang = $lang;
         //check today hash
         $file_dict = "dicts/".$lang."-".date("Y-m-d").".json";
         $file_dict_sorted = "dicts/".$lang."-".date("Y-m-d")."-sorted.json";
@@ -31,7 +33,7 @@ class Translator extends \Common{
         else {
             $this->_d = $this->db->selectAll("select * from g_dictionary where lang='".$lang."' order by length(original) desc,priority desc");
             file_put_contents($file_dict,json_encode($this->_d,JSON_UNESCAPED_UNICODE));
-            Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+            //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         }
         if(file_exists($file_dict_sorted)){
             $this->_d_sorted = json_decode(file_get_contents($file_dict_sorted),true);
@@ -53,6 +55,7 @@ class Translator extends \Common{
             file_put_contents($file_currencies,json_encode($this->_currency,JSON_UNESCAPED_UNICODE));
         }
         if($lang=="en")$this->_langDetectPattern = '/[a-z]/i';
+        else if($lang=="de")$this->_langDetectPattern = '/[a-z]/i';
     }
     public function translate($in){
         $out = isset($this->_d_sorted[strtolower(trim($in))])?$this->_d_sorted[strtolower(trim($in))]:$in;
@@ -60,12 +63,14 @@ class Translator extends \Common{
     }
     public function translateText($in){
         $out = $in;
+        Log::debug(preg_replace(["/^\s+/mu","/\s+$/mu"],"",$out));
         foreach($this->_d as $di){
             if(strlen($out)<$di["priority"])continue;
             if(preg_match($this->_langDetectPattern,$out)){
                 $out = preg_replace("/^[\r\n\s]*(.+)[\s\r\n]*$/mu","$1",$out);
                 $out = preg_replace("/&#039;/mu","'",$out);
                 $out = preg_replace("/&nbsp;/mu"," ",$out);
+
                 $out_low = mb_strtolower($out);
                 if(isset($this->_d_sorted[$out_low])){
                     $out =$this->_d_sorted[$out_low];
@@ -85,7 +90,24 @@ class Translator extends \Common{
             $out = trim($out);
             $out = $this->toupper($out);
         }
+        // currency convert
+        //convert GBP
+        $currency = $this->_currency["GBP"];
+        $out = preg_replace_callback("/(£|\&pound;|\&#163;)(\d+\.?\d*)/um",function($m)use($currency){
+            $res = floor(floatval($m[2])*$currency);
+            return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[2].'</span>';
+        },$out);
 
+        //convert EUR
+        $currency = $this->_currency["EUR"];
+        //$out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
+        //€ 3.199,00
+        $out = preg_replace_callback("/(&euro;|€)\s*(\d*\.?\d+,\d+)/mu",function($m)use($currency){
+            $val = preg_replace(["/\./","/,/"],["","."],$m[2]);
+            $res = floor(floatval($val)*$currency);
+            //Log::debug($m[2]." x ".$currency." => ".$res);
+            return " ".$this->price($res)."₽";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
+        },$out);
         return $out;
     }
     public function translateHtml($in){
@@ -149,18 +171,22 @@ class Translator extends \Common{
 
             // currency convert
             //convert GBP
+            /*
             $currency = $this->_currency["GBP"];
             $out = preg_replace_callback("/(£|\&pound;|\&#163;)(\d+\.?\d*)/um",function($m)use($currency){
                 $res = floor(floatval($m[2])*$currency);
                 return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[2].'</span>';
             },$out);
-            /*
+
             //convert EUR
             $currency = $this->_currency["EUR"];
-            $out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
-                $res = floor(floatval($m[1])*$currency);
-                Log::debug($m[1]." x ".$currency." => ".$res);
-                return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[1].'</span>';
+            //$out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
+            //€ 3.199,00
+            $out = preg_replace_callback("/(&euro;|€)\s*(\d*\.?\d+,\d+)/mu",function($m)use($currency){
+                $val = preg_replace(["/\./","/,/"],["","."],$m[2]);
+                $res = floor(floatval($val)*$currency);
+                //Log::debug($m[2]." x ".$currency." => ".$res);
+                return "&nbsp;".$this->price($res)."&#8381;";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
             },$out);
             */
             return $out;
@@ -224,7 +250,7 @@ class Translator extends \Common{
         foreach ($els as $el) {
             if(!empty(trim($el->innertext))){
                 $tr = $this->translateText($el->innertext);
-                Log::debug($el->tag.": ".$el->innertext." >>> ".$tr);
+                //Log::debug($el->tag.": ".$el->innertext." >>> ".$tr);
                 $el->innertext = $tr;
             }
         }
@@ -246,6 +272,19 @@ class Translator extends \Common{
         }
         $out = $doc->__toString();
         return $out;
+    }
+    protected function price($d){
+        $a = strrev($d);
+        $r = "";$c=3;
+        for($i=0;$i<strlen($a);++$i){
+            $r.=$a[$i];
+            if((--$c)==0){
+                $c=3;
+                $r.=" ";
+            }
+
+        }
+        return strrev($r);
     }
     protected function toupper($s){
         $fc = mb_strtoupper(mb_substr($s, 0, 1));
