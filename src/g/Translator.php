@@ -12,6 +12,7 @@ class Translator extends \Common{
     protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div","button","section","article","td"];
     protected $_currency = [];
     protected $_lang = 'en';
+    protected $_use_cashe = false;
     public function __construct($cfg){
         $this->db = new \g\DBConnector();
         $this->setLang($cfg);
@@ -27,7 +28,7 @@ class Translator extends \Common{
         $this->checkPath($file_dict);
         $this->checkPath($file_dict_sorted);
         $this->checkPath($file_currencies);
-        if(file_exists($file_dict)){
+        if($_use_cashe&&file_exists($file_dict)){
             $this->_d = json_decode(file_get_contents($file_dict),true);
         }
         else {
@@ -35,7 +36,7 @@ class Translator extends \Common{
             file_put_contents($file_dict,json_encode($this->_d,JSON_UNESCAPED_UNICODE));
             //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         }
-        if(file_exists($file_dict_sorted)){
+        if($_use_cashe&&file_exists($file_dict_sorted)){
             $this->_d_sorted = json_decode(file_get_contents($file_dict_sorted),true);
         }
         else {

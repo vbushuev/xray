@@ -413,8 +413,8 @@ var checkout = function(order){
 
         f+= '<div class="-com-row">';
         f+= '<div class="-com-col -com-col-10 -com-offset-1">'+page.choice({name:'delivery_id',title:'Выберете способ доставки',required:true,items:[
-			{action:'javascript:{boxberry.open(boxberryCallback,\''+boxberryToken+'\',\'Москва\',\'77461\',0)}',option:'До пункта выдачи BoxBerry'},
-			{action:'javascript:{$(\'input[name=delivery_id]\').val(2)}',option:'Курьером'}
+			{action:'javascript:{boxberry.open(boxberryCallback,\''+boxberryToken+'\',\'Москва\',\'77461\',0)}',option:'До пункта выдачи BoxBerry'}
+			//,{action:'javascript:{$(\'input[name=delivery_id]\').val(2)}',option:'Курьером'}
 		]})+'</div></div>';
     }//deliverytype
     else if(order.status_id == "2"){ //paymenttype
@@ -519,7 +519,7 @@ $(document).ready(function(){
         $(".show-ajax-cart").hide();
         var createData = cart.parse();
         if(!jscontent.length){
-            $.get('css/com.html',function(d){
+            $.get(cohost+'/com.html',function(d){
                 //console.debug(d);
                 $("body").append(d);
                 var cookie = cart.get();

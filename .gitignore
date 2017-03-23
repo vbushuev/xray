@@ -2,10 +2,8 @@ logs/*
 cache/*
 vendor/*
 composer.lock
-
+dicts/*
 www.gauzymall.com.conf
-
-xray.json
 
 xray.json
 
