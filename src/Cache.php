@@ -1,5 +1,5 @@
 <?php
-class Cache {
+class Cache{
     protected $cache="cache/";
     protected $donor;
     protected $donor_pattern;

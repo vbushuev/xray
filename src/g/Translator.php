@@ -12,13 +12,14 @@ class Translator extends \Common{
     protected $_textTags = ["li","a","span","p","h1","h2","h3","h4","h5","h6","i","cite","code","pre","b","strong","div","button","section","article","td"];
     protected $_currency = [];
     protected $_lang = 'en';
-    protected $_use_cashe = false;
+    protected $_use_cache = false;
     public function __construct($cfg){
         $this->db = new \g\DBConnector();
         $this->setLang($cfg);
     }
     public function setLang($cfg){
         $lang = isset($cfg["lang"])?$cfg["lang"]:"fr";
+        $this->_use_cache = isset($cfg["cache"])?$cfg["cache"]:false;
         $this->_lang = $lang;
         //check today hash
         $file_dict = "dicts/".$lang."-".date("Y-m-d").".json";
@@ -28,7 +29,7 @@ class Translator extends \Common{
         $this->checkPath($file_dict);
         $this->checkPath($file_dict_sorted);
         $this->checkPath($file_currencies);
-        if($_use_cashe&&file_exists($file_dict)){
+        if($_use_cache&&file_exists($file_dict)){
             $this->_d = json_decode(file_get_contents($file_dict),true);
         }
         else {
@@ -36,7 +37,7 @@ class Translator extends \Common{
             file_put_contents($file_dict,json_encode($this->_d,JSON_UNESCAPED_UNICODE));
             //Log::debug(json_encode($this->_d,JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
         }
-        if($_use_cashe&&file_exists($file_dict_sorted)){
+        if($_use_cache&&file_exists($file_dict_sorted)){
             $this->_d_sorted = json_decode(file_get_contents($file_dict_sorted),true);
         }
         else {
@@ -49,6 +50,11 @@ class Translator extends \Common{
         //currencies
         if(file_exists($file_currencies)){
             $this->_currency= json_decode(file_get_contents($file_currencies),true);
+            if(!count($this->_currency)){
+                $_currencies= json_decode(file_get_contents("https://l.gauzymall.com/currency"),true);
+                foreach($_currencies as $currency){$this->_currency[$currency["iso_code"]] = $currency["value"]*$currency["multiplier"];}
+                file_put_contents($file_currencies,json_encode($this->_currency,JSON_UNESCAPED_UNICODE));
+            }
         }
         else {
             $_currencies= json_decode(file_get_contents("https://l.gauzymall.com/currency"),true);
@@ -62,9 +68,9 @@ class Translator extends \Common{
         $out = isset($this->_d_sorted[strtolower(trim($in))])?$this->_d_sorted[strtolower(trim($in))]:$in;
         return $out;
     }
-    public function translateText($in){
+    public function translateText($in,$convert=true){
         $out = $in;
-        Log::debug(preg_replace(["/^\s+/mu","/\s+$/mu"],"",$out));
+        //Log::debug(preg_replace(["/^\s+/mu","/\s+$/mu"],"",$out));
         foreach($this->_d as $di){
             if(strlen($out)<$di["priority"])continue;
             if(preg_match($this->_langDetectPattern,$out)){
@@ -92,23 +98,25 @@ class Translator extends \Common{
             $out = $this->toupper($out);
         }
         // currency convert
-        //convert GBP
-        $currency = $this->_currency["GBP"];
-        $out = preg_replace_callback("/(£|\&pound;|\&#163;)(\d+\.?\d*)/um",function($m)use($currency){
-            $res = floor(floatval($m[2])*$currency);
-            return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[2].'</span>';
-        },$out);
+        if($convert){
+            //convert GBP
+            $currency = $this->_currency["GBP"];
+            $out = preg_replace_callback("/(£|\&pound;|\&#163;)(\d+\.?\d*)/um",function($m)use($currency){
+                $res = floor(floatval($m[2])*$currency);
+                return "&nbsp;".$res."&#8381;"."<span class='xg_original_converted' style='display:none'>".$m[2].'</span>';
+            },$out);
 
-        //convert EUR
-        $currency = $this->_currency["EUR"];
-        //$out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
-        //€ 3.199,00
-        $out = preg_replace_callback("/(&euro;|€)\s*(\d*\.?\d+,\d+)/mu",function($m)use($currency){
-            $val = preg_replace(["/\./","/,/"],["","."],$m[2]);
-            $res = floor(floatval($val)*$currency);
-            //Log::debug($m[2]." x ".$currency." => ".$res);
-            return " ".$this->price($res)."₽";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
-        },$out);
+            //convert EUR
+            $currency = $this->_currency["EUR"];
+            //$out = preg_replace_callback("/(\d+[\.,]\d+)[\s\r\n]*(&euro;|€)/mu",function($m)use($currency){
+            //€ 3.199,00
+            $out = preg_replace_callback("/(&euro;|€)\s*(\d*\.?\d+,\d+)/mu",function($m)use($currency){
+                $val = preg_replace(["/\./","/,/"],["","."],$m[2]);
+                $res = floor(floatval($val)*$currency);
+                Log::debug($m[2]." x ".$currency." => ".$res);
+                return " ".$this->price($res)."₽";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
+            },$out);
+        }
         return $out;
     }
     public function translateHtml($in){

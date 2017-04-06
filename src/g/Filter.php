@@ -19,6 +19,7 @@ class Filter{
             "8"=>["use"=>true],
             "9"=>["use"=>false],
         ];
+
         $t = $this;
         if(preg_match("'text/html|application/json'ixs",$contentType)){
             $data = preg_replace("/<html(.*)?lang=(['\"])(\D+?)(['\"])/",'<html$1lang="en"',$data);
@@ -80,6 +81,7 @@ class Filter{
                 $res = "//".$m[3].".".$t->_enviroment->localhost;
                 Log::debug("filter[7] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
+
         }
         else if(preg_match("'javascript'ixs",$contentType)){
             // filter 8

@@ -37,11 +37,15 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
 				<label for="basic-translate">Use Translator:</label>
 				<input type="checkbox" id="basic-translate" name="translate[use]" aria-describedby="area-field-usetranslate" <?php echo ($html->DataTranslateUse=="true")?"checked":"";?>>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+				<label for="basic-translate">Use dictionary cache :</label>
+				<input type="checkbox" id="basic-translate" name="translate[cache]" aria-describedby="area-field-translatecache" <?php echo ($html->DataTranslateCache=="true")?"checked":"";?>>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
 				<label for="basic-language">Language:</label>
 				<select id="basic-language" name="translate[lang]" aria-describedby="area-field-language">
 					<option value="fr" <?php echo ($html->DataTranslateLang=="fr")?"selected":"";?>>French</option>
@@ -49,7 +53,7 @@
 					<option value="en" <?php echo ($html->DataTranslateLang=="en")?"selected":"";?>>English</option>
 				</select>
 			</div>
-			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
 				<a href="https://dictionary.gauzymall.com?lang=fr">Dictionary editor</a>
 			</div>
 		</div>
@@ -80,6 +84,14 @@
 					<a class="button add" data-ref="#substitutions" href="javascript:{0}"><i class="fa fa-plus"></i></a>
 				</div>
 				<?php  echo $html->DataHacksSubstitutions;?>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="title" for="basic-greenline">Cache:
+					<label for="basic-translate">Use:</label>
+					<input type="checkbox" id="basic-translate" name="cache[use]" aria-describedby="area-field-usecache" <?php echo ($html->DataCacheUse=="true")?"checked":"";?>>
+				</div>
 			</div>
 		</div>
 	</div>
