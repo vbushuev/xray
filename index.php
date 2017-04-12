@@ -48,7 +48,7 @@ if($data===false || $env->cache["use"]===false || $env->cache["use"]=="false" ||
         if(preg_match("'application/json'ixs",$Fetcher->headers["Content-Type"])){
             $jdata = json_decode($data,true);
             if(array_walk_recursive($jdata,function(&$v,$k,$t){
-                $v = $t->translateText($v,false);
+                $v = $t->translateText($v,true);
             },$Translator)){
                 $data = json_encode($jdata);
             }
@@ -73,6 +73,7 @@ if($data===false || $env->cache["use"]===false || $env->cache["use"]=="false" ||
         $data = preg_replace("/\<\/body>/i","<script src='".$Enviroment->script["name"]."'></script></body>",$data);
         //$data = preg_replace("/\<\/body>/i",file_get_contents("css/com.html")."</body>",$data);
     }
+    $data = preg_replace('/(<span\s+class="header\-basket__count[^"]+")[^>]+>[^<]+/i',"<span class=\"xray-header-basket__count\"><img src=\"/css/loader.gif\" style=\"height:24px;margin-left:24px;\"/>",$data);
     $Cacher->save($Fetcher->headers,$data);
 }
 Log::debug(ob_get_clean());

@@ -114,7 +114,8 @@ class Translator extends \Common{
                 $val = preg_replace(["/\./","/,/"],["","."],$m[2]);
                 $res = floor(floatval($val)*$currency);
                 Log::debug($m[2]." x ".$currency." => ".$res);
-                return " ".$this->price($res)."₽";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
+                return " ".$this->price($res)." ₽";//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
+                //return "€ ".$this->price($res,",");//.'<span class="xg_original_converted" style="display:none">'.$m[2].'</span>';
             },$out);
         }
         return $out;
@@ -160,7 +161,16 @@ class Translator extends \Common{
                     if($node->hasAttribute("type")&&$node->getAttribute("type")=="submit") {
                         $new = $this->translateText($node->getAttribute("value"));
                         //Log::debug($node->nodeName."\t".$node->getAttribute("value")." -> ".$new);
-                        $node->setAttribute("value",$this->translateText($node->getAttribute("value")));
+                        $node->setAttribute("value",$new);
+                    }
+                    if($node->hasAttribute("cart-text")) {
+                        $new = $this->translateText($node->getAttribute("cart-text"));
+                        $node->setAttribute("cart-text",$new);
+                    }
+                    if($node->hasAttribute("cart-price")) {
+                        $new = $this->translateText($node->getAttribute("cart-price"));
+                        //Log::debug($node->nodeName."\t".$node->getAttribute("value")." -> ".$new);
+                        $node->setAttribute("cart-price",$new);
                     }
                 }
                 //else {
@@ -282,18 +292,20 @@ class Translator extends \Common{
         $out = $doc->__toString();
         return $out;
     }
-    protected function price($d){
-        $a = strrev($d);
+    protected function price($f,$t = " ",$d = false){
+        $fa = preg_split("/\./",$f);
+        Log::debug($fa);
+        $a = strrev($fa[0]);
         $r = "";$c=3;
         for($i=0;$i<strlen($a);++$i){
             $r.=$a[$i];
-            if((--$c)==0){
+            if((--$c)==0&&($i+1)<strlen($a)){
                 $c=3;
-                $r.=" ";
+                $r.=$t;
             }
-
         }
-        return strrev($r);
+        $r = strrev($r).($d===false?"":($d.(count($fa)>1?$fa[1]:"00")));
+        return $r;
     }
     protected function toupper($s){
         $fc = mb_strtoupper(mb_substr($s, 0, 1));

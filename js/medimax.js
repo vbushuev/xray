@@ -499,7 +499,17 @@ var checkout = function(order){
     //form.append('<input type="hidden" name="amount" value="'+order.amount+'"/>');
     //if(typeof(order.user_id)!="undefined")form.append('<input type="hidden" name="amount" value="'+order.user_id+'"/>');
 };
-
+window.globalAjaxInjection = {
+	matcher:/^\/cart\/.*$/i,
+	cartbefore:function(){
+		$(".xray-header-basket__count").html("<img src=\"/css/loader.gif\" style=\"height:24px;margin-left:24px;\"/>");
+	},
+	cartget:function(d){
+		//var s = "("+d.cart.itemsAmount+")шт. "+d.cart.amountGross;
+		var s = d.cart.itemsAmount+"шт. "+d.cart.amountGross;
+		$(".xray-header-basket__count").html(s);
+	}
+};
 /*
 window.items = items;
 window.user = user;
@@ -547,4 +557,16 @@ $(document).ready(function(){
         cart.set({status_id:(typeof(queryParameters.status_id)?queryParameters.status_id:"3")});
         $(".cart-actions__checkout-link").click();
     }
+	$.getJSON("/cart/get");
+	$(document).ajaxSend(function(e,x,j) {
+		if(globalAjaxInjection.matcher.test(j.url)){
+			globalAjaxInjection.cartbefore();
+		}
+	});
+	$(document).ajaxSuccess(function(e,x,j,d) {
+		console.debug(e,x,j,d);
+		if(globalAjaxInjection.matcher.test(j.url)){
+			globalAjaxInjection.cartget(d);
+		}
+	});
 });
