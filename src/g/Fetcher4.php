@@ -44,33 +44,37 @@ class Fetcher4{
         return $s;
     }
     public function pull($s){
-        foreach($this->headers as $key => $value) {
-            if($key == 'Content-Encoding')continue;
-            if($key == 'Transfer-Encoding')continue;
-            if($key == 'Content-Length')$value = strlen($s);
-            if($key == 'Set-Cookie') {
-                $value = preg_replace("/domain\s?=\s?[^;]+;?/im","",$value);
-                $value = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"],'/')."/i",$this->_urlinfo["domain"],$value);
-            }
-            if($key == 'Location') {
-                //continue;
-                $vpi = parse_url($value);
-                if(preg_match("/(m\.|www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$value)){
-                    if($vpi["host"]!=$this->_urlinfo["host"]){
-                        $_SESSION["current_url"] = $value;
-                        Log::debug("Change session main url to {$value}");
-                        $value = "http://".$_SERVER["SERVER_NAME"];
-                    }
-
+        if(is_array($this->headers)){
+            foreach($this->headers as $key => $value) {
+                if($key == 'Content-Encoding')continue;
+                if($key == 'Transfer-Encoding')continue;
+                if($key == 'Content-Length')$value = strlen($s);
+                if($key == 'Set-Cookie') {
+                    $value = preg_replace("/domain\s?=\s?[^;]+;?/im","",$value);
+                    $value = preg_replace("/".preg_quote($_SERVER["SERVER_NAME"],'/')."/i",$this->_urlinfo["domain"],$value);
                 }
-                $value = preg_replace("/(www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$_SERVER["SERVER_NAME"],$value);
+                if($key == 'Location') {
+                    //continue;
+                    $vpi = parse_url($value);
+                    if(preg_match("/(m\.|www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$value)){
+                        if($vpi["host"]!=$this->_urlinfo["host"]){
+                            $_SESSION["current_url"] = $value;
+                            Log::debug("Change session main url to {$value}");
+                            $value = "http://".$_SERVER["SERVER_NAME"];
+                        }
+
+                    }
+                    $value = preg_replace("/(www\.)?".preg_quote($this->_urlinfo["domain"],'/')."/i",$_SERVER["SERVER_NAME"],$value);
+                }
+                $value =  $this->_replaceresponse($value);
+                header("{$key}: {$value}");
             }
-            $value =  $this->_replaceresponse($value);
-            header("{$key}: {$value}");
         }
-        foreach ($this->cookie as $c => $v) {
-            if(!isset($_COOKIE[$c])){
-                setcookie($c,$v);
+        if(is_array($this->cookie)){
+            foreach ($this->cookie as $c => $v) {
+                if(!isset($_COOKIE[$c])){
+                    setcookie($c,$v);
+                }
             }
         }
         echo $s;
@@ -111,7 +115,7 @@ class Fetcher4{
     protected function _replacerequest($s){return $s;}
     protected function _replaceresponse($s,$t = "html"){return $s;}
     protected function getallheaders(){
-        return getallheaders();
+        //return getallheaders();
         $headers = [];
         foreach ($_SERVER as $name => $value){
            if (substr($name, 0, 5) == 'HTTP_'){

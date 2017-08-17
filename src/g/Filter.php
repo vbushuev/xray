@@ -81,7 +81,13 @@ class Filter{
                 $res = "//".$m[3].".".$t->_enviroment->localhost;
                 Log::debug("filter[7] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
-
+            if(isset($t->_enviroment->hacks["substitutions"])){
+                foreach($t->_enviroment->hacks["substitutions"] as $o=>$s){
+                    Log::debug("HACKS: {$o} => {$s} [".(preg_match("/{$o}/im",$data)?"found":"not found")."]");
+                    //$data = preg_replace("/".preg_quote($o,'/')."/im",$s,$data);
+                    $data = preg_replace("/{$o}/im",$s,$data);
+                }
+            }
         }
         else if(preg_match("'javascript'ixs",$contentType)){
             // filter 8
@@ -99,11 +105,7 @@ class Filter{
                 Log::debug("filter[9] ".$fileName.": [".$m[0]."] >> [".$res."]");
                 return $res;},$data);
         }
-        if(isset($t->_enviroment->hacks["substitutions"])){
-            foreach($t->_enviroment->hacks["substitutions"] as $o=>$s){
-                $data = preg_replace("/".preg_quote($o,'/')."/ixs",$s,$data);
-            }
-        }
+
         return $data;
     }
 };

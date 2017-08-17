@@ -19,23 +19,29 @@ use \g\Translator as Translator;
 use \g\Cache as Cache;
 $tick = time();
 $monstat = "Time stat (".date("H:i:s")."):\n";
-
 $env = json_decode(file_get_contents("xray.json"),true);
+
 $Enviroment = new Enviroment($env);
 $Fetcher = new Cache($Enviroment->url);
 
 $Fetcher->cookie = $Enviroment->cookie;
-$Filter = new Filter($Enviroment);
-$Translator = new Translator($Enviroment->translate);
-$monstat.="\tdictionary loaded in ".(time()-$tick)."\n";
-
 $data = $Fetcher->fetch();
-Log::debug(($data===false)?"no cache data":"from cache file");
-Log::debug(($env->cache===false)?"no cache use option":$env->cache);
-if($data===false || $env->cache["use"]===false || $env->cache["use"]=="false" || $env->cache["use"] =="0"){
+
+//Log::debug($Enviroment->cache);
+$useCache = ($Enviroment->cache["use"]===true || $Enviroment->cache["use"]=="true" || $Enviroment->cache["use"] =="1");
+
+//Log::debug(($data===false)?"no cache data":"from cache file");
+//Log::debug((!$useCache)?"no cache use option":$Enviroment->cache);
+
+if($data===false || !$useCache){
     Log::debug("NOT USING CACHE:");
     $Cacher = $Fetcher;
     $Fetcher = new Fetcher($Enviroment->url);
+
+    $Filter = new Filter($Enviroment);
+    $monstat.="\tpage filtered in ".(time()-$tick)."\n";
+    $Translator = new Translator($Enviroment->translate);
+    $monstat.="\tdictionary loaded in ".(time()-$tick)."\n";
     $data = $Fetcher->fetch();
     $monstat.="\tpage fetched in ".(time()-$tick)."\n";
     $data = $Filter->fetch($data,isset($Fetcher->headers["Content-Type"])?$Fetcher->headers["Content-Type"]:"all",$env->url);
@@ -43,16 +49,23 @@ if($data===false || $env->cache["use"]===false || $env->cache["use"]=="false" ||
     if($Enviroment->translate["use"]=="true"){
         if(preg_match("'text/html'ixs",$Fetcher->headers["Content-Type"])){
             $data = $Translator->translateHtml($data);
+            $data = preg_replace("/<title>Medimax<\/title>/i","<title>Greatelectronic</title>",$data);
             //$data = $Translator->translateText($data);
         }
         if(preg_match("'application/json'ixs",$Fetcher->headers["Content-Type"])){
+            // preg_replace_callback("/\:([^,\}]+)/imxs",function($m)use($Translator){
+            //     return $Translator->translateText($m[1],true);
+            // },$data);
             $jdata = json_decode($data,true);
             if(array_walk_recursive($jdata,function(&$v,$k,$t){
-                $v = $t->translateText($v,true);
-            },$Translator)){
-                $data = json_encode($jdata);
-            }
+                // $v = $t->translateText($v,true);
+                $v = (preg_match('/^\s*</m',$v))?$t->translateHtml($v,true):$v = $t->translateText($v,true);
 
+            },$Translator)){
+                $data = json_encode($jdata,JSON_UNESCAPED_UNICODE);
+                file_put_contents("current_my.json",$data);
+                //$data = preg_replace('/\\\"/mxs',"'",$data);
+            }
         }
         $monstat.="\tpage translated in ".(time()-$tick)."\n";
     }
@@ -74,8 +87,13 @@ if($data===false || $env->cache["use"]===false || $env->cache["use"]=="false" ||
         //$data = preg_replace("/\<\/body>/i",file_get_contents("css/com.html")."</body>",$data);
     }
     $data = preg_replace('/(<span\s+class="header\-basket__count[^"]+")[^>]+>[^<]+/i',"<span class=\"xray-header-basket__count\"><img src=\"/css/loader.gif\" style=\"height:24px;margin-left:24px;\"/>",$data);
-    $Cacher->save($Fetcher->headers,$data);
+
+
+
+    if($useCache)$Cacher->save($Fetcher->headers,$data);
 }
+//footer section
+$data = preg_replace('/<footer([^>]*)>(.+?)<\/footer>/is',"<footer$1>".file_get_contents('templates/footer.html').'</footer>',$data);
 Log::debug(ob_get_clean());
 $Fetcher->pull($data);
 $monstat.="\tall page [".$Enviroment->url."] in ".(time()-$tick)." seconds.\n";

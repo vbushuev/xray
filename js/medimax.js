@@ -1,117 +1,3 @@
-console.debug("jquery is here: "+typeof($));
-/*!
- * jQuery Cookie Plugin v1.4.1
- * https://github.com/carhartl/jquery-cookie
- *
- * Copyright 2006, 2014 Klaus Hartl
- * Released under the MIT license
- */
-(function (factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD (Register as an anonymous module)
-		define(['jquery'], factory);
-	} else if (typeof exports === 'object') {
-		// Node/CommonJS
-		module.exports = factory(require('jquery'));
-	} else {
-		// Browser globals
-		factory(jQuery);
-	}
-}
-(function ($) {
-
-	var pluses = /\+/g;
-
-	function encode(s) {
-		return config.raw ? s : encodeURIComponent(s);
-	}
-
-	function decode(s) {
-		return config.raw ? s : decodeURIComponent(s);
-	}
-
-	function stringifyCookieValue(value) {
-		return encode(config.json ? JSON.stringify(value) : String(value));
-	}
-
-	function parseCookieValue(s) {
-		if (s.indexOf('"') === 0) {
-			// This is a quoted cookie as according to RFC2068, unescape...
-			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-		}
-
-		try {
-			// Replace server-side written pluses with spaces.
-			// If we can't decode the cookie, ignore it, it's unusable.
-			// If we can't parse the cookie, ignore it, it's unusable.
-			s = decodeURIComponent(s.replace(pluses, ' '));
-			return config.json ? JSON.parse(s) : s;
-		} catch(e) {}
-	}
-
-	function read(s, converter) {
-		var value = config.raw ? s : parseCookieValue(s);
-		return $.isFunction(converter) ? converter(value) : value;
-	}
-
-	var config = $.cookie = function (key, value, options) {
-
-		if (arguments.length > 1 && !$.isFunction(value)) {
-			options = $.extend({}, config.defaults, options);
-
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
-			}
-
-			return (document.cookie = [
-				encode(key), '=', stringifyCookieValue(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
-		}
-
-		// Read
-
-		var result = key ? undefined : {},
-			// To prevent the for loop in the first place assign an empty array
-			// in case there are no cookies at all. Also prevents odd result when
-			// calling $.cookie().
-			cookies = document.cookie ? document.cookie.split('; ') : [],
-			i = 0,
-			l = cookies.length;
-
-		for (; i < l; i++) {
-			var parts = cookies[i].split('='),
-				name = decode(parts.shift()),
-				cookie = parts.join('=');
-
-			if (key === name) {
-				// If second argument (value) is a function it's a converter...
-				result = read(cookie, value);
-				break;
-			}
-
-			// Prevent storing a cookie that we couldn't decode.
-			if (!key && (cookie = read(cookie)) !== undefined) {
-				result[name] = cookie;
-			}
-		}
-
-		return result;
-	};
-
-	config.defaults = {};
-
-	$.removeCookie = function (key, options) {
-		// Must not alter options, thus extending a fresh object...
-		$.cookie(key, '', $.extend({}, options, { expires: -1 }));
-		return !$.cookie(key);
-	};
-
-}));
 var jscontent = null;
 var itemsFilled = false;
 var cohost = (document.location.href.match(/\.bs2/))?"//co.bs2":"//co.xrayshopping.com";
@@ -186,22 +72,23 @@ var cart = {
         $(".cart-data__item").each(function(){
             var $t = $(this),itm = {
                 id:$t.find(".cart-product").attr("id"),
-                title:$t.find(".cart-product__description > .cart-product-description__title").text(),
-                brand:$t.find(".cart-product__description > .cart-product-description__manufacturer").text(),
+                title:$t.find(".cart-product__description  .cart-product-description__title").text(),
+                brand:$t.find(".cart-product__description  .cart-product-description__manufacturer").text(),
                 image:$t.find(".cart-product > .cart-product__image > a.cart-product-image__link > .cart-product-image__thumbnail").attr("src"),
                 url:$t.find(".cart-product > .cart-product__image > a.cart-product-image__link").attr("href"),
-                //price:$t.find(".cart-price").text().replace(/[^\d\.,]+/g,"").replace(/\./,"").replace(/,/,"."),
-                price:$t.find(".cart-price").text().replace(/^\s*(.+?)(&#8381;|₽).*/g,"$1").replace(/\s/,""),
+                //price:$t.find(".cart-price__value").text().replace(/[^\d\.,]+/g,"").replace(/\./,"").replace(/,/,"."),
+                price:$t.find(".cart-price__value").text().replace(/[^\d\.]*/g,""),
                 currency:'EUR',
-                original_price:$t.find(".cart-price .xg_original_converted").text().replace(/^\s*(.+?)(&#8381;|₽).*/g,"$1").replace(/\s/,""),
-                quantity:$t.find(".cart-quantity select[name=quantity] option:selected").val(),
-                sku:$t.find(".cart-product__description > .product-no").text().replace(/[^:]+\s*(.+)/,"$1"),
+                original_price:$t.find(".cart-price__value .xg_original_converted").text().replace(/[^\d\.]*/g,""),
+                quantity:$t.find("select[name=quantity] option:selected").val(),
+                sku:$t.find(".product-no__number").text().replace(/[^:]+:\s*(.+)/,"$1"),
                 type:"product"
             };
-            o.amount+=itm.price*itm.quantity;
+			itm.original_price=(itm.original_price=="")?itm.price:itm.original_price;
+            o.amount+=parseFloat(itm.price)* parseInt(itm.quantity);
             o.total++;
             //console.debug("parse:");
-            //console.debug(itm);
+            console.debug(itm);
             o.items.push(itm);
         });
         //cart.set(o);
@@ -209,18 +96,18 @@ var cart = {
         return o;
     },
     create:function(d){
-        $.cookie("order",JSON.stringify(d));
+        $.mcookie("order",JSON.stringify(d));
         return d;
     },
     set:function(d){
         var l = cart.get();
         if(l==null)l={};
         l = $.extend(l,d);
-        $.cookie("order",JSON.stringify(l));
+        $.mcookie("order",JSON.stringify(l));
         return l;
     },
     get:function(){
-        return (typeof($.cookie("order"))!="undefined")?JSON.parse($.cookie("order")):null;
+        return (typeof($.mcookie("order"))!="undefined")?JSON.parse($.mcookie("order")):null;
     },
     compare:function(i1,i2){
         if(i1.amount != i2.amount) return false;
@@ -321,8 +208,8 @@ var page ={
 			placeholder:'',
 			required: false
 		},arguments.length?arguments[0]:{});
-		r = '<div class="-com-form-input'+((o.required)?' -com-input-required':'');
-		r+= '"><label for="'+o.name+'">'+o.title+'</label><textarea name="'+o.name+'" placeholder="'+o.placeholder+'"></textarea></div>';
+		r = '<div class="-com-form-input'+((o.required)?' -com-input-required':'')+'>';
+		r+= '"<label for="'+o.name+'">'+o.title+'</label><textarea name="'+o.name+'" placeholder="'+o.placeholder+'"></textarea></div>';
 		return r;
 	},
 	choice:function(){
@@ -332,8 +219,8 @@ var page ={
 			items:[],
 			required: false
 		},arguments.length?arguments[0]:{});
-		r = '<div class="-com-form-input'+((o.required)?' -com-input-required':'');
-		r+= '"><label for="'+o.name+'">'+o.title+'</label><input type="hidden" name="'+o.name+'"/>';
+		r = '<div class="-com-form-input'+((o.required)?' -com-input-required':'')+'>';
+		r+= '"<label for="'+o.name+'">'+o.title+'</label><input type="hidden" name="'+o.name+'"/>';
 		r+= '<ul class="-com-input-choice">';
 		for(var i in o.items){
 			r+= '<li><a href="'+o.items[i].action+'">'+o.items[i].option+'</a></li>';
@@ -506,8 +393,11 @@ window.globalAjaxInjection = {
 	},
 	cartget:function(d){
 		//var s = "("+d.cart.itemsAmount+")шт. "+d.cart.amountGross;
-		var s = d.cart.itemsAmount+"шт. "+d.cart.amountGross;
+		//var s = ((typeof(d.cart.itemsAmount)=="undefined")?"0":d.cart.itemsAmount)+"шт. "+((typeof(d.cart.amountGross)=="undefined")?"0 &#8381;":d.cart.amountGross);
+		var s = d.miniBasket;
 		$(".xray-header-basket__count").html(s);
+		$(".ajax-cart__action-link").attr("href","/basket").html("Оформить заказ");
+		$(".ajax-cart__action-link--basket").hide();
 	}
 };
 /*
@@ -518,55 +408,183 @@ window.checkout = checkout;
 window.priceNumber = priceNumber;
 window.cohost = cohost;
 */
-$(document).ready(function(){
-    $(".ajax-cart__action-link").attr("href","/basket").html("Оформить заказ");
-    $("body").on("co:checkout",function(e,rorder){checkout(rorder);});
-    $(".cart-actions__checkout-link").attr("href","javascript:{0}").html("Оформить заказ").on("click",function(e){
-        jscontent = $("#_com");
-        e.preventDefault();
-        e.stopPropagation();
-        $(".overlay").hide();
-        $(".show-ajax-cart").hide();
-        var createData = cart.parse();
-        if(!jscontent.length){
-            $.get(cohost+'/com.html',function(d){
-                //console.debug(d);
-                $("body").append(d);
-                var cookie = cart.get();
-                if(cookie!=null && cart.compare(cookie,createData) && typeof(cookie.id)!="undefined"){
-                    order = cookie;
-                    $("body").trigger("co:checkout",order);
-                }else{
-                    cart.set(createData);
-                    $.ajax({
-                        url:cohost+"/create",
-                        crossDomain:true,
-                        data:createData,
-                        success:function(d){
-                            var order = cart.set(d);
-                            $("body").trigger("co:checkout",order);
-                        }
-                    });
-                }
-                $("body").trigger("co:loaded");
-            });
-        }else {$("#_com").show();}
-        return false;
-    });
-    if(typeof(queryParameters._com_response)!="undefined"){
-        cart.set({status_id:(typeof(queryParameters.status_id)?queryParameters.status_id:"3")});
-        $(".cart-actions__checkout-link").click();
-    }
-	$.getJSON("/cart/get");
-	$(document).ajaxSend(function(e,x,j) {
-		if(globalAjaxInjection.matcher.test(j.url)){
-			globalAjaxInjection.cartbefore();
-		}
-	});
-	$(document).ajaxSuccess(function(e,x,j,d) {
-		console.debug(e,x,j,d);
-		if(globalAjaxInjection.matcher.test(j.url)){
-			globalAjaxInjection.cartget(d);
-		}
-	});
-});
+function xrayInit(){
+	if(typeof($)=="undefined"){
+		console.warn("jQuery not yet loaded.")
+		setTimeout(xrayInit,1000);
+	}
+	else {
+		console.clear();
+		console.debug("jquery is here: "+typeof($));
+		/*!
+		 * jQuery Cookie Plugin v1.4.1
+		 * https://github.com/carhartl/jquery-cookie
+		 *
+		 * Copyright 2006, 2014 Klaus Hartl
+		 * Released under the MIT license
+		 */
+		// (function (factory) {
+		// 	if (typeof define === 'function' && define.amd) {
+		// 		// AMD (Register as an anonymous module)
+		// 		define(['jquery'], factory);
+		// 	} else if (typeof exports === 'object') {
+		// 		// Node/CommonJS
+		// 		module.exports = factory(require('jquery'));
+		// 	} else {
+		// 		// Browser globals
+		// 		factory(jQuery);
+		// 	}
+		// }
+		// (function ($) {
+
+			var pluses = /\+/g;
+
+			function encode(s) {
+				return config.raw ? s : encodeURIComponent(s);
+			}
+
+			function decode(s) {
+				return config.raw ? s : decodeURIComponent(s);
+			}
+
+			function stringifyCookieValue(value) {
+				return encode(config.json ? JSON.stringify(value) : String(value));
+			}
+
+			function parseCookieValue(s) {
+				if (s.indexOf('"') === 0) {
+					// This is a quoted cookie as according to RFC2068, unescape...
+					s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+				}
+
+				try {
+					// Replace server-side written pluses with spaces.
+					// If we can't decode the cookie, ignore it, it's unusable.
+					// If we can't parse the cookie, ignore it, it's unusable.
+					s = decodeURIComponent(s.replace(pluses, ' '));
+					return config.json ? JSON.parse(s) : s;
+				} catch(e) {}
+			}
+
+			function read(s, converter) {
+				var value = config.raw ? s : parseCookieValue(s);
+				return $.isFunction(converter) ? converter(value) : value;
+			}
+
+			var config = $.mcookie = function (key, value, options) {
+
+				if (arguments.length > 1 && !$.isFunction(value)) {
+					options = $.extend({}, config.defaults, options);
+
+					if (typeof options.expires === 'number') {
+						var days = options.expires, t = options.expires = new Date();
+						t.setMilliseconds(t.getMilliseconds() + days * 864e+5);
+					}
+
+					return (document.cookie = [
+						encode(key), '=', stringifyCookieValue(value),
+						options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+						options.path    ? '; path=' + options.path : '',
+						options.domain  ? '; domain=' + options.domain : '',
+						options.secure  ? '; secure' : ''
+					].join(''));
+				}
+
+				// Read
+
+				var result = key ? undefined : {},
+					// To prevent the for loop in the first place assign an empty array
+					// in case there are no cookies at all. Also prevents odd result when
+					// calling $.mcookie().
+					cookies = document.cookie ? document.cookie.split('; ') : [],
+					i = 0,
+					l = cookies.length;
+
+				for (; i < l; i++) {
+					var parts = cookies[i].split('='),
+						name = decode(parts.shift()),
+						cookie = parts.join('=');
+
+					if (key === name) {
+						// If second argument (value) is a function it's a converter...
+						result = read(cookie, value);
+						break;
+					}
+
+					// Prevent storing a cookie that we couldn't decode.
+					if (!key && (cookie = read(cookie)) !== undefined) {
+						result[name] = cookie;
+					}
+				}
+
+				return result;
+			};
+
+			config.defaults = {};
+
+			$.removeCookie = function (key, options) {
+				// Must not alter options, thus extending a fresh object...
+				$.mcookie(key, '', $.extend({}, options, { expires: -1 }));
+				return !$.mcookie(key);
+			};
+
+		// }));
+
+		$(document).ready(function(){
+		    $(".ajax-cart__action-link").attr("href","/basket").html("Оформить заказ");
+			$("button:contains('In den Warenkorb')").html("В корзину");
+		    $("body").on("co:checkout",function(e,rorder){checkout(rorder);});
+		    $(".cart-actions__checkout-link").attr("href","javascript:{0}").html("Оформить заказ").on("click",function(e){
+		        jscontent = $("#_com");
+		        e.preventDefault();
+		        e.stopPropagation();
+		        $(".overlay").hide();
+		        $(".show-ajax-cart").hide();
+		        var createData = cart.parse();
+		        if(!jscontent.length){
+		            $.get(cohost+'/com.html',function(d){
+		                //console.debug(d);
+		                $("body").append(d);
+		                var cookie = cart.get();
+		                if(cookie!=null && cart.compare(cookie,createData) && typeof(cookie.id)!="undefined"){
+		                    order = cookie;
+		                    $("body").trigger("co:checkout",order);
+		                }else{
+		                    cart.set(createData);
+		                    $.ajax({
+		                        url:cohost+"/create",
+		                        crossDomain:true,
+		                        data:createData,
+		                        success:function(d){
+		                            var order = cart.set(d);
+		                            $("body").trigger("co:checkout",order);
+		                        }
+		                    });
+		                }
+		                $("body").trigger("co:loaded");
+		            });
+		        }else {$("#_com").show();}
+		        return false;
+		    });
+		    if(typeof(queryParameters._com_response)!="undefined"){
+		        cart.set({status_id:(typeof(queryParameters.status_id)?queryParameters.status_id:"3")});
+		        $(".cart-actions__checkout-link").click();
+		    }
+
+			$(document).ajaxSend(function(e,x,j) {
+				if(globalAjaxInjection.matcher.test(j.url)){
+					globalAjaxInjection.cartbefore();
+				}
+			});
+			$(document).ajaxSuccess(function(e,x,j,d) {
+				console.debug(e,x,j,d);
+				if(globalAjaxInjection.matcher.test(j.url)){
+					globalAjaxInjection.cartget(d);
+				}
+			});
+			//$.getJSON("/cart/get");
+
+		});
+	}
+}
+if(typeof($)=="undefined")setTimeout(xrayInit,1000);
